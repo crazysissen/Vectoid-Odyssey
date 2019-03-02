@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ForceFryers
+namespace VectoidOdyssey
 {
-    class UpdateController
+    class Renderer
     {
+        public Renderer()
+        {
+            
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ForceFryers
+namespace VectoidOdyssey
 {
 #if WINDOWS || LINUX
     /// <summary>

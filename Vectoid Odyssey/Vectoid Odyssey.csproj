@@ -9,8 +9,8 @@
     <ProjectGuid>{39F70FF3-911A-4606-B55A-FDAFA1E6C973}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ForceFryers</RootNamespace>
-    <AssemblyName>Force Fryers</AssemblyName>
+    <RootNamespace>VectoidOdyssey</RootNamespace>
+    <AssemblyName>Vectoid Odyssey</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\Rendering\Renderer.cs" />
     <Compile Include="Scripts\Rendering\RendererController.cs" />
     <Compile Include="Scripts\Statics\ByteStreamer.cs" />
     <Compile Include="Scripts\Statics\Load.cs" />

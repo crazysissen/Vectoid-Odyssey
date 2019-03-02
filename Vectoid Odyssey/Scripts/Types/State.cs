@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
-namespace ForceFryers
+namespace VectoidOdyssey
 {
     public enum GameState
     {
