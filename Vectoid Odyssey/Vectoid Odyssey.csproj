@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\Rendering\Layer.cs" />
     <Compile Include="Scripts\Rendering\Renderer.cs" />
     <Compile Include="Scripts\Rendering\RendererController.cs" />
     <Compile Include="Scripts\Statics\ByteStreamer.cs" />

@@ -17,6 +17,9 @@ namespace VectoidOdyssey
         RendererController myRendererController;
         UpdateController myUpdateController;
 
+        Renderer re;
+        float t;
+
         public Game1()
         {
             myGraphics = new GraphicsDeviceManager(this);
@@ -26,9 +29,9 @@ namespace VectoidOdyssey
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
+
+            re = new Renderer();
         }
 
         protected override void LoadContent()
@@ -40,7 +43,11 @@ namespace VectoidOdyssey
 
         protected override void Update(GameTime gameTime)
         {
-
+            t += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (t > 5)
+            {
+                re = null;
+            }
 
             base.Update(gameTime);
         }
