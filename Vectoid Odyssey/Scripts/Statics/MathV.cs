@@ -7,11 +7,11 @@ using Microsoft.Xna.Framework;
 
 namespace VectoidOdyssey
 {
-    static class MathF
+    static class MathV
     {
         public const float
-            DEGTORAD = (2 * (float)Math.PI) / 360,
-            RADTODEG = 360 / (2 * (float)Math.PI);
+           DEGTORAD = (2 * (float)Math.PI) / 360,
+           RADTODEG = 360 / (2 * (float)Math.PI);
 
         /// <summary>Accelerating sine. Equation that from 0-1 accelerates according to a sine wave</summary>
         public static float SineA(float aValue)
@@ -21,22 +21,35 @@ namespace VectoidOdyssey
         public static float SineD(float aValue)
             => (float)Math.Sin((aValue - 1) * Math.PI * 0.5) + 1;
 
+        public static float Abs(this float thisValue)
+            => Math.Abs(thisValue);
+
+        public static float Abs(this int thisValue)
+           => Math.Abs(thisValue);
+
         public static float Lerp(this float thisValue, float aMin, float aMax)
             => aMin + (aMax - aMin) * thisValue;
+
+        public static Vector2 ToVector2(this float aRadian)
+            => (new Vector2(0, -1)).Rotate(aRadian);
+
+        public static float ToRadian(this Vector2 aVector)
+            => (float)Math.Atan2(aVector.Y, aVector.X);
 
         public static Vector2 Rotate(this Vector2 thisVector, float aRadian)
         {
             float tempSin = (float)Math.Sin(aRadian);
             float tempCos = (float)Math.Cos(aRadian);
 
-            thisVector = new Vector2()
+            return new Vector2()
             {
                 X = (tempCos * thisVector.X) - (tempSin * thisVector.Y),
                 Y = (tempSin * thisVector.X) + (tempCos * thisVector.Y)
             };
-
-            return thisVector;
         }
+
+        public static Point RoundToPoint(this Vector2 aVector)
+            => new Point((int)Math.Round(aVector.X), (int)Math.Round(aVector.Y));
 
         public static int HighestPowerLessThanOrEqual(this int thisNumber, out int outPower)
         {
@@ -49,16 +62,16 @@ namespace VectoidOdyssey
 
             outPower = 1;
 
-            int temp = 2;
+            int tempCurrent = 2;
 
-            while (temp * 2 <= thisNumber)
+            while (tempCurrent * 2 <= thisNumber)
             {
                 ++outPower;
 
-                temp *= 2;
+                tempCurrent *= 2;
             }
 
-            return temp;
+            return tempCurrent;
         }
 
         public static int HighestPowerLessThanOrEqual(this int thisNumber)
@@ -75,16 +88,16 @@ namespace VectoidOdyssey
 
             outPower = 1;
 
-            int temp = 2;
+            int tempCurrent = 2;
 
-            while (temp < thisNumber)
+            while (tempCurrent < thisNumber)
             {
                 ++outPower;
 
-                temp *= 2;
+                tempCurrent *= 2;
             }
 
-            return temp;
+            return tempCurrent;
         }
 
         public static int LowestPowerMoreThanOrEqual(this int thisNumber)
@@ -93,9 +106,11 @@ namespace VectoidOdyssey
         public static float RotationTowards(this Vector2 thisOrigin, Vector2 aTarget)
             => (float)Math.Atan2(aTarget.Y - thisOrigin.Y, aTarget.X - thisOrigin.X);
 
-        public static float Min(this float thisValue, float aMinimum) => thisValue < aMinimum ? aMinimum : thisValue;
+        public static float Min(this float thisValue, float aMinimum) 
+            => thisValue < aMinimum ? aMinimum : thisValue;
 
-        public static float Max(this float thisValue, float aMaximum) => thisValue > aMaximum ? aMaximum : thisValue;
+        public static float Max(this float thisValue, float aMaximum) 
+            => thisValue > aMaximum ? aMaximum : thisValue;
 
         public static float Clamp(this float thisValue, float aMin, float aMax)
         {
@@ -108,11 +123,32 @@ namespace VectoidOdyssey
             return thisValue;
         }
 
+        public static float ClampThis(this ref float thisValue, float aMin, float aMax)
+            => thisValue = thisValue.Clamp(aMin, aMax);
+
+        public static float Wrap(this float thisValue, float aMin, float aMax)
+        {
+            if (thisValue > aMax || thisValue < aMin)
+            {
+                float tempValue = thisValue - aMin;
+
+                return tempValue % (aMax - aMin) + aMin + (tempValue < 0 ? (aMax - aMin) : 0);
+            }
+
+            return thisValue;
+        }
+
+        public static float WrapThis(this ref float thisValue, float aMin, float aMax)
+            => thisValue.Wrap(aMin, aMax);
+
         public static Vector2 Normalized(this Vector2 thisVector)
         {
-            Vector2 returnVector = thisVector;
-            returnVector.Normalize();
-            return returnVector;
+            Vector2 tempReturnVector = thisVector;
+            tempReturnVector.Normalize();
+            return tempReturnVector;
         }
+
+        public static Vector2 Lerp(this Vector2 thisVector, Vector2 aTarget, float aValue) 
+            => thisVector + (aTarget - thisVector) * aValue;
     }
 }

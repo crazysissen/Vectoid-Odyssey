@@ -13,6 +13,56 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Fonts/Alkhemikal.ttf
+/copy:Fonts/Alkhemikal.ttf
+
+#begin Fonts/EnterCommand.ttf
+/copy:Fonts/EnterCommand.ttf
+
+#begin Fonts/EnterCommandBold.ttf
+/copy:Fonts/EnterCommandBold.ttf
+
+#begin Fonts/EnterCommandItalic.ttf
+/copy:Fonts/EnterCommandItalic.ttf
+
+#begin Fonts/FontDefault.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/FontDefault.spritefont
+
+#begin Fonts/FontDefaultBold.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/FontDefaultBold.spritefont
+
+#begin Fonts/FontDefaultItalic.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/FontDefaultItalic.spritefont
+
+#begin Fonts/FontSmall.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/FontSmall.spritefont
+
+#begin Fonts/FontStyled.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/FontStyled.spritefont
+
+#begin Fonts/Poco.ttf
+/copy:Fonts/Poco.ttf
+
 #begin Visuals/Player/Player.png
 /importer:TextureImporter
 /processor:TextureProcessor

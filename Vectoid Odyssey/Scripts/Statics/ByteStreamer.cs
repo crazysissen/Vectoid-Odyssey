@@ -8,7 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace VectoidOdyssey
 {
-    static class Bytestreamer
+    static class ByteStreamer
     {
         /// <summary>
         /// Converts a serializeable object object to an array of bytes

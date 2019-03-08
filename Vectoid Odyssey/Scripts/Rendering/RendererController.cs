@@ -5,51 +5,94 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace VectoidOdyssey
 {
     class RendererController
     {
-        public static GraphicsDeviceManager AccessManager { get; private set; }
+        private static RendererController myMainController;
 
-        private List<Renderer> myRenderers;
-        private bool myChangedFlag;
+        public static Camera AccessCamera { get; private set; }
+        public static GUI AccessGUI { get; set; }
 
-        public void Init(GraphicsDeviceManager aGraphicsDeviceManager)
+        private List<Renderer> myRenderers = new List<Renderer>();
+        private Color myBackgroundColor;
+
+        /// <param name="aCameraScale">At 1.0f zoom the screen resolution is 20x12 pixels</param>
+        public void Init(GraphicsDeviceManager aGraphicsDeviceManager, Vector2 aCameraPosition, float aCameraScale, Color aBackgroundColor)
         {
-            AccessManager = aGraphicsDeviceManager;
+            myMainController = this;
 
-            myRenderers = new List<Renderer>();
+            AccessGUI = new GUI();
 
-            Renderer.StaticInit(this);
+            AccessCamera = new Camera(aGraphicsDeviceManager)
+            {
+                AccessPosition = aCameraPosition,
+                AccessScale = aCameraScale
+            };
+
+            myBackgroundColor = aBackgroundColor;
         }
 
-        public void Draw(SpriteBatch aSpriteBatch, float aDeltaTime)
+        // Called every frame. Main rendering/drawing 
+        public void Draw(GraphicsDeviceManager aGraphicsDeviceManager, SpriteBatch aSpriteBatch, GameTime aGameTime, float aDeltaTime)
         {
-            if (myChangedFlag)
+            aGraphicsDeviceManager.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.Stencil, myBackgroundColor, 0, 0);
+
+            MouseState tempMouseState = Input.GetMouseState;
+            KeyboardState tempKeyboardState = Input.GetKeyboardState;
+
+            aSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointWrap);
+
+            // Gather all drawables, aka all renderers and GUI elements
+
+            IGUIMember[] tempGuiMembers = GUI.GetMembers(AccessGUI, tempMouseState, tempKeyboardState, (float)aGameTime.ElapsedGameTime.TotalSeconds, Point.Zero);
+
+            List<object> tempAllDrawables = new List<object>();
+
+            tempAllDrawables.AddRange(myRenderers.Where(o => o.AccessAutomaticDraw));
+            tempAllDrawables.AddRange(tempGuiMembers);
+
+            // Order drawables by layer using 
+
+            tempAllDrawables = tempAllDrawables.OrderBy(o => (o is IGUIMember) ? (o as IGUIMember).AccessLayer.GetDepth : (o as Renderer).AccessLayer.GetDepth).ToList();
+
+            foreach (object drawable in tempAllDrawables)
             {
-                // Sorts renderers by their depth
-                myRenderers = myRenderers.OrderBy(o => o?.GetDepth).ToList();
+                if (drawable is Renderer)
+                {
+                    Renderer renderer = (drawable as Renderer);
+
+                    if (renderer.AccessActive)
+                    {
+                        renderer.Draw(aSpriteBatch, AccessCamera, aDeltaTime);
+                    }
+
+                    continue;
+                }
+
+                (drawable as IGUIMember).Draw(aSpriteBatch, tempMouseState, tempKeyboardState, aDeltaTime);
             }
 
-            foreach (Renderer r in myRenderers)
+
+            aSpriteBatch.End();
+
+            var tempMatrix = Matrix.CreateOrthographicOffCenter(0,
+                aGraphicsDeviceManager.GraphicsDevice.PresentationParameters.BackBufferWidth,
+                aGraphicsDeviceManager.GraphicsDevice.PresentationParameters.BackBufferHeight,
+                0, 0, 1);
+
+            var a = new AlphaTestEffect(aGraphicsDeviceManager.GraphicsDevice)
             {
-                r.Render(aSpriteBatch, aDeltaTime);
-            }
-
-            myChangedFlag = false;
+                Projection = tempMatrix
+            };
         }
 
-        public void AddRenderer(Renderer aRenderer)
-        {
-            myRenderers?.Add(aRenderer);
-            myChangedFlag = true;
-        }
+        public static void AddRenderer(Renderer renderer)
+            => myMainController.myRenderers.Add(renderer);
 
-        public void RemoveRenderer(Renderer aRenderer)
-            => myRenderers?.Remove(aRenderer);
-
-        public void ChangedState()
-            => myChangedFlag = true;
+        public static void RemoveRenderer(Renderer renderer)
+            => myMainController.myRenderers.Remove(renderer);
     }
 }

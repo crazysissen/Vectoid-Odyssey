@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace VectoidOdyssey
 {
-    enum MainLayer
+    public enum MainLayer
     {
         AbsoluteBottom, Background, Main, Overlay, GUI, AbsoluteTop
     }
 
-    struct Layer
+    public struct Layer
     {
         private const int
             MAINCOUNT = 6;
@@ -21,21 +21,20 @@ namespace VectoidOdyssey
             MAININTERVAL = 1.0f / MAINCOUNT,
             HALFINTERVAL = MAININTERVAL * 0.5f;
 
-        public float GetDepth => (int)myMainLayer * MAININTERVAL + HALFINTERVAL + LAYERINTERVAL * mySubLayer;
-
-        private MainLayer myMainLayer;
-        private int mySubLayer;
+        public float GetDepth => (int)AccessMainLayer * MAININTERVAL + HALFINTERVAL + LAYERINTERVAL * AccessSubLayer;
+        public MainLayer AccessMainLayer { get; private set; }
+        public int AccessSubLayer { get; private set; }
 
         public Layer(MainLayer aMainLayer, int aSubLayer)
         {
-            myMainLayer = aMainLayer;
-            mySubLayer = aSubLayer;
+            AccessMainLayer = aMainLayer;
+            AccessSubLayer = aSubLayer;
         }
 
         public void Set(MainLayer aMainLayer, int aSubLayer)
         {
-            myMainLayer = aMainLayer;
-            mySubLayer = aSubLayer;
+            AccessMainLayer = aMainLayer;
+            AccessSubLayer = aSubLayer;
         }
 
         public static Layer Default => new Layer(MainLayer.Main, 0);

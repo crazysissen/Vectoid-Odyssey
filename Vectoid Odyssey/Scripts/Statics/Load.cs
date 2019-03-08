@@ -17,10 +17,10 @@ namespace VectoidOdyssey
     /// </summary>
     static class Load
     {
-        static readonly string[] myExcludedFiles = new string[] { "Runescape", "HelloWorld" };
-
         static Dictionary<string, object> myContentDictionary;
         static Dictionary<string, object> myContentCollections;
+
+        static string[] ignoredExtensions = { ".ttf" };
 
         static Load()
         {
@@ -64,21 +64,21 @@ namespace VectoidOdyssey
 
             foreach (FileInfo file in tempFiles)
             {
-                string currentName = Path.GetFileNameWithoutExtension(file.FullName);
+                string tempCurrentName = Path.GetFileNameWithoutExtension(file.FullName);
 
-                if (myExcludedFiles.Contains(currentName) || Path.GetExtension(file.FullName) == ".wma")
-                    continue;
-
-                tempAllFiles.Add(new ImportObject(currentName, anAppendableAdditionalPath + currentName));
-                tempCurrentCollectionNames.Add(currentName);
+                if (!ignoredExtensions.Contains(file.Extension))
+                {
+                    tempAllFiles.Add(new ImportObject(tempCurrentName, anAppendableAdditionalPath + tempCurrentName));
+                    tempCurrentCollectionNames.Add(tempCurrentName);
+                }
             }
 
             foreach (DirectoryInfo dir in tempDirectories)
             {
-                ContentBundle dirImport = AllFileNames(aBasePath, anAdditionalPath + @"\" + dir.Name, anAppendableAdditionalPath + dir.Name + "/");
+                ContentBundle tempDirImport = AllFileNames(aBasePath, anAdditionalPath + dir.Name + @"\", anAppendableAdditionalPath + dir.Name + @"\");
 
-                tempAllFiles.AddRange(dirImport.objects);
-                tempAllCollections.AddRange(dirImport.collections);
+                tempAllFiles.AddRange(tempDirImport.objects);
+                tempAllCollections.AddRange(tempDirImport.collections);
             }
 
             tempAllCollections.Add(new ImportCollection(tempCurrentCollectionNames.ToArray(), tempCurrentCollection));
@@ -149,6 +149,8 @@ namespace VectoidOdyssey
         public static bool Exists(string aTag) => myContentDictionary.ContainsKey(aTag);
 
         public static void Add(string aTag, object anObj) => myContentDictionary.Add(aTag, anObj);
+
+        // Merely data storage. As is stated elsewhere in this solution, application of code standard is unnecessary and redundant.
 
         public struct ContentBundle
         {

@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace VectoidOdyssey
 {
-    class UpdateController
+    class Enemy : WorldObject
     {
+        public Enemy()
+        {
 
+        }
     }
 }

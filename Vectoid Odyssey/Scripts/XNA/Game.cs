@@ -7,22 +7,46 @@ namespace VectoidOdyssey
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class VectoidOdyssey : Game
     {
+        static public Point GetGameResolution => new Point(512, 288);
+        static public Point AccessResolution
+        {
+            get => new Point(mainGame.myGraphics.PreferredBackBufferWidth, mainGame.myGraphics.PreferredBackBufferHeight);
+
+            set
+            {
+                mainGame.myGraphics.PreferredBackBufferWidth = value.X;
+                mainGame.myGraphics.PreferredBackBufferHeight = value.Y;
+
+                mainGame.myGraphics.ApplyChanges();
+            }
+        }
+
+        // SINGLETON
+        static private VectoidOdyssey mainGame;
+
         // XNA
         GraphicsDeviceManager myGraphics;
         SpriteBatch mySpriteBatch;
 
         // LOCAL
         RendererController myRendererController;
-        UpdateController myUpdateController;
+        UpdateManager myUpdateManager;
 
-        Renderer re;
-        float t;
-
-        public Game1()
+        public VectoidOdyssey()
         {
-            myGraphics = new GraphicsDeviceManager(this);
+            mainGame = this;
+
+            Point tempRes = GetGameResolution;
+
+            myGraphics = new GraphicsDeviceManager(this)
+            {
+                PreferredBackBufferWidth = tempRes.X * 3,
+                PreferredBackBufferHeight = tempRes.Y * 3,
+            };
+
+            IsMouseVisible = true;
 
             Content.RootDirectory = "Content";
         }
@@ -31,7 +55,11 @@ namespace VectoidOdyssey
         {
             base.Initialize();
 
-            re = new Renderer();
+            myRendererController = new RendererController();
+            myUpdateManager = new UpdateManager(this);
+
+            myRendererController.Init(myGraphics, Vector2.Zero, 20.0f / GetGameResolution.X, Color.Black);
+            myUpdateManager.Init();
         }
 
         protected override void LoadContent()
@@ -41,24 +69,24 @@ namespace VectoidOdyssey
             Load.ImportAll(Content);
         }
 
-        protected override void Update(GameTime gameTime)
+        protected override void Update(GameTime aGameTime)
         {
-            t += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (t > 5)
-            {
-                re = null;
-            }
+            float tempDeltaTime = (float)aGameTime.ElapsedGameTime.TotalSeconds;
 
-            base.Update(gameTime);
+            Input.Update();
+
+            myUpdateManager.Update(tempDeltaTime);
+
+            base.Update(aGameTime);
         }
 
-        protected override void Draw(GameTime gameTime)
+        protected override void Draw(GameTime aGameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            float tempDeltaTime = (float)aGameTime.ElapsedGameTime.TotalSeconds;
 
-            
+            myRendererController.Draw(myGraphics, mySpriteBatch, aGameTime, tempDeltaTime);
 
-            base.Draw(gameTime);
+            base.Draw(aGameTime);
         }
     }
 }
