@@ -55,6 +55,8 @@ namespace VectoidOdyssey
         {
             base.Initialize();
 
+            Font.Init();
+
             myRendererController = new RendererController();
             myUpdateManager = new UpdateManager(this);
 

@@ -20,6 +20,8 @@ namespace VectoidOdyssey
 
         public void Init()
         {
+            myMenuManager = new MenuManager(this);
+
             myInGameManager = new InGameManager(this, myMenuManager) { AccessUpdateObjects = true };
             myInGameManager.InitGame(); //TODO: Implement actual game setup
         }

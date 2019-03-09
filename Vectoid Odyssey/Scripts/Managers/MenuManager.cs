@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace VectoidOdyssey
 {
+    // TEMPORARY SOLUTION
     class MenuManager
     {
-        private UpdateManager myUpdateManager;
+        public UpdateManager myUpdateManager;
 
         // Main menu
-        private GUI.Collection myMainMenu, myOptionsMenu, myPlayMenu;
+        public GUI.Collection myMainMenu, myOptionsMenu, myPlayMenu;
 
         //In Game
-        private GUI.Collection myPauseMenu, myHUD, myUpgradeMenu;
+        public GUI.Collection myPauseMenu, myHUD, myUpgradeMenu;
 
         public MenuManager(UpdateManager anUpdateManager)
         {

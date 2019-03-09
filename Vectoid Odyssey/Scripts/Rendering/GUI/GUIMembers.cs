@@ -18,6 +18,14 @@ namespace VectoidOdyssey
 
             Point IGUIMember.AccessOrigin { get; set; }
 
+            public Collection(bool anAddToRootBool = false)
+            {
+                if (anAddToRootBool)
+                {
+                    RendererController.AccessGUI.Add(this);
+                }
+            }
+
             void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
             {
 

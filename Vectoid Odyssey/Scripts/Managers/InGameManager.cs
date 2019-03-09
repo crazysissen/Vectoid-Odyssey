@@ -21,6 +21,7 @@ namespace VectoidOdyssey
         private List<WorldObject> myObjects, myRemoveQueue, myAddQueue;
 
         private Player myPlayer;
+        private Enemy mySock, mySkull;
         private bool myInUpdate;
 
         public InGameManager(UpdateManager anUpdateManager, MenuManager aMenuManager)
@@ -39,16 +40,20 @@ namespace VectoidOdyssey
             PlayerSetup tempSetup = new PlayerSetup()
             {
                 sheet = Load.Get<Texture2D>("Player"),
-                maxSpeed = 0.2f,
-                acceleration = 0.6f,
-                brakeAcceleration = 1.2f,
+                maxSpeed = 1f,
+                acceleration = 0.5f,
+                brakeAcceleration = 0.5f,
+                health = 10,
                 weapons = new PlayerWeapon[6]
                 {
                     PlayerWeapon.NewTeal, null, null, null, null, null
                 }
             };
 
-            myPlayer = new Player(new Vector2(0, -1), tempSetup);
+            myPlayer = new Player(new Vector2(0, -1), myMenuManager, tempSetup);
+
+            mySkull = new EnemySkull();
+            mySock = new EnemySock();
         }
 
         public void Update(float aDeltaTime)

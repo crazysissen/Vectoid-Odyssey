@@ -14,6 +14,7 @@ namespace VectoidOdyssey
     struct PlayerSetup
     {
         public Texture2D sheet;
+        public int health;
         public float maxSpeed, acceleration, brakeAcceleration;
         public PlayerWeapon[] weapons;
     }

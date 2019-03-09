@@ -36,10 +36,10 @@ namespace VectoidOdyssey
             {
                 if (AccessGravity)
                 {
-                    AccessVelocity += new Vector2(0, GRAVITY);
+                    AccessVelocity += new Vector2(0, GRAVITY) * aDeltaTime;
                 }
 
-                AccessPosition += AccessVelocity;
+                AccessPosition += AccessVelocity * aDeltaTime * Camera.WORLDUNITPIXELS;
             }
 
             Update(aDeltaTime);
@@ -47,6 +47,18 @@ namespace VectoidOdyssey
 
         // Called upon the derived class
         protected virtual void Update(float aDeltaTime)
+        {
+
+        }
+
+        public void Destroy()
+        {
+            BeforeDestroy();
+
+            AccessManager.Remove(this);
+        }
+
+        protected virtual void BeforeDestroy()
         {
 
         }

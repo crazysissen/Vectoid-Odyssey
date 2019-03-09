@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VectoidOdyssey
 {
-    class Enemy : WorldObject
+    abstract class Enemy : Entity
     {
         public Enemy()
         {
