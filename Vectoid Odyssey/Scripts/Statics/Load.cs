@@ -125,9 +125,8 @@ namespace VectoidOdyssey
                     return myContentCollections[aTag] as T[];
                 }
 
-                if (myContentCollections[aTag] is object[])
+                if (myContentCollections[aTag] is object[] tempArray)
                 {
-                    object[] tempArray = (object[])myContentCollections[aTag];
                     T[] tempNewArray = new T[tempArray.Length];
 
                     for (int i = 0; i < tempNewArray.Length; i++)
