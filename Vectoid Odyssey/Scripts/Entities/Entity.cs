@@ -9,8 +9,9 @@ namespace VectoidOdyssey
     abstract class Entity : WorldObject
     {
         public int AccessHealth { get; protected set; }
-        
-        public void ChangeHP(int aChange)
+        public bool AccessInvincible { get; protected set; }
+
+        public virtual void ChangeHP(int aChange)
         {
             AccessHealth += aChange;
 

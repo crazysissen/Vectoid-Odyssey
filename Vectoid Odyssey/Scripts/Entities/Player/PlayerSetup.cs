@@ -15,7 +15,7 @@ namespace VectoidOdyssey
     {
         public Texture2D sheet;
         public int health;
-        public float maxSpeed, acceleration, brakeAcceleration;
+        public float maxSpeed, acceleration, brakeAcceleration, jumpSpeed, maxJumpSpeed;
         public PlayerWeapon[] weapons;
     }
 }

@@ -14,7 +14,7 @@ namespace VectoidOdyssey
 
         // A square based on the average distances to the screen edges, divided into pieces. This makes the scale optimally similar across screen dimensions and formats.
         public const int
-            WORLDUNITPIXELS = 16;
+            WORLDUNITPIXELS = 8;
 
         public Vector2 AccessPosition { get; set; }
         public float AccessScale { get; set; }
@@ -30,7 +30,7 @@ namespace VectoidOdyssey
 
             myStandardSquareDiameter = 0.5f * (tempScreenWidth + tempScreenHeight);
 
-            myStandardScaleMultiplier = myStandardSquareDiameter / WORLDUNITPIXELS;
+            myStandardScaleMultiplier = myStandardSquareDiameter / (WORLDUNITPIXELS * 2);
 
             CenterCoordinate = new Vector2(tempScreenWidth * 0.5f, tempScreenHeight * 0.5f);
         }

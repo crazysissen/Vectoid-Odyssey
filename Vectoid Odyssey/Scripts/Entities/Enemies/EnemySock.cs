@@ -10,28 +10,172 @@ namespace VectoidOdyssey
 {
     class EnemySock : Enemy
     {
-        const float
-            SPEED = 0.6F;
-         
-
-        Renderer.Animator myRenderer;
-
-        public EnemySock()
+        enum State
         {
-            AccessHealth = 4;
+            Idle, Follow, Charge, Jump
+        }
 
-            myRenderer = new Renderer.Animator(Layer.Default, Load.Get<Texture2D>("Enemy1"), new Point(8, 8), AccessPosition, Vector2.One, new Vector2(4, 4), 0, Color.White, 0.5f, 0, true, SpriteEffects.None);
+        const float
+            SPEED = 0.5f,
+            DETECTIONRANGE = 18.0f,
+            FOLLOWRANGE = 22.0f,
+            BEGINCHARGERANGE = 8f,
+            ENDCHARGERANGE = 10f,
+            CHARGETIME = 0.5f,
+            MINJUMPTIME = 0.1f,
+            BOUNCESPEED = 0.8f;
+
+        const int
+            HEALTH = 4,
+            DAMAGE = 2,
+            SCORE = 1000;
+
+        private Vector2 GetJump => new Vector2(2.0f, -1.5f);
+
+        private Renderer.Animator myRenderer;
+        private State myState;
+        private float myCurrentCharge;
+
+        public EnemySock(Vector2 aPosition)
+        {
+            AccessHealth = HEALTH;
+            AccessDynamic = true;
+            AccessKeepInBounds = true;
+            AccessGravity = true;
+            AccessPosition = aPosition;
+
+            myRenderer = new Renderer.Animator(Layer.Default, Load.Get<Texture2D>("Enemy1"), new Point(8, 8), AccessPosition, Vector2.One, new Vector2(4, 4), 0, Color.White, 0.2f, 0, true, SpriteEffects.None);
+
+            AccessBoundingBox = new HitDetector(aPosition - Vector2.One * 0.5f, aPosition + Vector2.One * 0.5f, "BulletTarget", "Enemy");
+            AccessBoundingBox.AccessOwner = this;
+            AccessBoundingBox.OnEnter += Collide;
+            OnBoundCorrection += Correction;
+
+            myState = State.Idle;
         }
 
         protected override void Update(float aDeltaTime)
         {
-            myRenderer.AccessPosition = AccessPosition;
-            myRenderer.AccessEffects = Player.AccessMainPlayer.AccessPosition.X < AccessPosition.X ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            myRenderer.AccessPosition = AccessPosition.PixelPosition();
+
+            if (myState != State.Idle || myState != State.Jump)
+            {
+                myRenderer.AccessEffects = Player.AccessMainPlayer.AccessPosition.X < AccessPosition.X ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            }
+
+            Player tempPlayer = Player.AccessMainPlayer;
+
+            float tempPlayerDistance = (tempPlayer.AccessPosition - AccessPosition).Length();
+
+            if (tempPlayer.GetDead)
+            {
+                myState = State.Idle;
+            }
+
+            switch (myState)
+            {
+                case State.Idle:
+
+                    myRenderer.AccessTime = 0;
+
+                    if (GetOnGround)
+                    {
+                        AccessVelocity = new Vector2(0, AccessVelocity.Y);
+                    }
+
+                    if (tempPlayerDistance < DETECTIONRANGE && !tempPlayer.GetDead)
+                    {
+                        myState = State.Follow;
+                    }
+
+                    break;
+
+                case State.Follow:
+
+                    AccessVelocity = new Vector2(tempPlayer.AccessPosition.X < AccessPosition.X ? -SPEED : SPEED, AccessVelocity.Y);
+
+                    if (tempPlayerDistance < BEGINCHARGERANGE)
+                    {
+                        myCurrentCharge = 0;
+                        myState = State.Charge;
+                    }
+                    else if (tempPlayerDistance > FOLLOWRANGE)
+                    {
+                        myState = State.Idle;
+                    }
+
+                    break;
+
+                case State.Charge:
+
+                    myRenderer.AccessTime = 0;
+
+                    myCurrentCharge += aDeltaTime;
+
+                    AccessVelocity = new Vector2(0, AccessVelocity.Y);
+
+                    if (tempPlayerDistance > ENDCHARGERANGE)
+                    {
+                        myState = State.Follow;
+                    }
+                    else if (myCurrentCharge > CHARGETIME)
+                    {
+                        Jump();
+                        myCurrentCharge = 0;
+                        myState = State.Jump;
+                    }
+
+                    break;
+
+                case State.Jump:
+
+                    myCurrentCharge += aDeltaTime;
+
+                    break;
+            }
+        }
+
+        protected override void UpdateHitDetector()
+        {
+            AccessBoundingBox.Set(AccessPosition - Vector2.One * 0.5f, AccessPosition + Vector2.One * 0.5f);
         }
 
         protected override void Death()
         {
+            Player.AccessMainPlayer.AddScore(SCORE);
+
+            myRenderer.Destroy();
+            AccessBoundingBox.Destroy();
+
             Destroy();
+        }
+
+        private void Collide(HitDetector aHitDetector)
+        {
+            if (aHitDetector.AccessTags.Contains("Player"))
+            {
+                Player tempPlayer = (Player)aHitDetector.AccessOwner;
+
+                if (!tempPlayer.AccessInvincible)
+                {
+                    tempPlayer.ChangeHP(-DAMAGE);
+                }
+
+                AccessVelocity = (AccessPosition - tempPlayer.AccessPosition).Normalized() * BOUNCESPEED - new Vector2(0, 0.5f);
+            }
+        }
+
+        private void Correction(Vector2 aCorrection)
+        {
+            if (myState == State.Jump && myCurrentCharge > MINJUMPTIME)
+            {
+                myState = State.Follow;
+            }
+        }
+
+        private void Jump()
+        {
+            AccessVelocity = GetJump * new Vector2(Player.AccessMainPlayer.AccessPosition.X > AccessPosition.X ? 1 : -1, 1);
         }
     }
 }

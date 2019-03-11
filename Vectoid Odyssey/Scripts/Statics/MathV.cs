@@ -113,12 +113,19 @@ namespace VectoidOdyssey
             => thisValue > aMaximum ? aMaximum : thisValue;
 
         public static float Clamp(this float thisValue, float aMin, float aMax)
+            => thisValue.Clamp(aMin, aMax, out bool voidBool);
+
+        public static float Clamp(this float thisValue, float aMin, float aMax, out bool outClamped)
         {
+            outClamped = true;
+
             if (thisValue > aMax)
                 return aMax;
 
             if (thisValue < aMin)
                 return aMin;
+
+            outClamped = false;
 
             return thisValue;
         }
@@ -147,6 +154,9 @@ namespace VectoidOdyssey
             tempReturnVector.Normalize();
             return tempReturnVector;
         }
+
+        public static Vector2 PixelPosition(this Vector2 thisVector)
+            => ((thisVector * 8).RoundToPoint()).ToVector2() * 0.125f;
 
         public static Vector2 Lerp(this Vector2 thisVector, Vector2 aTarget, float aValue) 
             => thisVector + (aTarget - thisVector) * aValue;

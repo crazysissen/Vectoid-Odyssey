@@ -19,24 +19,38 @@ namespace VectoidOdyssey
 
         public event Action<HitDetector> OnEnter, OnColliding;
 
-        public Vector2 AccessTopLeft { get; set; }
-        public Vector2 AccessBottomRight { get; set; }
-
+        public Vector2 AccessTopLeft { get; private set; }
+        public Vector2 AccessBottomRight { get; private set; }
         public List<string> AccessTags { get; private set; }
+        public object AccessOwner { get; set; }
 
-        public object AccessOwner { get; private set; }
+        private Vector2 myCenter;
+        private float myMaxDistance;
 
         public HitDetector(Vector2 aTopLeft, Vector2 aBottomRight) : this(aTopLeft, aBottomRight, null)
         { }
 
         public HitDetector(Vector2 aTopLeft, Vector2 aBottomRight, params string[] someTags)
         {
+            Set(aTopLeft, aBottomRight);
+
+            AccessTags = new List<string>();
+
+            if (someTags != null)
+            {
+                AccessTags.AddRange(someTags);
+            }
+
+            allColliders.Add(this);
+        }
+
+        public void Set(Vector2 aTopLeft, Vector2 aBottomRight)
+        {
             AccessTopLeft = aTopLeft;
             AccessBottomRight = aBottomRight;
 
-            AccessTags = new List<string>(someTags);
-
-            allColliders.Add(this);
+            myCenter = (aTopLeft + aBottomRight) * 0.5f;
+            myMaxDistance = (myCenter - aTopLeft).Length();
         }
 
         public void Destroy()
@@ -54,24 +68,9 @@ namespace VectoidOdyssey
                 {
                     HitDetector tempA = allColliders[i], tempB = allColliders[j];
 
-                    if (Overlapping(tempA, tempB))
-                    {
-                        tempA.OnColliding.Invoke(tempB);
-                        tempB.OnColliding.Invoke(tempA);
-
-                        if (lastFrameCollisions.ContainsKey(tempA))
-                        {
-                            if (lastFrameCollisions[tempA] != null && !lastFrameCollisions[tempA].Contains(tempB))
-                            {
-                                tempA.OnEnter.Invoke(tempB);
-                                tempB.OnEnter.Invoke(tempA);
-                            }
-                        }
-                    }
-
                     if (i == 0)
                     {
-                        if (j == 0)
+                        if (j == i + 1)
                         {
                             tempCollisions[tempA] = new List<HitDetector>();
                         }
@@ -79,29 +78,42 @@ namespace VectoidOdyssey
                         tempCollisions[tempB] = new List<HitDetector>();
                     }
 
-                    tempCollisions[tempA].Add(tempB);
-                    tempCollisions[tempB].Add(tempA);
+                    if (Overlapping(tempA, tempB))
+                    {
+                        tempA.OnColliding?.Invoke(tempB);
+                        tempB.OnColliding?.Invoke(tempA);
+
+                        if (!lastFrameCollisions.ContainsKey(tempA) || !(lastFrameCollisions[tempA] != null && lastFrameCollisions[tempA].Contains(tempB)))
+                        {
+                            tempA.OnEnter?.Invoke(tempB);
+                            tempB.OnEnter?.Invoke(tempA);
+                        }
+
+                        tempCollisions[tempA].Add(tempB);
+                        tempCollisions[tempB].Add(tempA);
+                    }
                 }
             }
+
+            lastFrameCollisions = tempCollisions;
         }
 
         static bool Overlapping(HitDetector aHitDetector1, HitDetector aHitDetector2)
         {
-            float
-                tempTop = aHitDetector1.AccessTopLeft.Y,
-                tempRight = aHitDetector1.AccessBottomRight.X,
-                tempBottom = aHitDetector1.AccessBottomRight.Y,
-                tempLeft = aHitDetector1.AccessTopLeft.X,
+            // Return false if they are further apart than the maximum for their colliders to save performance
+            if ((aHitDetector2.myCenter - aHitDetector1.myCenter).Length() > aHitDetector1.myMaxDistance + aHitDetector2.myMaxDistance)
+                return false;
 
-                tempThatTop = aHitDetector1.AccessTopLeft.Y,
-                tempThatRight = aHitDetector1.AccessBottomRight.X,
-                tempThatBottom = aHitDetector1.AccessBottomRight.Y,
-                tempThatLeft = aHitDetector1.AccessTopLeft.X;
+            // Check if the colliders line up vertically
+            bool tempVerticalLineup = !(aHitDetector1.AccessBottomRight.Y < aHitDetector2.AccessTopLeft.Y || aHitDetector1.AccessTopLeft.Y > aHitDetector2.AccessBottomRight.Y);
 
-            return ((tempTop >= tempThatTop && tempTop <= tempThatBottom) || (tempBottom <= tempThatBottom && tempBottom >= tempThatTop)) &&
-                    ((tempLeft >= tempThatLeft && tempLeft <= tempThatRight) || (tempRight <= tempThatRight && tempRight >= tempThatLeft)) ||
-                    ((tempThatTop >= tempTop && tempThatTop <= tempBottom) || (tempThatBottom <= tempBottom && tempThatBottom >= tempTop)) &&
-                    ((tempThatLeft >= tempLeft && tempThatLeft <= tempRight) || (tempThatRight <= tempRight && tempThatRight >= tempLeft));
+            if (!tempVerticalLineup)
+                return false;
+
+            // Check if the colliders line up horizontally, if so, then they are overlapping
+            bool tempHorizontalLineup = !(aHitDetector1.AccessBottomRight.X < aHitDetector2.AccessTopLeft.X || aHitDetector1.AccessTopLeft.X > aHitDetector2.AccessBottomRight.X);
+
+            return tempHorizontalLineup;
         }
     }
 }

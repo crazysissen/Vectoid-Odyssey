@@ -11,14 +11,22 @@ namespace VectoidOdyssey
 {
     sealed class InGameManager
     {
+        const float
+            CAMERAELEVATION = 6,
+            MOUSELERP = 0.15f;
+
         static public InGameManager AccessMain { get; private set; }
 
         public bool AccessUpdateObjects { get; set; }
+
+        public RoomBounds GetCurrentBounds => new RoomBounds(-36, 0, -64, 0, -64, 36, 0, -64);
 
         private UpdateManager myUpdateManager;
         private MenuManager myMenuManager;
 
         private List<WorldObject> myObjects, myRemoveQueue, myAddQueue;
+
+        private Renderer.Sprite myBackground; // TODO: Implement map type. Temporary solution
 
         private Player myPlayer;
         private Enemy mySock, mySkull;
@@ -33,6 +41,7 @@ namespace VectoidOdyssey
 
             myObjects = new List<WorldObject>();
             myRemoveQueue = new List<WorldObject>();
+            myAddQueue = new List<WorldObject>();
         }
 
         public void InitGame()
@@ -40,9 +49,11 @@ namespace VectoidOdyssey
             PlayerSetup tempSetup = new PlayerSetup()
             {
                 sheet = Load.Get<Texture2D>("Player"),
-                maxSpeed = 1f,
-                acceleration = 0.5f,
-                brakeAcceleration = 0.5f,
+                maxSpeed = 1.6f,
+                acceleration = 1.8f,
+                brakeAcceleration = 5.0f,
+                jumpSpeed = 1.5f,
+                maxJumpSpeed = 2.0f,
                 health = 10,
                 weapons = new PlayerWeapon[6]
                 {
@@ -50,10 +61,12 @@ namespace VectoidOdyssey
                 }
             };
 
+            myBackground = new Renderer.Sprite(new Layer(MainLayer.Background, 0), Load.Get<Texture2D>("TempMap"), new Vector2(0, 0), Vector2.One, Color.White, 0, Vector2.One * 256);
+
             myPlayer = new Player(new Vector2(0, -1), myMenuManager, tempSetup);
 
-            mySkull = new EnemySkull();
-            mySock = new EnemySock();
+            mySkull = new EnemySkull(new Vector2(-26.0f, -2.5f));
+            mySock = new EnemySock(new Vector2(18.5f, -0.5f));
         }
 
         public void Update(float aDeltaTime)
@@ -70,15 +83,22 @@ namespace VectoidOdyssey
                     }
                 }
 
+                HitDetector.UpdateAll();
+
                 foreach (WorldObject current in myRemoveQueue)
                 {
                     myObjects.Remove(current);
                 }
 
+                myObjects.AddRange(myAddQueue);
+
+                myAddQueue.Clear();
                 myRemoveQueue.Clear();
 
                 myInUpdate = false;
             }
+
+            SetCamera();
         }
 
         public void Add(params WorldObject[] addQuery)
@@ -106,6 +126,11 @@ namespace VectoidOdyssey
             {
                 myObjects.Remove(current);
             }
+        }
+
+        private void SetCamera()
+        {
+            RendererController.AccessCamera.AccessPosition = new Vector2(myPlayer.AccessPosition.PixelPosition().X, -CAMERAELEVATION).Lerp(RendererController.AccessCamera.ScreenToWorldPosition(Input.GetMousePosition.ToVector2()), MOUSELERP);
         }
     }
 }

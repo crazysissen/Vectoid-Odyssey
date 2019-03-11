@@ -12,20 +12,22 @@ namespace VectoidOdyssey
     class Player : Entity
     {
         const float
-            ANIMATIONSPEED = 60.0f,
-            JUMPVELOCITY = 0.75f;
+            ANIMATIONSPEED = 16.0f;
 
         static public Player AccessMainPlayer { get; private set; }
 
         public Vector2 GetWeaponOrigin => AccessPosition + new Vector2(0.0625f, -0.5625f) * 2;
+        public bool GetDead => AccessHealth <= 0;
 
         private PlayerWeapon GetActiveWeapon => myWeapons[myActiveWeapon];
 
         private MenuManager myMenuManager;
+        private HitDetector myHitDetector;
         private Renderer.Sprite myBodyRenderer;
         private PlayerWeapon[] myWeapons;
-        private float myMaxSpeed, myAcceleration, myBrakeAcceleration, myAnimationFrame = ANIMATIONSPEED * 0.5f;
+        private float myMaxSpeed, myAcceleration, myBrakeAcceleration, myAnimationFrame = ANIMATIONSPEED * 0.5f, myJumpSpeed, myMaxJumpSpeed;
         private int myActiveWeapon, myScore;
+        private bool myOnGround;
 
         private Renderer.Text myGUIHealth, myGUIScore;
 
@@ -37,8 +39,15 @@ namespace VectoidOdyssey
             AccessGravity = true;
             AccessDynamic = true;
             AccessPosition = aPosition;
+            AccessKeepInBounds = true;
 
             myBodyRenderer = new Renderer.Sprite(Layer.Default, aSetup.sheet, aPosition, Vector2.One, Color.White, 0, new Vector2(16, 16));
+
+            myHitDetector = new HitDetector(AccessPosition - new Vector2(2, 2), AccessPosition + new Vector2(2, 2), "Player", "BulletTarget");
+            myHitDetector.AccessOwner = this;
+
+            AccessBoundingBox = myHitDetector;
+            OnBoundCorrection += UpdateCorrection;
 
             myMenuManager = aMenuManager;
 
@@ -46,6 +55,8 @@ namespace VectoidOdyssey
             myMaxSpeed = aSetup.maxSpeed;
             myAcceleration = aSetup.acceleration;
             myBrakeAcceleration = aSetup.brakeAcceleration;
+            myJumpSpeed = aSetup.jumpSpeed;
+            myMaxJumpSpeed = aSetup.maxJumpSpeed;
 
             CreateHUD();
 
@@ -54,7 +65,10 @@ namespace VectoidOdyssey
 
         protected override void Update(float aDeltaTime)
         {
-            Move(aDeltaTime);
+            if (!GetDead)
+            {
+                Move(aDeltaTime);
+            }
 
             if (GetActiveWeapon != null)
             {
@@ -64,14 +78,46 @@ namespace VectoidOdyssey
             UpdateRenderer();
         }
 
+        protected override void UpdateHitDetector()
+        {
+            myHitDetector.Set(AccessPosition - new Vector2(2, 2), AccessPosition + new Vector2(2, 2));
+        }
+
+        protected override void Death()
+        {
+            AccessVelocity = new Vector2(0, AccessVelocity.Y);
+
+            myGUIHealth.AccessString = new StringBuilder("DEAD");
+            myGUIHealth.AccessFont = Font.Bold;
+
+            myGUIScore.AccessString = new StringBuilder("FINAL SCORE: " + myScore);
+            myGUIScore.AccessFont = Font.Bold;
+        }
+
+        public void AddScore(int aScore)
+        {
+            myScore += aScore;
+        }
+
+        private void UpdateCorrection(Vector2 aCorrection)
+        {
+            if (aCorrection.Y < 0)
+            {
+                myOnGround = true;
+            }
+        }
+
         private void UpdateWeapon(float aDeltaTime)
         {
-            GetActiveWeapon.Update(aDeltaTime);
-            GetActiveWeapon.SetRotation((RendererController.AccessCamera.ScreenToWorldPosition(Input.GetMousePosition.ToVector2()) - AccessPosition).ToRadian());
-
-            if (Input.Down(Control.Action1))
+            if (!GetDead)
             {
-                GetActiveWeapon.Fire();
+                GetActiveWeapon.Update(aDeltaTime);
+                GetActiveWeapon.SetRotation((RendererController.AccessCamera.ScreenToWorldPosition(Input.GetMousePosition.ToVector2()) - GetWeaponOrigin.PixelPosition()).ToRadian());
+
+                if (Input.Pressed(Control.Action1))
+                {
+                    GetActiveWeapon.Fire();
+                }
             }
         }
 
@@ -79,19 +125,24 @@ namespace VectoidOdyssey
         {
             float tempTargetXVelocity = myMaxSpeed * ((Input.Pressed(Control.Right) ? 1 : 0) + (Input.Pressed(Control.Left) ? -1 : 0));
             bool tempBrake = (AccessVelocity.X < 0 && AccessVelocity.X < tempTargetXVelocity) || (AccessVelocity.X > 0 && AccessVelocity.X > tempTargetXVelocity);
-            float tempVelocityChange = (tempTargetXVelocity - AccessVelocity.X < 0 ? -1 : 1) * aDeltaTime * (tempBrake ? myBrakeAcceleration : myAcceleration);
 
-            bool tempOnGround = true; // TODO: Implement ground check
+            float maxMovementDistance = aDeltaTime * (tempBrake ? myBrakeAcceleration : myAcceleration), 
+                tempVelocityChange = (tempTargetXVelocity - AccessVelocity.X).Clamp(-maxMovementDistance, maxMovementDistance, out bool tempClamped);
 
-            if (AccessPosition.Y > -1)
+            bool tempOnGround = false; // TODO: Implement ground check
+
+            if (myOnGround)
             {
-                AccessPosition = new Vector2(AccessPosition.X, AccessPosition.Y.Max(-1));
+                AccessPosition = new Vector2(AccessPosition.X, AccessPosition.Y.Max(-2));
                 AccessVelocity = new Vector2(AccessVelocity.X, 0);
+
+                myOnGround = false;
+                tempOnGround = true;
             }
 
             if (tempOnGround)
             {
-                if (tempTargetXVelocity.Abs() - AccessVelocity.X.Abs() < tempVelocityChange.Abs())
+                if (!tempClamped)
                 {
                     AccessVelocity = new Vector2(tempTargetXVelocity, AccessVelocity.Y);
                 }
@@ -104,28 +155,31 @@ namespace VectoidOdyssey
 
                 if (Input.Down(Control.Action2))
                 {
-                    AccessVelocity = new Vector2(AccessVelocity.X, AccessVelocity.Y - JUMPVELOCITY);
+                    AccessVelocity = new Vector2(AccessVelocity.X, AccessVelocity.Y - (AccessVelocity.X / myMaxSpeed).Abs().Lerp(myJumpSpeed, myMaxJumpSpeed));
                 }
             }
         }
 
         private void UpdateRenderer()
         {
-            Animate();
-
-            myGUIScore.AccessString = new StringBuilder("SC: " + myScore);
-            myGUIHealth.AccessString = new StringBuilder("HP: " + AccessHealth);
-
-            myBodyRenderer.AccessPosition = AccessPosition;
+            myBodyRenderer.AccessPosition = AccessPosition.PixelPosition();
 
             PlaceWeapon();
+
+            if (!GetDead)
+            {
+                Animate();
+
+                myGUIScore.AccessString = new StringBuilder("SC: " + myScore);
+                myGUIHealth.AccessString = new StringBuilder("HP: " + AccessHealth);
+            }
         }
 
         private void PlaceWeapon()
         {
             if (GetActiveWeapon != null)
             {
-                GetActiveWeapon.AccessRenderer.AccessPosition = GetWeaponOrigin;
+                GetActiveWeapon.AccessRenderer.AccessPosition = GetWeaponOrigin.PixelPosition();
             }
         }
 
@@ -139,7 +193,7 @@ namespace VectoidOdyssey
         private void CreateHUD()
         {
             myGUIHealth = new Renderer.Text(Layer.GUI, Font.Default, "HP: ", 4, 0, new Vector2(10, 10), Vector2.Zero, Color.White);
-            myGUIScore= new Renderer.Text(Layer.GUI, Font.Default, "SC: ", 4, 0, new Vector2(10, 50), Vector2.Zero, Color.White);
+            myGUIScore = new Renderer.Text(Layer.GUI, Font.Default, "SC: ", 4, 0, new Vector2(10, 50), Vector2.Zero, Color.White);
 
             myMenuManager.myHUD = new GUI.Collection(true);
             myMenuManager.myHUD.Add(myGUIHealth, myGUIScore);
