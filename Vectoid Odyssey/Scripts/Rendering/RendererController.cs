@@ -11,7 +11,7 @@ namespace VectoidOdyssey
 {
     class RendererController
     {
-        private static RendererController myMainController;
+        private static RendererController mainController;
 
         public static Camera AccessCamera { get; private set; }
         public static GUI AccessGUI { get; set; }
@@ -22,7 +22,7 @@ namespace VectoidOdyssey
         /// <param name="aCameraScale">At 1.0f zoom the screen resolution is 20x12 pixels</param>
         public void Init(GraphicsDeviceManager aGraphicsDeviceManager, Vector2 aCameraPosition, float aCameraScale, Color aBackgroundColor)
         {
-            myMainController = this;
+            mainController = this;
 
             AccessGUI = new GUI();
 
@@ -43,7 +43,7 @@ namespace VectoidOdyssey
             MouseState tempMouseState = Input.GetMouseState;
             KeyboardState tempKeyboardState = Input.GetKeyboardState;
 
-            aSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointWrap);
+            aSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp);
 
             // Gather all drawables, aka all renderers and GUI elements
 
@@ -75,7 +75,6 @@ namespace VectoidOdyssey
                 (drawable as IGUIMember).Draw(aSpriteBatch, tempMouseState, tempKeyboardState, aDeltaTime);
             }
 
-
             aSpriteBatch.End();
 
             var tempMatrix = Matrix.CreateOrthographicOffCenter(0,
@@ -90,9 +89,9 @@ namespace VectoidOdyssey
         }
 
         public static void AddRenderer(Renderer renderer)
-            => myMainController.myRenderers.Add(renderer);
+            => mainController.myRenderers.Add(renderer);
 
         public static void RemoveRenderer(Renderer renderer)
-            => myMainController.myRenderers.Remove(renderer);
+            => mainController.myRenderers.Remove(renderer);
     }
 }

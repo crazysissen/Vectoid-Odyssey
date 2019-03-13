@@ -106,14 +106,14 @@ namespace VectoidOdyssey
 
         public static T[] GetRange<T>(params string[] someTags)
         {
-            T[] returnArray = new T[someTags.Length];
+            T[] tempReturnArray = new T[someTags.Length];
 
-            for (int i = 0; i < returnArray.Length; ++i)
+            for (int i = 0; i < tempReturnArray.Length; ++i)
             {
-                returnArray[i] = Get<T>(someTags[i]);
+                tempReturnArray[i] = Get<T>(someTags[i]);
             }
 
-            return returnArray;
+            return tempReturnArray;
         }
 
         public static T[] GetCollection<T>(string aTag)

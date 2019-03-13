@@ -29,7 +29,7 @@ namespace VectoidOdyssey
         private Renderer.Sprite myBackground; // TODO: Implement map type. Temporary solution
 
         private Player myPlayer;
-        private Enemy mySock, mySkull;
+        private Enemy mySock, mySkull, myCrab; // TODO: Remove temporary enemy tests
         private bool myInUpdate;
 
         public InGameManager(UpdateManager anUpdateManager, MenuManager aMenuManager)
@@ -67,6 +67,7 @@ namespace VectoidOdyssey
 
             mySkull = new EnemySkull(new Vector2(-26.0f, -2.5f));
             mySock = new EnemySock(new Vector2(18.5f, -0.5f));
+            myCrab = new EnemyCrab(new Vector2(-22.0f, -1.0f));
         }
 
         public void Update(float aDeltaTime)

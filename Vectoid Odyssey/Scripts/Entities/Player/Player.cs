@@ -65,10 +65,7 @@ namespace VectoidOdyssey
 
         protected override void Update(float aDeltaTime)
         {
-            if (!GetDead)
-            {
-                Move(aDeltaTime);
-            }
+            Move(aDeltaTime);
 
             if (GetActiveWeapon != null)
             {
@@ -123,7 +120,17 @@ namespace VectoidOdyssey
 
         private void Move(float aDeltaTime)
         {
-            float tempTargetXVelocity = myMaxSpeed * ((Input.Pressed(Control.Right) ? 1 : 0) + (Input.Pressed(Control.Left) ? -1 : 0));
+            float tempTargetXVelocity;
+
+            if (GetDead)
+            {
+                tempTargetXVelocity = 0;
+            }
+            else
+            {
+                tempTargetXVelocity = myMaxSpeed * ((Input.Pressed(Control.Right) ? 1 : 0) + (Input.Pressed(Control.Left) ? -1 : 0));
+            }
+
             bool tempBrake = (AccessVelocity.X < 0 && AccessVelocity.X < tempTargetXVelocity) || (AccessVelocity.X > 0 && AccessVelocity.X > tempTargetXVelocity);
 
             float maxMovementDistance = aDeltaTime * (tempBrake ? myBrakeAcceleration : myAcceleration), 
