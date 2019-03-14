@@ -16,7 +16,7 @@ namespace VectoidOdyssey
             FIREDELAY = 0.4f;
 
         const int
-            DAMAGE = 1;
+            DAMAGE = 10;
 
         private Player myPlayer;
         private float myCurrentCooldown;

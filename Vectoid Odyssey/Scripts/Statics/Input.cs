@@ -21,11 +21,12 @@ namespace VectoidOdyssey
 
         public enum ControlScheme
         {
-            Desktop/*, Controller*/
+            Standard/*, Controller*/
         }
 
         public static KeyboardState GetKeyboardState => myKState;
         public static MouseState GetMouseState => myMState;
+        public static GamePadState GetGamePadState => myGState;
 
         public static Point GetMousePosition => myMState.Position;
         public static bool GetLeftMouse => myMState.LeftButton == ButtonState.Pressed;
@@ -35,6 +36,7 @@ namespace VectoidOdyssey
 
         private static KeyboardState myKState, myLastKState;
         private static MouseState myMState, myLastMState;
+        private static GamePadState myGState, myLastGState;
 
         private static bool[] myActiveControls, myLastActiveControls;
         private static ControlScheme myScheme;
@@ -43,6 +45,7 @@ namespace VectoidOdyssey
         {
             myKState = new KeyboardState();
             myMState = new MouseState();
+            myGState = new GamePadState();
 
             myActiveControls = new bool[8];
         }
@@ -54,9 +57,11 @@ namespace VectoidOdyssey
         {
             myLastKState = myKState;
             myLastMState = myMState;
+            myLastGState = myGState;
 
             myKState = Keyboard.GetState();
             myMState = Mouse.GetState();
+            myGState = GamePad.GetState(1);
 
             myLastActiveControls = myActiveControls;
             UpdateControls();
@@ -85,18 +90,18 @@ namespace VectoidOdyssey
         {
             switch (myScheme)
             {
-                case ControlScheme.Desktop:
+                case ControlScheme.Standard:
 
                     myActiveControls = new bool[]
                     {
-                        Pressed(Keys.W),
-                        Pressed(Keys.A),
-                        Pressed(Keys.S),
-                        Pressed(Keys.D),
-                        GetLeftMouse,
-                        Pressed(Keys.Space),
-                        Pressed(Keys.Escape),
-                        Pressed(Keys.Tab)
+                        Pressed(Keys.W) || myGState.DPad.Up == ButtonState.Pressed,
+                        Pressed(Keys.A) || myGState.DPad.Left == ButtonState.Pressed,
+                        Pressed(Keys.S) || myGState.DPad.Down == ButtonState.Pressed,
+                        Pressed(Keys.D) || myGState.DPad.Right == ButtonState.Pressed,
+                        GetLeftMouse || myGState.Buttons.A == ButtonState.Pressed,
+                        Pressed(Keys.Space) || myGState.Buttons.X == ButtonState.Pressed,
+                        Pressed(Keys.Escape) || myGState.Buttons.Start == ButtonState.Pressed,
+                        Pressed(Keys.Tab) || myGState.Buttons.Back == ButtonState.Pressed
                     };
 
                     break;

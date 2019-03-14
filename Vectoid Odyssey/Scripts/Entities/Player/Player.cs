@@ -136,19 +136,11 @@ namespace VectoidOdyssey
             float maxMovementDistance = aDeltaTime * (tempBrake ? myBrakeAcceleration : myAcceleration), 
                 tempVelocityChange = (tempTargetXVelocity - AccessVelocity.X).Clamp(-maxMovementDistance, maxMovementDistance, out bool tempClamped);
 
-            bool tempOnGround = false; // TODO: Implement ground check
-
             if (myOnGround)
             {
                 AccessPosition = new Vector2(AccessPosition.X, AccessPosition.Y.Max(-2));
                 AccessVelocity = new Vector2(AccessVelocity.X, 0);
 
-                myOnGround = false;
-                tempOnGround = true;
-            }
-
-            if (tempOnGround)
-            {
                 if (!tempClamped)
                 {
                     AccessVelocity = new Vector2(tempTargetXVelocity, AccessVelocity.Y);
@@ -164,6 +156,8 @@ namespace VectoidOdyssey
                 {
                     AccessVelocity = new Vector2(AccessVelocity.X, AccessVelocity.Y - (AccessVelocity.X / myMaxSpeed).Abs().Lerp(myJumpSpeed, myMaxJumpSpeed));
                 }
+
+                myOnGround = false;
             }
         }
 

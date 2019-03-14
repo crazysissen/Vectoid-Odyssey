@@ -21,25 +21,25 @@ namespace VectoidOdyssey
 
         public Vector2 CenterCoordinate { get; private set; }
 
-        private float myStandardScaleMultiplier, myStandardSquareDiameter;
+        private float myStandardScaleMultiplier, myStandardSquareRadius;
 
         public Camera(GraphicsDeviceManager graphics)
         {
             int tempScreenWidth = graphics.PreferredBackBufferWidth,
                 tempScreenHeight = graphics.PreferredBackBufferHeight;
 
-            myStandardSquareDiameter = 0.5f * (tempScreenWidth + tempScreenHeight);
+            myStandardSquareRadius = 0.25f * (tempScreenWidth + tempScreenHeight);
 
-            myStandardScaleMultiplier = myStandardSquareDiameter / (WORLDUNITPIXELS * 2);
+            myStandardScaleMultiplier = myStandardSquareRadius / WORLDUNITPIXELS;
 
             CenterCoordinate = new Vector2(tempScreenWidth * 0.5f, tempScreenHeight * 0.5f);
         }
 
         public Vector2 WorldToScreenPosition(Vector2 worldPosition)
-            => CenterCoordinate + (worldPosition - AccessPosition) * myStandardSquareDiameter * 0.5f * AccessScale * UNIVERSALMODIFIER;
+            => CenterCoordinate + (worldPosition - AccessPosition) * myStandardSquareRadius * AccessScale * UNIVERSALMODIFIER;
 
         public Vector2 ScreenToWorldPosition(Vector2 screenPosition)
-            => (screenPosition - CenterCoordinate) / (myStandardSquareDiameter * 0.5f * AccessScale * UNIVERSALMODIFIER) + AccessPosition;
+            => (screenPosition - CenterCoordinate) / (myStandardSquareRadius * AccessScale * UNIVERSALMODIFIER) + AccessPosition;
 
         public Vector2 WorldToScreenSize(Vector2 size)
             => size * UNIVERSALMODIFIER * myStandardScaleMultiplier * AccessScale;
