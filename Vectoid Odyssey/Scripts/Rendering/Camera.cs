@@ -19,7 +19,7 @@ namespace VectoidOdyssey
         public Vector2 AccessPosition { get; set; }
         public float AccessScale { get; set; }
 
-        public Vector2 CenterCoordinate { get; private set; }
+        public Vector2 AccessCenterCoordinate { get; private set; }
 
         private float myStandardScaleMultiplier, myStandardSquareRadius;
 
@@ -32,14 +32,14 @@ namespace VectoidOdyssey
 
             myStandardScaleMultiplier = myStandardSquareRadius / WORLDUNITPIXELS;
 
-            CenterCoordinate = new Vector2(tempScreenWidth * 0.5f, tempScreenHeight * 0.5f);
+            AccessCenterCoordinate = new Vector2(tempScreenWidth * 0.5f, tempScreenHeight * 0.5f);
         }
 
         public Vector2 WorldToScreenPosition(Vector2 worldPosition)
-            => CenterCoordinate + (worldPosition - AccessPosition) * myStandardSquareRadius * AccessScale * UNIVERSALMODIFIER;
+            => AccessCenterCoordinate + (worldPosition - AccessPosition) * myStandardSquareRadius * AccessScale * UNIVERSALMODIFIER;
 
         public Vector2 ScreenToWorldPosition(Vector2 screenPosition)
-            => (screenPosition - CenterCoordinate) / (myStandardSquareRadius * AccessScale * UNIVERSALMODIFIER) + AccessPosition;
+            => (screenPosition - AccessCenterCoordinate) / (myStandardSquareRadius * AccessScale * UNIVERSALMODIFIER) + AccessPosition;
 
         public Vector2 WorldToScreenSize(Vector2 size)
             => size * UNIVERSALMODIFIER * myStandardScaleMultiplier * AccessScale;
