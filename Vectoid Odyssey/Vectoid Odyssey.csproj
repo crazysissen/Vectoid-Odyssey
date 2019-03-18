@@ -83,7 +83,7 @@
     <Compile Include="Scripts\Entities\Player\Weapon\Bullet.cs" />
     <Compile Include="Scripts\Entities\Player\Weapon\PlayerWeapon.cs" />
     <Compile Include="Scripts\Entities\Player\Weapon\WeaponStats.cs" />
-    <Compile Include="Scripts\Entities\Player\Weapon\WeaponTeal.cs" />
+    <Compile Include="Scripts\Entities\Player\Weapon\Teal.cs" />
     <Compile Include="Scripts\Managers\InGameManager.cs" />
     <Compile Include="Scripts\Managers\MenuManager.cs" />
     <Compile Include="Scripts\Map\Map Types\MapSewer.cs" />
@@ -97,6 +97,7 @@
     <Compile Include="Scripts\Rendering\RendererFocus.cs" />
     <Compile Include="Scripts\Statics\Easing.cs" />
     <Compile Include="Scripts\Statics\Font.cs" />
+    <Compile Include="Scripts\Statics\ImageProcessing.cs" />
     <Compile Include="Scripts\Statics\Input.cs" />
     <Compile Include="Scripts\Rendering\Layer.cs" />
     <Compile Include="Scripts\Rendering\Renderer.cs" />

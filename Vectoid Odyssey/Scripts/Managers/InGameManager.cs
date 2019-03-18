@@ -57,7 +57,7 @@ namespace VectoidOdyssey
                 health = 10,
                 weapons = new PlayerWeapon[6]
                 {
-                    PlayerWeapon.NewTeal, null, null, null, null, null
+                    new PlayerWeapon.Teal(), null, null, null, null, null
                 }
             };
 

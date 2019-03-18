@@ -13,13 +13,31 @@ namespace VectoidOdyssey
         Green, LightBlue, Orange, Pink, Red, Teal
     }
 
-    abstract class PlayerWeapon
+    abstract partial class PlayerWeapon
     {
-        public Renderer.Sprite AccessRenderer { get; protected set; }
-
-        protected float myRotation;
+        public const int
+            LEVELS = 6;
 
         public abstract PlayerWeaponType GetWeaponType { get; }
+
+        public WeaponStats GetWeaponStats => myWeaponStats; 
+
+        public Renderer.Sprite AccessRenderer { get; protected set; }
+
+        public int WeaponLevel { get; protected set; }
+
+        protected WeaponStats myWeaponStats;
+        protected float myRotation;
+
+        public PlayerWeapon()
+        {
+            AccessRenderer = new Renderer.Sprite(new Layer(MainLayer.Main, 1), Load.Get<Texture2D>(GetWeaponType.ToString()), Vector2.Zero, Vector2.One, Color.White, 0, new Vector2(16, 16));
+            AccessRenderer.AccessSourceRectangle = new Rectangle(0, 0, 32, 32);
+        }
+
+        public abstract void Fire();
+        public abstract void Init(Player aPlayer);
+        public abstract void Update(float aDeltaTime);
 
         public virtual void SetRotation(float aRotation)
         {
@@ -27,14 +45,14 @@ namespace VectoidOdyssey
             myRotation = aRotation;
         }
 
-        public abstract void Fire();
-        public abstract void Init(Player aPlayer);
-        public abstract void Update(float aDeltaTime);
-
-        public PlayerWeapon()
+        protected virtual void SetStats(int aLevel)
         {
-            AccessRenderer = new Renderer.Sprite(new Layer(MainLayer.Main, 1), Load.Get<Texture2D>(GetWeaponType.ToString()), Vector2.Zero, Vector2.One, Color.White, 0, new Vector2(16, 16));
-            AccessRenderer.AccessSourceRectangle = new Rectangle(0, 0, 32, 32);
+
+        }
+
+        public void SetLevel(int aLevel)
+        {
+
         }
 
         public static PlayerWeapon GetNew(PlayerWeaponType aType)
@@ -56,25 +74,12 @@ namespace VectoidOdyssey
                 case PlayerWeaponType.Red:
                     break;
 
-                case PlayerWeaponType.Teal:
-                    return NewTeal;
-
                 default:
-                    return NewTeal;
+                    return new Teal();
             }
 
-            return NewTeal;
+            return new Teal();
         }
 
-        public static PlayerWeapon NewTeal
-        {
-            get
-            {
-                return new WeaponTeal()
-                {
-                    
-                };
-            }
-        }
     }
 }
