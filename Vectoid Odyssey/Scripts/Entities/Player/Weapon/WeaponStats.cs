@@ -10,10 +10,11 @@ namespace VectoidOdyssey
     {
         public int GetCount => myTags.Length;
 
-        public Currency AccessUpgradeCost { get; private set; }
+        public Currency GetUpgradeCost  => myUpgradeCost;
 
         private Dictionary<string, object[]> myDictionary;
         private string[] myTags;
+        private Currency myUpgradeCost;
 
         public object this[string aTag, int aLevel]
         {
@@ -47,7 +48,7 @@ namespace VectoidOdyssey
 
         public WeaponStats(Currency anUpgradeCost, Dictionary<string, object[]> someValues)
         {
-            AccessUpgradeCost = anUpgradeCost;
+            myUpgradeCost = anUpgradeCost;
             myDictionary = someValues;
 
             List<string> tempTags = new List<string>();
@@ -63,12 +64,14 @@ namespace VectoidOdyssey
         {
             try
             {
-                int length = PlayerWeapon.LEVELS;
+                int length = myTags.Length;
 
                 List<string> tempLog = new List<string>();
                 for (int i = 0; i < length; ++i)
                 {
-                    tempLog.Add(string.Format("{0}: {1}{2} -> {3}{4}", myTags[i], this[i, aCurrentLevel].ToString(), this[i, aCurrentLevel + 1].ToString()));
+                    string[] tempSplitName = myTags[i].Split(':');
+
+                    tempLog.Add(string.Format("{0}: {1}{2} -> {3}{4}", tempSplitName[0], this[i, aCurrentLevel].ToString(), tempSplitName[1], this[i, aCurrentLevel + 1].ToString(), tempSplitName[1]));
                 }
 
                 return tempLog.ToArray();

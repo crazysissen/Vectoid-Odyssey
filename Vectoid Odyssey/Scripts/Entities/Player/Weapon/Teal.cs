@@ -27,16 +27,18 @@ namespace VectoidOdyssey
             {
                 Dictionary<string, object[]> tempDictionary = new Dictionary<string, object[]>()
                 {
-                    { "Damage:power", new object[] { 1, 1, 2, 2, 3, 4 } },
+                    { "Damage: hp", new object[] { 1, 1, 2, 2, 3, 4 } },
 
                     { "Velocity:", new object[] { 4.0f, 4.5f, 4.5f, 4.5f, 5.5f, 7.0f } },
 
-                    { "Delay:seconds", new object[] { 0.4f, 0.6f, 0.6f, 0.7f, 0.8f, 0.8f } },
+                    { "Delay: s", new object[] { 0.1f, 0.6f, 0.55f, 0.5f, 0.5f, 0.4f } },
                 };
 
                 myWeaponStats = new WeaponStats(new Currency(12, 4, 0), tempDictionary);
 
                 SetStats(0);
+
+                string[] temp = myWeaponStats.GetUpgradeLog(3);
             }
 
             public override void Init(Player aPlayer)
@@ -66,9 +68,9 @@ namespace VectoidOdyssey
 
             protected override void SetStats(int aLevel)
             {
-                myDamage = (int)myWeaponStats["Damage:power", WeaponLevel];
+                myDamage = (int)myWeaponStats["Damage: hp", WeaponLevel];
                 myBulletVelocity = (float)myWeaponStats["Velocity:", WeaponLevel];
-                myFireDelay = (float)myWeaponStats["Delay:seconds", WeaponLevel];
+                myFireDelay = (float)myWeaponStats["Delay: s", WeaponLevel];
             }
         }
     }

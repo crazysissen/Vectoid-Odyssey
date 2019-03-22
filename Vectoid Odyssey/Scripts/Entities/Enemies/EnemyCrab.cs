@@ -193,6 +193,8 @@ namespace VectoidOdyssey
                     }
                 }
 
+                myState = State.Jump;
+
                 AccessVelocity = tempNVector * BOUNCESPEED - new Vector2(0, 0.8f);
             }
         }

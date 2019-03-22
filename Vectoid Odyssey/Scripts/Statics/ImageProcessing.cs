@@ -10,14 +10,39 @@ namespace VectoidOdyssey
 {
     static class ImageProcessing
     {
-        public Texture2D AssembleTexture()
-        {
+        static GraphicsDeviceManager graphics;
 
-        }
+        public static void Init(GraphicsDeviceManager aGraphics)
+            => graphics = aGraphics;
 
         public class TextureAssembly
         {
-            private 
+            private int myHeight, myWidth;
+            private List<TexturePosition> myTextures = new List<TexturePosition>();
+
+            public TextureAssembly(int aWidth, int aHeight)
+            {
+                myWidth = aWidth;
+                myHeight = aHeight;
+            }
+
+            public void Add(Texture2D aTexture, Point aPosition)
+            {
+
+            }
+
+            public Texture2D Assemble()
+            {
+                Texture2D tempTexture = new Texture2D(graphics.GraphicsDevice, myWidth, myHeight);
+
+                return tempTexture;
+            }
+
+            public struct TexturePosition
+            {
+                public Texture2D t;
+                public Point p;
+            }
         }
     }
 }

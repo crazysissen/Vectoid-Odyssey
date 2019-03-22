@@ -23,7 +23,7 @@ namespace VectoidOdyssey
             ENDFIRERANGE = 18.0f,
             CHARGETIME = 1.5f,
             BULLETSPEED = 2.5f,
-            BOUNCESPEED = 0.8f,
+            BOUNCESPEED = 1.8f,
             ANIMATIONTIME = 0.2f,
             DAMPENSTRENGTH = 0.8f;
 
