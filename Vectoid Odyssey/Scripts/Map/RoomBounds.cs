@@ -7,45 +7,52 @@ using Microsoft.Xna.Framework;
 
 namespace VectoidOdyssey
 {
-    struct RoomBounds
+    class RoomBounds
     {
-        public float
-            leftWall, leftFloor, leftCeiling,
-            floor, ceiling,
-            rightWall, rightFloor, rightCeiling;
+        public Vector2 AccessCenter { get; private set; }
+
+        private float
+            myLeftWall, myLeftFloor, myLeftCeiling,
+            myFloor, myCeiling,
+            myRightWall, myRightFloor, myRightCeiling;
 
         public RoomBounds(float aLWall, float aLFloor, float aLCeiling, float aFloor, float aCeiling, float aRWall, float aRFloor, float aRCeliling)
         {
-            leftWall = aLWall;
-            leftFloor = aLFloor;
-            leftCeiling = aLCeiling;
+            myLeftWall = aLWall;
+            myLeftFloor = aLFloor;
+            myLeftCeiling = aLCeiling;
 
-            floor = aFloor;
-            ceiling = aCeiling;
+            myFloor = aFloor;
+            myCeiling = aCeiling;
 
-            rightWall = aRWall;
-            rightFloor = aRFloor;
-            rightCeiling = aRCeliling;
+            myRightWall = aRWall;
+            myRightFloor = aRFloor;
+            myRightCeiling = aRCeliling;
+
+            AccessCenter = new Vector2(0.5f * (myLeftWall + myRightWall), 0.5f * (myCeiling + myFloor));
         }
+
+        public bool InRoom(Vector2 aPosition)
+            => aPosition.X > myLeftWall && aPosition.X < myRightWall && aPosition.Y > myCeiling && aPosition.Y < myFloor;
 
         public Vector2 Correction(Vector2 aTopLeft, Vector2 aBottomRight)
         {
             bool
-                tempOnLeft = aBottomRight.Y < leftFloor, tempOn = aBottomRight.Y < floor, tempOnRight = aBottomRight.Y < rightFloor,
-                tempUnderLeft = aTopLeft.Y > leftCeiling, tempUnder = aTopLeft.Y > ceiling, tempUnderRight = aTopLeft.Y > rightCeiling,
-                inLeft = aTopLeft.X > leftWall, inRight = aBottomRight.X < rightWall;
+                tempOnLeft = aBottomRight.Y < myLeftFloor, tempOn = aBottomRight.Y < myFloor, tempOnRight = aBottomRight.Y < myRightFloor,
+                tempUnderLeft = aTopLeft.Y > myLeftCeiling, tempUnder = aTopLeft.Y > myCeiling, tempUnderRight = aTopLeft.Y > myRightCeiling,
+                inLeft = aTopLeft.X > myLeftWall, inRight = aBottomRight.X < myRightWall;
 
             // If within main room
             if (inLeft && inRight)
             {
                 if (!tempOn)
                 {
-                    return new Vector2(0, floor - aBottomRight.Y);
+                    return new Vector2(0, myFloor - aBottomRight.Y);
                 }
 
                 if (!tempUnder)
                 {
-                    return new Vector2(0, ceiling - aTopLeft.Y);
+                    return new Vector2(0, myCeiling - aTopLeft.Y);
                 }
 
                 return Vector2.Zero;

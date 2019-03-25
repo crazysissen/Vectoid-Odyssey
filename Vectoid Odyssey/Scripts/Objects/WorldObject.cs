@@ -16,6 +16,8 @@ namespace VectoidOdyssey
 
         public InGameManager AccessManager { get; set; }
 
+        public readonly int index;
+
         public float AccessDamping { get; set; } = 0.0f;
         public bool AccessActive { get; set; } = true;
         public bool AccessDynamic { get; set; } = false;
@@ -32,8 +34,9 @@ namespace VectoidOdyssey
         public WorldObject()
         {
             AccessManager = InGameManager.AccessMain;
-
             AccessManager.Add(this);
+
+            index = AccessManager.GetNewIndex();
         }
 
         // Called from the game manager

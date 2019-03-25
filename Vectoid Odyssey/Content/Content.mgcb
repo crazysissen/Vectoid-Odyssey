@@ -63,12 +63,6 @@
 #begin Fonts/Poco.ttf
 /copy:Fonts/Poco.ttf
 
-#begin Sound/Music/Bosses/ArkanTemp.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sound/Music/Bosses/ArkanTemp.wav
-
 #begin Sound/SFX/Bosses/Arkan/ArkanAngry.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -506,4 +500,22 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Visuals/Tiles/Sewer/Wall1-4.png
+
+#begin Visuals/Bosses/Arkan/ArkanFireball.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Visuals/Bosses/Arkan/ArkanFireball.png
+
+#begin Sound/Music/Bosses/SongArkan.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/Music/Bosses/SongArkan.wav
 

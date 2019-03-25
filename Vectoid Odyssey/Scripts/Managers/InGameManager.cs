@@ -30,6 +30,7 @@ namespace VectoidOdyssey
 
         private Player myPlayer;
         private Enemy mySock, mySkull, myCrab; // TODO: Remove temporary enemy tests
+        private int lastIndex = -1;
         private bool myInUpdate;
 
         public InGameManager(UpdateManager anUpdateManager, MenuManager aMenuManager)
@@ -128,6 +129,23 @@ namespace VectoidOdyssey
                 myObjects.Remove(current);
             }
         }
+
+        public void Destroy()
+        {
+            while (myObjects.Count > 0)
+            {
+                myObjects[0].Destroy();
+            }
+
+            myObjects = null;
+            myAddQueue = null;
+            myRemoveQueue = null;
+
+            myBackground.Destroy();
+        }
+
+        public int GetNewIndex()
+            => ++lastIndex;
 
         private void SetCamera()
         {

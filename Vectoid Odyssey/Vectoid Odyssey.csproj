@@ -88,8 +88,9 @@
     <Compile Include="Scripts\Entities\Player\Weapon\Teal.cs" />
     <Compile Include="Scripts\Managers\InGameManager.cs" />
     <Compile Include="Scripts\Managers\MenuManager.cs" />
+    <Compile Include="Scripts\Map\CompleteMap.cs" />
     <Compile Include="Scripts\Map\Map Types\MapSewer.cs" />
-    <Compile Include="Scripts\Map\Map Types\MapTest.cs" />
+    <Compile Include="Scripts\Map\Map Types\MapArkan.cs" />
     <Compile Include="Scripts\Map\Map.cs" />
     <Compile Include="Scripts\Objects\WorldObject.cs" />
     <Compile Include="Scripts\Rendering\Camera.cs" />
@@ -108,8 +109,10 @@
     <Compile Include="Scripts\Statics\ByteStreamer.cs" />
     <Compile Include="Scripts\Statics\Load.cs" />
     <Compile Include="Scripts\Statics\MathV.cs" />
+    <Compile Include="Scripts\Statics\Noise.cs" />
     <Compile Include="Scripts\Types\GameState.cs" />
     <Compile Include="Scripts\Map\RoomBounds.cs" />
+    <Compile Include="Scripts\Types\ParameterAction.cs" />
     <Compile Include="Scripts\Types\TimerTable.cs" />
     <Compile Include="Scripts\Managers\UpdateManager.cs" />
     <Compile Include="Scripts\XNA\Game.cs" />

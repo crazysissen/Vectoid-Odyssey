@@ -27,12 +27,12 @@ namespace VectoidOdyssey
         static private VectoidOdyssey mainGame;
 
         // XNA
-        GraphicsDeviceManager myGraphics;
-        SpriteBatch mySpriteBatch;
+        private GraphicsDeviceManager myGraphics;
+        private SpriteBatch mySpriteBatch;
 
         // LOCAL
-        RendererController myRendererController;
-        UpdateManager myUpdateManager;
+        private RendererController myRendererController;
+        private UpdateManager myUpdateManager;
 
         public VectoidOdyssey()
         {

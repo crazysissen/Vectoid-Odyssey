@@ -21,6 +21,9 @@ namespace VectoidOdyssey
         public static float SineD(float aValue)
             => (float)Math.Sin((aValue - 1) * Math.PI * 0.5) + 1;
 
+        public static float SineUpDown(float aValue)
+            => (float)Math.Sin(Math.PI * 2 * aValue);
+
         public static float Abs(this float thisValue)
             => Math.Abs(thisValue);
 
@@ -51,7 +54,7 @@ namespace VectoidOdyssey
         public static Point RoundToPoint(this Vector2 aVector)
             => new Point((int)Math.Round(aVector.X), (int)Math.Round(aVector.Y));
 
-        public static int HighestPowerLessThanOrEqual(this int thisNumber, out int outPower)
+        public static int HighestPowerLessThanOrEqual(int thisNumber, out int outPower)
         {
             if (thisNumber < 2)
             {
@@ -74,10 +77,10 @@ namespace VectoidOdyssey
             return tempCurrent;
         }
 
-        public static int HighestPowerLessThanOrEqual(this int thisNumber)
-            => thisNumber.HighestPowerLessThanOrEqual(out int voidInt);
+        public static int HighestPowerLessThanOrEqual(int thisNumber)
+            => HighestPowerLessThanOrEqual(thisNumber, out int voidInt);
 
-        public static int LowestPowerMoreThanOrEqual(this int thisNumber, out int outPower)
+        public static int LowestPowerMoreThanOrEqual(int thisNumber, out int outPower)
         {
             if (thisNumber <= 0)
             {
@@ -100,8 +103,8 @@ namespace VectoidOdyssey
             return tempCurrent;
         }
 
-        public static int LowestPowerMoreThanOrEqual(this int thisNumber)
-            => thisNumber.LowestPowerMoreThanOrEqual(out int voidInt);
+        public static int LowestPowerMoreThanOrEqual(int thisNumber)
+            => LowestPowerMoreThanOrEqual(thisNumber, out int voidInt);
 
         public static float RotationTowards(this Vector2 thisOrigin, Vector2 aTarget)
             => (float)Math.Atan2(aTarget.Y - thisOrigin.Y, aTarget.X - thisOrigin.X);
@@ -160,5 +163,8 @@ namespace VectoidOdyssey
 
         public static Vector2 Lerp(this Vector2 thisVector, Vector2 aTarget, float aValue) 
             => thisVector + (aTarget - thisVector) * aValue;
+
+        public static int Floor(this float aValue)
+            => aValue > 0 ? ((int)aValue) : ((int)aValue - 1);
     }
 }
