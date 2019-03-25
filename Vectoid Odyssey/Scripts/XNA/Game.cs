@@ -90,5 +90,10 @@ namespace VectoidOdyssey
 
             base.Draw(aGameTime);
         }
+
+        public static void Quit()
+        {
+            mainGame.Exit();
+        }
     }
 }

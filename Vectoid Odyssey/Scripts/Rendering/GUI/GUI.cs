@@ -83,9 +83,9 @@ namespace VectoidOdyssey
                     (member as Renderer).AccessAutomaticDraw = false;
                 }
 
-                if (member is GUI.Button && (member as GUI.Button).Text != null)
+                if (member is GUI.Button && (member as GUI.Button).AccessText != null)
                 {
-                    Add((member as GUI.Button).Text);
+                    Add((member as GUI.Button).AccessText);
                 }
             }
         }

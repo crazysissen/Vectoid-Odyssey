@@ -14,7 +14,7 @@ namespace VectoidOdyssey
 
         private Renderer.Sprite myRenderer;
 
-        public CompleteMap(Texture2D aTexture, RoomBounds[] someRoomBounds, )
+        public CompleteMap(Texture2D aTexture, RoomBounds[] someRoomBounds, Vector2 aSpawnPosition)
         {
             myTexture = aTexture;
             myBounds.AddRange(someRoomBounds);

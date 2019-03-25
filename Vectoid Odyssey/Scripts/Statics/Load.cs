@@ -20,7 +20,7 @@ namespace VectoidOdyssey
         static Dictionary<string, object> myContentDictionary;
         static Dictionary<string, object> myContentCollections;
 
-        static string[] ignoredExtensions = { ".ttf" };
+        static string[] ignoredExtensions = { ".ttf", ".ogg" };
 
         static Load()
         {

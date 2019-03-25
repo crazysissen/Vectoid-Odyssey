@@ -19,6 +19,8 @@ namespace VectoidOdyssey
             ShootA, ShootB, Ram, Laser, Weak
         }
 
+        private Pattern myCurrentPattern;
+
         private Renderer.Sprite
             myHead, myEyeL, myEyeR, myBody,
             myCannonL1, myCannonL2, myCannonR1, myCannonR2,
@@ -67,7 +69,23 @@ namespace VectoidOdyssey
 
         protected override void Update(float aDeltaTime)
         {
+            switch (myCurrentPattern)
+            {
+                case Pattern.ShootA:
+                    break;
 
+                case Pattern.ShootB:
+                    break;
+
+                case Pattern.Ram:
+                    break;
+
+                case Pattern.Laser:
+                    break;
+
+                case Pattern.Weak:
+                    break;
+            }
 
             SetRendererPositions(aDeltaTime);
         }

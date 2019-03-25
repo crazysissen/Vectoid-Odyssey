@@ -84,7 +84,7 @@ namespace VectoidOdyssey
             Point IGUIMember.AccessOrigin { get => _origin; set => _origin = value; }
             Point _origin = new Point();
 
-            Layer IGUIMember.AccessLayer => Layer;
+            Layer IGUIMember.AccessLayer => AccessLayer;
 
             const float
                 DEFAULTTRANSITIONTIME = 0.05f;
@@ -98,32 +98,32 @@ namespace VectoidOdyssey
             public event Action OnMouseDown;
             public event Action OnClick;
 
-            public State CurrentState { get; private set; }
-            public Type DisplayType { get; private set; }
-            public Transition TransitionType { get; set; }
-            public float TransitionTime { get; set; }
-            public Rectangle Transform { get; set; }
-            public Renderer.Text Text { get; set; }
-            public Texture2D Texture { get; set; }
-            public Texture2D[] TextureSwitch { get; private set; }
-            public Color[] ColorSwitch { get; private set; }
-            public SpriteEffects SpriteEffects { get; set; }
+            public State AccessCurrentState { get; private set; }
+            public Type AccessDisplayType { get; private set; }
+            public Transition AccessTransitionType { get; set; }
+            public float AccessTransitionTime { get; set; }
+            public Rectangle AccessTransform { get; set; }
+            public Renderer.Text AccessText { get; set; }
+            public Texture2D AccessTexture { get; set; }
+            public Texture2D[] AccessTextureSwitch { get; private set; }
+            public Color[] AccessColorSwitch { get; private set; }
+            public SpriteEffects AccessSpriteEffects { get; set; }
 
-            public bool ScaleEffect { get; set; } = false;
-            public float ScaleEffectAmplitude { get; set; } = 1.0f;
+            public bool AccessScaleEffect { get; set; } = false;
+            public float AccessScaleEffectAmplitude { get; set; } = 1.0f;
 
-            public Layer Layer { get; set; }
+            public Layer AccessLayer { get; set; }
 
-            private Func<float, float> _transition;
-            private Color _textBaseColor;
-            private float _currentTime, _targetTime, _timeMultiplier, _startScale, _targetScale, _currentScale = 1;
-            private bool _inTransition, _beginHoldOnButton, _pressedLastFrame;
-            private Color _startColor, _targetColor;
-            private Texture2D _startTexture, _targetTexture;
-            private State _startState;
-            private SoundEffect _effect;
+            private Func<float, float> myTransition;
+            private Color myTextBaseColor;
+            private float myCurrentTime, myTargetTime, myTimeMultiplier, myStartScale, myTargetScale, myCurrentScale = 1;
+            private bool myInTransition, myBeginHoldOnButton, myPressedLastFrame;
+            private Color myStartColor, myTargetColor;
+            private Texture2D myStartTexture, myTargetTexture;
+            private State myStartState;
+            private SoundEffect myEffect;
 
-            private float[] _scaleSwitch = { 1.0f, 1.04f, 0.97f };
+            private float[] myScaleSwitch = { 1.0f, 1.04f, 0.97f };
 
             /// <summary>Testing button</summary>
             public Button(Layer layer, Rectangle transform)
@@ -159,15 +159,15 @@ namespace VectoidOdyssey
             /// <param name="colorSwitch">Color array in order [idle, hover, click]</param>
             public Button(Layer layer, Rectangle transform, Texture2D texture, Color[] colorSwitch, Transition transitionType, float transitionTime)
             {
-                DisplayType = Type.ColorSwitch;
+                AccessDisplayType = Type.ColorSwitch;
 
-                Layer = layer;
+                AccessLayer = layer;
 
-                Transform = transform;
-                Texture = texture;
-                ColorSwitch = colorSwitch;
-                TransitionType = transitionType;
-                TransitionTime = transitionTime;
+                AccessTransform = transform;
+                AccessTexture = texture;
+                AccessColorSwitch = colorSwitch;
+                AccessTransitionType = transitionType;
+                AccessTransitionTime = transitionTime;
 
                 SetTransitionType(transitionType);
             }
@@ -180,59 +180,59 @@ namespace VectoidOdyssey
             /// <summary>Button that changes texture when hovered/clicked according to a set transition type and time</summary>
             public Button(Layer layer, Rectangle transform, Texture2D idle, Texture2D hover, Texture2D click, Transition transitionType, float transitionTime)
             {
-                DisplayType = Type.TextureSwitch;
+                AccessDisplayType = Type.TextureSwitch;
 
-                Layer = layer;
+                AccessLayer = layer;
 
-                Transform = transform;
-                TextureSwitch = new Texture2D[] { idle, hover, click };
-                TransitionType = transitionType;
-                TransitionTime = transitionTime;
+                AccessTransform = transform;
+                AccessTextureSwitch = new Texture2D[] { idle, hover, click };
+                AccessTransitionType = transitionType;
+                AccessTransitionTime = transitionTime;
 
                 SetTransitionType(transitionType);
             }
 
             void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
             {
-                bool onButton = RendererFocus.OnArea(new Rectangle(Transform.Location + _origin, Transform.Size), Layer);
+                bool onButton = RendererFocus.OnArea(new Rectangle(AccessTransform.Location + _origin, AccessTransform.Size), AccessLayer);
                 bool pressed = mouse.LeftButton == ButtonState.Pressed;
 
                 Transfer(pressed, onButton);
 
                 List<TAS> textures = new List<TAS>();
                 Color color = Color.White;
-                float scaledValue = _transition.Invoke(_currentTime);
+                float scaledValue = myTransition.Invoke(myCurrentTime);
 
-                if (_currentTime >= 1)
+                if (myCurrentTime >= 1)
                 {
-                    _inTransition = false;
-                    _currentTime = 0;
-                    _startState = CurrentState;
+                    myInTransition = false;
+                    myCurrentTime = 0;
+                    myStartState = AccessCurrentState;
                 }
 
-                if (_inTransition)
+                if (myInTransition)
                 {
-                    _currentTime += unscaledDeltaTime / TransitionTime;
+                    myCurrentTime += unscaledDeltaTime / AccessTransitionTime;
 
-                    if (ScaleEffect)
+                    if (AccessScaleEffect)
                     {
-                        _currentScale = scaledValue.Lerp(_startScale, _targetScale);
+                        myCurrentScale = scaledValue.Lerp(myStartScale, myTargetScale);
                     }
                     else
                     {
-                        _currentScale = 1;
+                        myCurrentScale = 1;
                     }
 
-                    switch (DisplayType)
+                    switch (AccessDisplayType)
                     {
                         case Type.ColorSwitch:
-                            textures.Add(new TAS(Texture, 1));
-                            color = Color.Lerp(_startColor, _targetColor, scaledValue);
+                            textures.Add(new TAS(AccessTexture, 1));
+                            color = Color.Lerp(myStartColor, myTargetColor, scaledValue);
                             break;
 
                         case Type.TextureSwitch:
-                            textures.Add(new TAS(_startTexture, 1));
-                            textures.Add(new TAS(_targetTexture, 1 - scaledValue));
+                            textures.Add(new TAS(myStartTexture, 1));
+                            textures.Add(new TAS(myTargetTexture, 1 - scaledValue));
                             color = Color.White;
                             break;
 
@@ -240,60 +240,60 @@ namespace VectoidOdyssey
                     }
                 }
 
-                if (!_inTransition)
+                if (!myInTransition)
                 {
-                    if (ScaleEffect)
+                    if (AccessScaleEffect)
                     {
-                        _currentScale = _scaleSwitch[(int)CurrentState];
+                        myCurrentScale = myScaleSwitch[(int)AccessCurrentState];
                     }
 
-                    switch (DisplayType)
+                    switch (AccessDisplayType)
                     {
                         case Type.ColorSwitch:
-                            textures.Add(new TAS(Texture, 255));
-                            color = ColorSwitch[(int)CurrentState];
+                            textures.Add(new TAS(AccessTexture, 255));
+                            color = AccessColorSwitch[(int)AccessCurrentState];
                             break;
 
                         case Type.TextureSwitch:
-                            textures.Add(new TAS(TextureSwitch[(int)CurrentState], 255));
+                            textures.Add(new TAS(AccessTextureSwitch[(int)AccessCurrentState], 255));
                             color = Color.White;
                             break;
                     }
                 }
 
                 Vector2 
-                    halfSize = new Vector2(Transform.Size.X * 0.5f, Transform.Size.Y * 0.5f),
-                    middlePosition = Transform.Location.ToVector2() + halfSize;
+                    halfSize = new Vector2(AccessTransform.Size.X * 0.5f, AccessTransform.Size.Y * 0.5f),
+                    middlePosition = AccessTransform.Location.ToVector2() + halfSize;
 
-                Rectangle targetRectangle = new Rectangle(_origin + (middlePosition - halfSize * _currentScale).RoundToPoint(), (Transform.Size.ToVector2() * _currentScale).RoundToPoint());
+                Rectangle targetRectangle = new Rectangle(_origin + (middlePosition - halfSize * myCurrentScale).RoundToPoint(), (AccessTransform.Size.ToVector2() * myCurrentScale).RoundToPoint());
 
                 for (int i = 0; i < textures.Count; ++i)
                 {
-                    spriteBatch.Draw(textures[i].texture, targetRectangle, null, new Color(color, textures[i].alpha), 0, new Vector2(0.5f, 0.5f), SpriteEffects, Layer.GetDepth);
+                    spriteBatch.Draw(textures[i].texture, targetRectangle, null, new Color(color, textures[i].alpha), 0, new Vector2(0f, 0f), AccessSpriteEffects, AccessLayer.GetDepth);
                 }
 
                 if (!pressed)
                 {
-                    _beginHoldOnButton = false;
+                    myBeginHoldOnButton = false;
                 }
 
-                _pressedLastFrame = pressed;
+                myPressedLastFrame = pressed;
             }
 
             private void Transfer(bool pressed, bool onButton)
             {
-                if (pressed && !_pressedLastFrame && onButton)
+                if (pressed && !myPressedLastFrame && onButton)
                 {
-                    _beginHoldOnButton = true;
+                    myBeginHoldOnButton = true;
                 }
 
-                if (CurrentState != State.Idle && !onButton)
+                if (AccessCurrentState != State.Idle && !onButton)
                 {
                     OnExit?.Invoke();
                     ChangeState(State.Idle);
                 }
                 else
-                    switch (CurrentState)
+                    switch (AccessCurrentState)
                     {
                         case State.Idle:
                             if (onButton)
@@ -302,7 +302,7 @@ namespace VectoidOdyssey
                                 if (pressed)
                                 {
                                     ChangeState(State.Pressed);
-                                    if (!_pressedLastFrame)
+                                    if (!myPressedLastFrame)
                                         OnMouseDown?.Invoke();
                                 }
                                 if (!pressed)
@@ -311,7 +311,7 @@ namespace VectoidOdyssey
                             break;
 
                         case State.Hovered:
-                            if (onButton && pressed && _beginHoldOnButton)
+                            if (onButton && pressed && myBeginHoldOnButton)
                             {
                                 OnMouseDown?.Invoke();
                                 ChangeState(State.Pressed);
@@ -322,13 +322,13 @@ namespace VectoidOdyssey
                             if (!pressed && onButton)
                             {
                                 ChangeState(State.Hovered);
-                                if (_beginHoldOnButton)
+                                if (myBeginHoldOnButton)
                                 {
                                     OnClick?.Invoke();
 
-                                    if (_effect != null)
+                                    if (myEffect != null)
                                     {
-                                        _effect.Play();
+                                        myEffect.Play();
                                     }
                                 }
                             }
@@ -338,28 +338,28 @@ namespace VectoidOdyssey
 
             private void ChangeState(State state)
             {
-                State previousStartState = _startState;
+                State previousStartState = myStartState;
 
-                _startState = CurrentState;
-                CurrentState = state;
+                myStartState = AccessCurrentState;
+                AccessCurrentState = state;
 
-                _inTransition = true;
-                _targetTime = (_inTransition && state == previousStartState) ? _targetTime - _currentTime : 1;
-                _currentTime = 0;
+                myInTransition = true;
+                myTargetTime = (myInTransition && state == previousStartState) ? myTargetTime - myCurrentTime : 1;
+                myCurrentTime = 0;
 
-                _startScale = (_scaleSwitch[(int)_startState] - 1) * ScaleEffectAmplitude + 1;
-                _targetScale = (_scaleSwitch[(int)state] - 1) * ScaleEffectAmplitude + 1;
+                myStartScale = (myScaleSwitch[(int)myStartState] - 1) * AccessScaleEffectAmplitude + 1;
+                myTargetScale = (myScaleSwitch[(int)state] - 1) * AccessScaleEffectAmplitude + 1;
 
-                switch (DisplayType)
+                switch (AccessDisplayType)
                 {
                     case Type.ColorSwitch:
-                        _startColor = ColorSwitch[(int)_startState];
-                        _targetColor = ColorSwitch[(int)state];
+                        myStartColor = AccessColorSwitch[(int)myStartState];
+                        myTargetColor = AccessColorSwitch[(int)state];
                         break;
 
                     case Type.TextureSwitch:
-                        _startTexture = TextureSwitch[(int)_startState];
-                        _targetTexture = TextureSwitch[(int)state];
+                        myStartTexture = AccessTextureSwitch[(int)myStartState];
+                        myTargetTexture = AccessTextureSwitch[(int)state];
                         break;
 
                     case Type.AnimatedSwitch:
@@ -371,37 +371,37 @@ namespace VectoidOdyssey
             {
                 if (type != Transition.Custom)
                 {
-                    TransitionType = type;
+                    AccessTransitionType = type;
                 }
 
                 switch (type)
                 {
                     case Transition.Switch:
-                        _transition = o => (float)Math.Ceiling(o);
+                        myTransition = o => (float)Math.Ceiling(o);
                         return;
 
                     case Transition.LinearFade:
-                        _transition = o => o;
+                        myTransition = o => o;
                         return;
 
                     case Transition.DecelleratingFade:
-                        _transition = MathV.SineD;
+                        myTransition = MathV.SineD;
                         return;
 
                     case Transition.AcceleratingFade:
-                        _transition = MathV.SineA;
+                        myTransition = MathV.SineA;
                         return;
 
                     case Transition.EaseOutBack:
-                        _transition = Easing.EaseOutBack;
+                        myTransition = Easing.EaseOutBack;
                         return;
 
                     case Transition.EaseOutElastic:
-                        _transition = Easing.EaseOutElastic;
+                        myTransition = Easing.EaseOutElastic;
                         return;
 
                     case Transition.EaseOutCubic:
-                        _transition = Easing.EaseOutCubic;
+                        myTransition = Easing.EaseOutCubic;
                         return;
                 }
             }
@@ -410,16 +410,16 @@ namespace VectoidOdyssey
             {
                 Vector2 measure = font.MeasureString(text);
 
-                Text = new Renderer.Text(
-                    new Layer(Layer.AccessMainLayer, Layer.AccessSubLayer + 1), font, text, fontSize, 0,
-                    centered ? new Vector2((Transform.Left + Transform.Right) * 0.5f, (Transform.Top + Transform.Bottom) * 0.5f) : new Vector2(Transform.Left + 8, (Transform.Top + Transform.Bottom) * 0.5f),
+                AccessText = new Renderer.Text(
+                    new Layer(AccessLayer.AccessMainLayer, AccessLayer.AccessSubLayer + 1), font, text, fontSize, 0,
+                    centered ? new Vector2((AccessTransform.Left + AccessTransform.Right) * 0.5f, (AccessTransform.Top + AccessTransform.Bottom) * 0.5f) : new Vector2(AccessTransform.Left + 8, (AccessTransform.Top + AccessTransform.Bottom) * 0.5f),
                     centered ? new Vector2(0.5f, 0.5f) * measure : new Vector2(0, 0.5f) * measure,
                     baseColor);
 
-                _textBaseColor = baseColor;
+                myTextBaseColor = baseColor;
             }
 
-            public void AddEffect(SoundEffect effect) => this._effect = effect;
+            public void AddEffect(SoundEffect effect) => this.myEffect = effect;
 
             public static Color[] DefaultColors()
                 => new Color[] { Color.White, new Color(1.15f, 1.15f, 1.15f), new Color(0.85f, 0.85f, 0.85f) };
@@ -428,22 +428,22 @@ namespace VectoidOdyssey
                 => new Color[] { origin, origin * 1.15f, origin * 0.85f };
 
             public void SetPseudoDefaultColors(Color origin)
-                => ColorSwitch = PseudoDefaultColors(origin);
+                => AccessColorSwitch = PseudoDefaultColors(origin);
 
             public void SetDefaultColors()
-                => ColorSwitch = DefaultColors();
+                => AccessColorSwitch = DefaultColors();
 
             public void SetTransitionExplicit(Func<float, float> function)
-                => _transition = function;
+                => myTransition = function;
 
             public void SetTextureSwitch(Texture2D idle, Texture2D hover, Texture2D click)
-                => TextureSwitch = new Texture2D[] { idle, hover, click };
+                => AccessTextureSwitch = new Texture2D[] { idle, hover, click };
 
             public void SetColorSwitch(Color idle, Color hover, Color click)
-                => ColorSwitch = new Color[] { idle, hover, click };
+                => AccessColorSwitch = new Color[] { idle, hover, click };
 
             public void SetColorSwitch(Color[] colors)
-                => ColorSwitch = colors.Length == 3 ? colors : ColorSwitch;
+                => AccessColorSwitch = colors.Length == 3 ? colors : AccessColorSwitch;
 
             struct TAS
             {
