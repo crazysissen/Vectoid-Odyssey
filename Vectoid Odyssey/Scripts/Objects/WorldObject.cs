@@ -56,7 +56,7 @@ namespace VectoidOdyssey
 
             if (AccessKeepInBounds && AccessBoundingBox != null)
             {
-                Vector2 tempCorrection = AccessManager.GetCurrentBounds.Correction(AccessBoundingBox.AccessTopLeft, AccessBoundingBox.AccessBottomRight);
+                Vector2 tempCorrection = AccessManager.GetCurrentBounds(AccessPosition, index).Correction(AccessBoundingBox.AccessTopLeft, AccessBoundingBox.AccessBottomRight);
 
                 if (tempCorrection != Vector2.Zero)
                 {

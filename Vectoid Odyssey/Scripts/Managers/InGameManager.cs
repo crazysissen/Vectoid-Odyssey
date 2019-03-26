@@ -19,8 +19,6 @@ namespace VectoidOdyssey
 
         public bool AccessUpdateObjects { get; set; }
 
-        public RoomBounds GetCurrentBounds => new RoomBounds(-36, 0, -64, 0, -64, 36, 0, -64);
-
         private UpdateManager myUpdateManager;
         private MenuManager myMenuManager;
 
@@ -28,6 +26,7 @@ namespace VectoidOdyssey
 
         private Renderer.Sprite myBackground; // TODO: Implement map type. Temporary solution
 
+        private Map myMap;
         private Player myPlayer;
         private Enemy mySock, mySkull, myCrab; // TODO: Remove temporary enemy tests
         private int lastIndex = -1;
@@ -143,6 +142,9 @@ namespace VectoidOdyssey
 
             myBackground.Destroy();
         }
+
+        public RoomBounds GetCurrentBounds(Vector2 aPosition, int? anObjectIndex = null)
+            => (anObjectIndex == null) ? myMap.GetRoom(aPosition) : myMap.GetRoom(aPosition, anObjectIndex.Value);
 
         public int GetNewIndex()
             => ++lastIndex;

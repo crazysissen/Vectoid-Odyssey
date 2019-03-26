@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace VectoidOdyssey
 {
-    sealed class MapTest : Map
-    {
+    //sealed class MapTest : Map
+    //{
         
-    }
+    //}
 }

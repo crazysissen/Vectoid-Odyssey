@@ -40,7 +40,7 @@ namespace VectoidOdyssey
             Point tempRes = VectoidOdyssey.AccessResolution, tempGameRes = VectoidOdyssey.GetGameResolution;
 
             myMainMenu = new GUI.Collection(false);
-            myMainMenu.AccessOrigin = new Point(30, 30);
+            myMainMenu.AccessOrigin = new Point(80, 40);
 
             myOptionsMenu = new GUI.Collection(false);
 

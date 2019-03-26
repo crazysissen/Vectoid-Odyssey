@@ -18,6 +18,8 @@ namespace VectoidOdyssey
             myLastBounds = new RoomBounds[0x10000];
         }
 
+        public abstract Player SpawnPlayer(PlayerSetup aPlayerSetup, MenuManager aMenuManager);
+
         public virtual void Update(float aDeltaTime)
         {
 

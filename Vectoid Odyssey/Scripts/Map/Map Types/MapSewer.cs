@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace VectoidOdyssey
 {
-    sealed class MapSewer : Map
-    {
-        public MapSewer()
-        {
+    //sealed class MapSewer : Map
+    //{
+    //    public MapSewer()
+    //    {
 
-        }
-    }
+    //    }
+    //}
 }
