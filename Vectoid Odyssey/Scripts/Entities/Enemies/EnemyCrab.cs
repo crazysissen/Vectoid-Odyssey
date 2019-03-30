@@ -25,7 +25,8 @@ namespace VectoidOdyssey
             CHARGETIME = 0.15f,
             MINJUMPTIME = 0.45f,
             BOUNCESPEED = 0.8f,
-            BOUNCEFORCE = 1.2f;
+            BOUNCEFORCE = 2.0f,
+            BLOCKTIME = 0.8f;
 
         const int
             HEALTH = 8,
@@ -44,6 +45,7 @@ namespace VectoidOdyssey
             AccessHealth = HEALTH;
             AccessDynamic = true;
             AccessKeepInBounds = true;
+            AccessWorldCollide = true;
             AccessGravity = true;
             AccessPosition = aPosition;
 
@@ -181,21 +183,18 @@ namespace VectoidOdyssey
             {
                 Player tempPlayer = (Player)aHitDetector.AccessOwner;
 
-                Vector2 tempNVector = (AccessPosition - tempPlayer.AccessPosition).Normalized();
+                Vector2 tempNVector = ((AccessPosition + new Vector2(0, 0.5f)) - tempPlayer.AccessPosition).Normalized();
 
                 if (!tempPlayer.AccessInvincible)
                 {
                     tempPlayer.ChangeHP(-DAMAGE);
-
-                    //if (!tempPlayer.GetDead)
-                    {
-                        tempPlayer.AccessVelocity = -tempNVector * BOUNCEFORCE - new Vector2(0, 0.5f);
-                    }
+                    tempPlayer.AccessVelocity = (-tempNVector * BOUNCEFORCE + new Vector2(tempNVector.X < 0 ? 1 : -1, -0.5f));
+                    tempPlayer.BlockControls(BLOCKTIME);
                 }
 
                 myState = State.Jump;
 
-                AccessVelocity = tempNVector * BOUNCESPEED - new Vector2(0, 0.8f);
+                AccessVelocity = tempNVector * BOUNCESPEED + new Vector2(0, -1.3f);
             }
         }
 

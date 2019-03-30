@@ -25,9 +25,9 @@ namespace VectoidOdyssey
         private HitDetector myHitDetector;
         private Renderer.Sprite myBodyRenderer;
         private PlayerWeapon[] myWeapons;
-        private float myMaxSpeed, myAcceleration, myBrakeAcceleration, myAnimationFrame = ANIMATIONSPEED * 0.5f, myJumpSpeed, myMaxJumpSpeed;
+        private float myMaxSpeed, myAcceleration, myBrakeAcceleration, myAnimationFrame = ANIMATIONSPEED * 0.5f, myMaxJumpTime, myStartJumpSpeed, myEndJumpSpeed, myCurrentJumpTime, myJumpBlockTimer, myJumpBlockTime;
         private int myActiveWeapon, myScore;
-        private bool myOnGround;
+        private bool myOnGround, myJumping, myGoingToJump;
 
         private Renderer.Text myGUIHealth, myGUIScore;
 
@@ -40,6 +40,7 @@ namespace VectoidOdyssey
             AccessDynamic = true;
             AccessPosition = aPosition;
             AccessKeepInBounds = true;
+            AccessWorldCollide = true;
 
             myBodyRenderer = new Renderer.Sprite(Layer.Default, aSetup.sheet, aPosition, Vector2.One, Color.White, 0, new Vector2(16, 16));
 
@@ -55,8 +56,9 @@ namespace VectoidOdyssey
             myMaxSpeed = aSetup.maxSpeed;
             myAcceleration = aSetup.acceleration;
             myBrakeAcceleration = aSetup.brakeAcceleration;
-            myJumpSpeed = aSetup.jumpSpeed;
-            myMaxJumpSpeed = aSetup.maxJumpSpeed;
+            myStartJumpSpeed = aSetup.jumpStartAcceleration;
+            myEndJumpSpeed = aSetup.jumpEndAcceleration;
+            myMaxJumpTime = aSetup.maxJumpTime;
 
             CreateHUD();
 
@@ -102,6 +104,11 @@ namespace VectoidOdyssey
             {
                 myOnGround = true;
             }
+
+            if (aCorrection.Y > 0 && myJumping)
+            {
+                myJumping = false;
+            }
         }
 
         private void UpdateWeapon(float aDeltaTime)
@@ -133,32 +140,79 @@ namespace VectoidOdyssey
 
             bool tempBrake = (AccessVelocity.X < 0 && AccessVelocity.X < tempTargetXVelocity) || (AccessVelocity.X > 0 && AccessVelocity.X > tempTargetXVelocity);
 
-            float maxMovementDistance = aDeltaTime * (tempBrake ? myBrakeAcceleration : myAcceleration), 
-                tempVelocityChange = (tempTargetXVelocity - AccessVelocity.X).Clamp(-maxMovementDistance, maxMovementDistance, out bool tempClamped);
+            float tempControlMultiplier = 1;
 
-            if (myOnGround)
+            if (myJumpBlockTimer > 0)
             {
-                AccessPosition = new Vector2(AccessPosition.X, AccessPosition.Y.Max(-2));
-                AccessVelocity = new Vector2(AccessVelocity.X, 0);
+                myJumpBlockTimer -= aDeltaTime;
+                tempControlMultiplier = 1 - myJumpBlockTimer / myJumpBlockTime;
+            }
 
-                if (!tempClamped)
+            float
+                tempMaxMovementDistance = aDeltaTime * (tempBrake ? myBrakeAcceleration : myAcceleration) * tempControlMultiplier,
+                tempVelocityChange = (tempTargetXVelocity - AccessVelocity.X).Clamp(-tempMaxMovementDistance, tempMaxMovementDistance, out bool tempClamped);
+                
+
+            if (myJumping)
+            {
+                myGoingToJump = false;
+
+                if (Input.Pressed(Control.Action2) && myCurrentJumpTime < myMaxJumpTime)
                 {
-                    AccessVelocity = new Vector2(tempTargetXVelocity, AccessVelocity.Y);
+                    myCurrentJumpTime += aDeltaTime;
+                    AccessVelocity = new Vector2(AccessVelocity.X, (myCurrentJumpTime / myMaxJumpTime).Lerp(-myStartJumpSpeed, -myEndJumpSpeed));
                 }
                 else
                 {
-                    AccessVelocity = new Vector2(AccessVelocity.X + tempVelocityChange, AccessVelocity.Y);
+                    myJumping = false;
                 }
-
-                myAnimationFrame += AccessVelocity.X * aDeltaTime * ANIMATIONSPEED;
-
-                if (Input.Down(Control.Action2))
-                {
-                    AccessVelocity = new Vector2(AccessVelocity.X, AccessVelocity.Y - (AccessVelocity.X / myMaxSpeed).Abs().Lerp(myJumpSpeed, myMaxJumpSpeed));
-                }
-
-                myOnGround = false;
             }
+
+            if (myOnGround)
+            {
+                //AccessVelocity = new Vector2(AccessVelocity.X, 0);
+
+                if (myGoingToJump || Input.Down(Control.Action2))
+                {
+                    Jump();
+                }
+
+                myGoingToJump = false;
+            }
+            else
+            {
+                if (!myJumping && Input.Down(Control.Action2))
+                {
+                    myGoingToJump = true;
+                }
+
+                if (myGoingToJump && !Input.Pressed(Control.Action2))
+                {
+                    myGoingToJump = false;
+                }
+            }
+                //AccessPosition = new Vector2(AccessPosition.X, AccessPosition.Y.Max(-2));
+
+            if (!tempClamped)
+            {
+                AccessVelocity = new Vector2(tempTargetXVelocity, AccessVelocity.Y);
+            }
+            else
+            {
+                AccessVelocity = new Vector2(AccessVelocity.X + tempVelocityChange, AccessVelocity.Y);
+            }
+
+            myAnimationFrame += AccessVelocity.X * aDeltaTime * ANIMATIONSPEED;
+
+            myOnGround = false;
+        }
+
+        private void Jump()
+        {
+            myJumping = true;
+            myCurrentJumpTime = 0.0f;
+
+            AccessVelocity = new Vector2(AccessVelocity.X, -myStartJumpSpeed);
         }
 
         private void UpdateRenderer()
@@ -198,6 +252,12 @@ namespace VectoidOdyssey
 
             myMenuManager.myHUD = new GUI.Collection(true);
             myMenuManager.myHUD.Add(myGUIHealth, myGUIScore);
+        }
+
+        public void BlockControls(float aTime)
+        {
+            myJumpBlockTimer = aTime;
+            myJumpBlockTime = aTime;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace VectoidOdyssey
 
         public static void ImportAll(ContentManager aContent)
         {
-            ContentBundle tempBundle = AllFileNames(AppDomain.CurrentDomain.BaseDirectory + @"\" + aContent.RootDirectory, "", "");
+            ContentBundle tempBundle = AllFileNames(AppDomain.CurrentDomain.BaseDirectory + "/" + aContent.RootDirectory, "", "");
 
             foreach (ImportObject item in tempBundle.objects)
             {
@@ -55,12 +55,11 @@ namespace VectoidOdyssey
             List<ImportObject> tempAllFiles = new List<ImportObject>();
             List<ImportCollection> tempAllCollections = new List<ImportCollection>();
 
-            DirectoryInfo tempDirectory = new DirectoryInfo(aBasePath + @"\" + anAdditionalPath);
+            DirectoryInfo tempDirectory = new DirectoryInfo(aBasePath + "/" + anAdditionalPath);
             DirectoryInfo[] tempDirectories = tempDirectory.GetDirectories();
             FileInfo[] tempFiles = tempDirectory.GetFiles();
 
             string tempCurrentCollection = anAppendableAdditionalPath.Length == 0 ? "Root" : anAppendableAdditionalPath.Remove(anAppendableAdditionalPath.Length - 1);
-            List<string> tempCurrentCollectionNames = new List<string>();
 
             foreach (FileInfo file in tempFiles)
             {
@@ -69,16 +68,22 @@ namespace VectoidOdyssey
                 if (!ignoredExtensions.Contains(file.Extension))
                 {
                     tempAllFiles.Add(new ImportObject(tempCurrentName, anAppendableAdditionalPath + tempCurrentName));
-                    tempCurrentCollectionNames.Add(tempCurrentName);
                 }
             }
 
             foreach (DirectoryInfo dir in tempDirectories)
             {
-                ContentBundle tempDirImport = AllFileNames(aBasePath, anAdditionalPath + dir.Name + @"\", anAppendableAdditionalPath + dir.Name + @"\");
+                ContentBundle tempDirImport = AllFileNames(aBasePath, anAdditionalPath + dir.Name + "/", anAppendableAdditionalPath + dir.Name + "/");
 
                 tempAllFiles.AddRange(tempDirImport.objects);
                 tempAllCollections.AddRange(tempDirImport.collections);
+            }
+
+            List<string> tempCurrentCollectionNames = new List<string>();
+
+            foreach (ImportObject file in tempAllFiles)
+            {
+                tempCurrentCollectionNames.Add(file.name);
             }
 
             tempAllCollections.Add(new ImportCollection(tempCurrentCollectionNames.ToArray(), tempCurrentCollection));

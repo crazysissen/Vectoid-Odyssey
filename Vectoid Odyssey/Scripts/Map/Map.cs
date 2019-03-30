@@ -20,6 +20,8 @@ namespace VectoidOdyssey
 
         public abstract Player SpawnPlayer(PlayerSetup aPlayerSetup, MenuManager aMenuManager);
 
+        public abstract void ActivateEnemies();
+
         public virtual void Update(float aDeltaTime)
         {
 

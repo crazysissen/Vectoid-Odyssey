@@ -35,8 +35,10 @@ namespace VectoidOdyssey
 
         public void StartGame()
         {
+            MapFetcher tempMapFetcher = new MapFetcher();
+
             myInGameManager = new InGameManager(this, myMenuManager) { AccessUpdateObjects = true };
-            myInGameManager.InitGame(); //DONOW: Implement actual game setup
+            myInGameManager.InitGame(tempMapFetcher.GetNewSewer2(null));
         }
 
         public void ExitGame()

@@ -17,15 +17,15 @@ namespace VectoidOdyssey
 
         const float
             SPEED = 0.55f,
-            DETECTIONRANGE = 24.0f,
-            FOLLOWRANGE = 25.0f,
-            BEGINFIRERANGE = 14.0f,
-            ENDFIRERANGE = 18.0f,
+            DETECTIONRANGE = 32.0f,
+            FOLLOWRANGE = 35.0f,
+            BEGINFIRERANGE = 16.0f,
+            ENDFIRERANGE = 24.0f,
             CHARGETIME = 1.5f,
             BULLETSPEED = 2.5f,
-            BOUNCESPEED = 1.8f,
+            BOUNCESPEED = 2.8f,
             ANIMATIONTIME = 0.2f,
-            DAMPENSTRENGTH = 0.8f;
+            DAMPENSTRENGTH = 1.6f;
 
         const int
             HEALTH = 6,
@@ -45,6 +45,7 @@ namespace VectoidOdyssey
             AccessHealth = HEALTH;
             AccessDynamic = true;
             AccessKeepInBounds = true;
+            AccessWorldCollide = true;
             AccessPosition = aPosition;
 
             myRenderer = new Renderer.Sprite(Layer.Default, Load.Get<Texture2D>("Enemy2"), AccessPosition, Vector2.One, Color.White, 0, new Vector2(4, 4));
@@ -154,7 +155,7 @@ namespace VectoidOdyssey
                     tempPlayer.ChangeHP(-DAMAGE);
                 }
 
-                AccessVelocity = (AccessPosition - tempPlayer.AccessPosition).Normalized() * BOUNCESPEED;
+                AccessVelocity = (AccessPosition - tempPlayer.AccessPosition + new Vector2(0, -0.8f)).Normalized() * BOUNCESPEED;
             }
         }
 

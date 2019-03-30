@@ -9,7 +9,7 @@ namespace VectoidOdyssey
     /// </summary>
     public class VectoidOdyssey : Game
     {
-        static public Point GetGameResolution => new Point(512, 288);
+        static public Point GetGameResolution => new Point(480, 270);
         static public Point AccessResolution
         {
             get => new Point(mainGame.myGraphics.PreferredBackBufferWidth, mainGame.myGraphics.PreferredBackBufferHeight);
@@ -38,12 +38,15 @@ namespace VectoidOdyssey
         {
             mainGame = this;
 
+            //System.Console.Beep(1000, 1500);
+
             Point tempRes = GetGameResolution;
 
             myGraphics = new GraphicsDeviceManager(this)
             {
                 PreferredBackBufferWidth = tempRes.X * 3,
                 PreferredBackBufferHeight = tempRes.Y * 3,
+                IsFullScreen = false
             };
 
             IsMouseVisible = true;
@@ -56,11 +59,12 @@ namespace VectoidOdyssey
             base.Initialize();
 
             Font.Init();
+            Sound.Init();
 
             myRendererController = new RendererController();
             myUpdateManager = new UpdateManager(this);
 
-            myRendererController.Init(myGraphics, Vector2.Zero, 20.0f / GetGameResolution.X, Color.Black);
+            myRendererController.Init(myGraphics, Vector2.Zero, 2 / 46.875f, Color.Black);
             myUpdateManager.Init();
         }
 

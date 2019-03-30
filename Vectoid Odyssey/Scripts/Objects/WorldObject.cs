@@ -10,7 +10,7 @@ namespace VectoidOdyssey
     abstract class WorldObject
     {
         public const float 
-            GRAVITY = 3.0f;
+            GRAVITY = 8.0f;
 
         public event Action<Vector2> OnBoundCorrection;
 
@@ -22,11 +22,13 @@ namespace VectoidOdyssey
         public bool AccessActive { get; set; } = true;
         public bool AccessDynamic { get; set; } = false;
         public bool AccessGravity { get; set; } = false;
+        public bool GetDestroyed { get; private set; }
 
         public Vector2 AccessPosition { get; set; } = Vector2.Zero;
         public Vector2 AccessVelocity { get; set; } = Vector2.Zero;
 
         public bool AccessKeepInBounds { get; protected set; }
+        public bool AccessWorldCollide { get; protected set; }
         public HitDetector AccessBoundingBox { get; protected set; }
 
         protected bool GetOnGround { get; private set; }
@@ -39,8 +41,7 @@ namespace VectoidOdyssey
             index = AccessManager.GetNewIndex();
         }
 
-        // Called from the game manager
-        public void BaseUpdate(float aDeltaTime)
+        public void SimpleCollision(float aDeltaTime)
         {
             if (AccessDynamic)
             {
@@ -60,28 +61,37 @@ namespace VectoidOdyssey
 
                 if (tempCorrection != Vector2.Zero)
                 {
-                    if (tempCorrection.Y < 0)
-                    {
-                        GetOnGround = true;
-                    }
-                    else
-                    {
-                        GetOnGround = false;
-                    }
-
-                    if ((tempCorrection.X < 0 && AccessVelocity.X > 0) || (tempCorrection.X > 0 && AccessVelocity.X < 0))
-                        AccessVelocity = new Vector2(0, AccessVelocity.Y);
-
-                    if ((tempCorrection.Y < 0 && AccessVelocity.Y > 0) || (tempCorrection.Y > 0 && AccessVelocity.Y < 0))
-                        AccessVelocity = new Vector2(AccessVelocity.X, 0);
-
-                    AccessPosition += tempCorrection;
-
-                    OnBoundCorrection?.Invoke(tempCorrection);
+                    Correct(tempCorrection);
                 }
             }
+        }
 
+        // Called from the game manager
+        public void BaseUpdate(float aDeltaTime)
+        {
             Update(aDeltaTime);
+        }
+
+        public void Correct(Vector2 aCorrection)
+        {
+            if (aCorrection.Y < 0)
+            {
+                GetOnGround = true;
+            }
+            else
+            {
+                GetOnGround = false;
+            }
+
+            if ((aCorrection.X < 0 && AccessVelocity.X > 0) || (aCorrection.X > 0 && AccessVelocity.X < 0))
+                AccessVelocity = new Vector2(0, AccessVelocity.Y);
+
+            if ((aCorrection.Y < 0 && AccessVelocity.Y > 0) || (aCorrection.Y > 0 && AccessVelocity.Y < 0))
+                AccessVelocity = new Vector2(AccessVelocity.X, 0);
+
+            AccessPosition += aCorrection;
+
+            OnBoundCorrection?.Invoke(aCorrection);
         }
 
         // Called upon the derived class
@@ -94,6 +104,7 @@ namespace VectoidOdyssey
         {
             BeforeDestroy();
 
+            GetDestroyed = true;
             AccessManager.Remove(this);
         }
 

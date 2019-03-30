@@ -64,17 +64,22 @@ namespace VectoidOdyssey
             
             for (int i = 0; i < allColliders.Count; ++i)
             {
+                HitDetector tempA = allColliders[i];
+                bool
+                    tempACollider = (tempA.AccessOwner != null) ? (((WorldObject)tempA.AccessOwner).AccessWorldCollide ? true : false) : false,
+                    tempAWorld = tempA.AccessTags.Contains("World");
+
+                tempCollisions[tempA] = new List<HitDetector>();
+
                 for (int j = i + 1; j < allColliders.Count; ++j)
                 {
-                    HitDetector tempA = allColliders[i], tempB = allColliders[j];
+                    HitDetector tempB = allColliders[j];
+                    bool
+                        tempBCollider = (tempB.AccessOwner != null) ? (((WorldObject)tempB.AccessOwner).AccessWorldCollide ? true : false) : false,
+                        tempBWorld = tempB.AccessTags.Contains("World");
 
                     if (i == 0)
                     {
-                        if (j == i + 1)
-                        {
-                            tempCollisions[tempA] = new List<HitDetector>();
-                        }
-
                         tempCollisions[tempB] = new List<HitDetector>();
                     }
 
@@ -89,13 +94,61 @@ namespace VectoidOdyssey
                             tempB.OnEnter?.Invoke(tempA);
                         }
 
-                        tempCollisions[tempA].Add(tempB);
-                        tempCollisions[tempB].Add(tempA);
+                        if (tempA.AccessOwner != null || tempB.AccessOwner != null)
+                        {
+
+                        }
+
+                        if (tempACollider && tempBWorld)
+                        {
+                            Eject(tempA, tempB);
+                        }
+
+                        if (tempBCollider && tempAWorld)
+                        {
+                            Eject(tempB, tempA);
+                        }
+
+                        if (tempCollisions.ContainsKey(tempA))
+                            tempCollisions[tempA].Add(tempB);
+
+                        if (tempCollisions.ContainsKey(tempB))
+                            tempCollisions[tempB].Add(tempA);
                     }
                 }
             }
 
             lastFrameCollisions = tempCollisions;
+        }
+
+        static void Eject(HitDetector aCollider, HitDetector aWorldCollider)
+        {
+            float[] tempDistances =
+            {
+                 aCollider.AccessBottomRight.Y - aWorldCollider.AccessTopLeft.Y,
+                 aCollider.AccessBottomRight.X - aWorldCollider.AccessTopLeft.X,
+                 aWorldCollider.AccessBottomRight.Y - aCollider.AccessTopLeft.Y,
+                 aWorldCollider.AccessBottomRight.X - aCollider.AccessTopLeft.X
+            };
+
+            Vector2[] tempDirections =
+            {
+                new Vector2(0, -1),
+                new Vector2(-1, 0),
+                new Vector2(0, 1),
+                new Vector2(1, 0)
+            };
+
+            int tempLowestIndex = 0;
+            for (int i = 1; i < 4; ++i)
+            {
+                if (tempDistances[i] < tempDistances[tempLowestIndex])
+                {
+                    tempLowestIndex = i;
+                }
+            }
+
+            ((WorldObject)aCollider.AccessOwner).Correct(tempDirections[tempLowestIndex] * tempDistances[tempLowestIndex]);
         }
 
         static bool Overlapping(HitDetector aHitDetector1, HitDetector aHitDetector2)

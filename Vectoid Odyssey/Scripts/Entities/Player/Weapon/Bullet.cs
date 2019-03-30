@@ -79,6 +79,12 @@ namespace VectoidOdyssey
                 return;
             }
 
+            if (aHitDetector.AccessTags.Contains("World"))
+            {
+                Destroy();
+                return;
+            }
+
             if (aHitDetector.AccessTags.Contains(AccessTargetType == TargetType.Player ? "Player" : "Enemy"))
             {
                 Entity tempEntity = (Entity)aHitDetector.AccessOwner;

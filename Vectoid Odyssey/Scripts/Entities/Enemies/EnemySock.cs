@@ -17,20 +17,20 @@ namespace VectoidOdyssey
 
         const float
             SPEED = 0.5f,
-            DETECTIONRANGE = 18.0f,
-            FOLLOWRANGE = 22.0f,
-            BEGINCHARGERANGE = 8f,
-            ENDCHARGERANGE = 10f,
+            DETECTIONRANGE = 24.0f,
+            FOLLOWRANGE = 26.0f,
+            BEGINCHARGERANGE = 10f,
+            ENDCHARGERANGE = 13f,
             CHARGETIME = 0.5f,
             MINJUMPTIME = 0.1f,
-            BOUNCESPEED = 0.8f;
+            BOUNCESPEED = 1.4f;
 
         const int
             HEALTH = 4,
             DAMAGE = 2,
             SCORE = 1000;
 
-        private Vector2 GetJump => new Vector2(2.0f, -1.5f);
+        private Vector2 GetJump => new Vector2(3.0f, -2.8f);
 
         private Renderer.Animator myRenderer;
         private State myState;
@@ -41,6 +41,7 @@ namespace VectoidOdyssey
             AccessHealth = HEALTH;
             AccessDynamic = true;
             AccessKeepInBounds = true;
+            AccessWorldCollide = true;
             AccessGravity = true;
             AccessPosition = aPosition;
 

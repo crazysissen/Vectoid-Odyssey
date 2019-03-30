@@ -11,23 +11,23 @@ namespace VectoidOdyssey
     {
         public Vector2 AccessCenter { get; private set; }
 
-        private float
+        private readonly float
             myLeftWall, myLeftFloor, myLeftCeiling,
             myFloor, myCeiling,
             myRightWall, myRightFloor, myRightCeiling;
 
         public RoomBounds(float aLWall, float aLFloor, float aLCeiling, float aFloor, float aCeiling, float aRWall, float aRFloor, float aRCeliling)
         {
-            myLeftWall = aLWall;
-            myLeftFloor = aLFloor;
-            myLeftCeiling = aLCeiling;
+            myLeftWall = aLWall * 2;
+            myLeftFloor = aLFloor * 2;
+            myLeftCeiling = aLCeiling * 2;
 
-            myFloor = aFloor;
-            myCeiling = aCeiling;
+            myFloor = aFloor * 2;
+            myCeiling = aCeiling * 2;
 
-            myRightWall = aRWall;
-            myRightFloor = aRFloor;
-            myRightCeiling = aRCeliling;
+            myRightWall = aRWall * 2;
+            myRightFloor = aRFloor * 2;
+            myRightCeiling = aRCeliling * 2;
 
             AccessCenter = new Vector2(0.5f * (myLeftWall + myRightWall), 0.5f * (myCeiling + myFloor));
         }
@@ -40,29 +40,60 @@ namespace VectoidOdyssey
             bool
                 tempOnLeft = aBottomRight.Y < myLeftFloor, tempOn = aBottomRight.Y < myFloor, tempOnRight = aBottomRight.Y < myRightFloor,
                 tempUnderLeft = aTopLeft.Y > myLeftCeiling, tempUnder = aTopLeft.Y > myCeiling, tempUnderRight = aTopLeft.Y > myRightCeiling,
-                inLeft = aTopLeft.X > myLeftWall, inRight = aBottomRight.X < myRightWall;
+                tempInLeft = aTopLeft.X > myLeftWall, tempInRight = aBottomRight.X < myRightWall;
+
+            Vector2 tempAdditive = new Vector2();
 
             // If within main room
-            if (inLeft && inRight)
+            if (aBottomRight.X > myLeftWall && aTopLeft.X < myRightWall)
             {
                 if (!tempOn)
                 {
-                    return new Vector2(0, myFloor - aBottomRight.Y);
+                    tempAdditive += new Vector2(0, myFloor - aBottomRight.Y);
                 }
 
                 if (!tempUnder)
                 {
-                    return new Vector2(0, myCeiling - aTopLeft.Y);
+                    tempAdditive += new Vector2(0, myCeiling - aTopLeft.Y);
+                }
+            }
+
+            if (tempInLeft && tempInRight)
+            {
+                return tempAdditive;
+            }
+
+            if (!tempInLeft)
+            {
+                if (!tempUnderLeft)
+                {
+                    tempAdditive += (myLeftWall - aTopLeft.X > myLeftCeiling - aTopLeft.Y) ? new Vector2(0, myLeftCeiling - aTopLeft.Y) : new Vector2(myLeftWall - aTopLeft.X, 0);
                 }
 
-                return Vector2.Zero;
+                if (!tempOnLeft)
+                {
+                    tempAdditive += (myLeftWall - aTopLeft.X > aBottomRight.Y - myLeftFloor) ? new Vector2(0, myLeftFloor - aBottomRight.Y) : new Vector2(myLeftWall - aTopLeft.X, 0);
+                }
+
+                return tempAdditive;
+            }
+
+            if (!tempInRight)
+            {
+                if (!tempUnderRight)
+                {
+                    tempAdditive += (aBottomRight.X - myRightWall > myRightCeiling - aTopLeft.Y) ? new Vector2(0, myRightCeiling - aTopLeft.Y) : new Vector2(myRightWall - aBottomRight.X, 0);
+                }
+
+                if (!tempOnRight)
+                {
+                    tempAdditive += (aBottomRight.X - myRightWall > aBottomRight.Y - myRightFloor) ? new Vector2(0, myRightFloor - aBottomRight.Y) : new Vector2(myRightWall - aBottomRight.X, 0);
+                }
+
+                return tempAdditive;
             }
 
             return Vector2.Zero;
-
-            //Vector2 tempVector = new Vector2();
-
-            //if (!inle)
         }
     }
 }

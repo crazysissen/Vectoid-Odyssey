@@ -92,6 +92,7 @@
     <Compile Include="Scripts\Map\Map Types\MapSewer.cs" />
     <Compile Include="Scripts\Map\Map Types\MapArkan.cs" />
     <Compile Include="Scripts\Map\Map.cs" />
+    <Compile Include="Scripts\Map\MapFetcher.cs" />
     <Compile Include="Scripts\Objects\WorldObject.cs" />
     <Compile Include="Scripts\Rendering\Camera.cs" />
     <Compile Include="Scripts\Rendering\GUI\Button.cs" />
@@ -110,9 +111,11 @@
     <Compile Include="Scripts\Statics\Load.cs" />
     <Compile Include="Scripts\Statics\MathV.cs" />
     <Compile Include="Scripts\Statics\Noise.cs" />
+    <Compile Include="Scripts\Statics\Sound.cs" />
     <Compile Include="Scripts\Types\GameState.cs" />
     <Compile Include="Scripts\Map\RoomBounds.cs" />
     <Compile Include="Scripts\Types\ParameterAction.cs" />
+    <Compile Include="Scripts\Types\Square.cs" />
     <Compile Include="Scripts\Types\TimerTable.cs" />
     <Compile Include="Scripts\Managers\UpdateManager.cs" />
     <Compile Include="Scripts\XNA\Game.cs" />

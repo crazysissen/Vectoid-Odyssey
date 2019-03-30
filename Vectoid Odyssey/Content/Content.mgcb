@@ -303,6 +303,30 @@
 /processorParam:TextureFormat=Color
 /build:Visuals/Enemies/Enemy3-4.png
 
+#begin Visuals/Levels/Sewer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Visuals/Levels/Sewer.png
+
+#begin Visuals/Levels/Sewer2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Visuals/Levels/Sewer2.png
+
 #begin Visuals/Player/Player.png
 /importer:TextureImporter
 /processor:TextureProcessor
