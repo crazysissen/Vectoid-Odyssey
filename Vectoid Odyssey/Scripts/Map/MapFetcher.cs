@@ -138,7 +138,7 @@ namespace VectoidOdyssey
                 new Square(7, 46, 6, 1),
 
                 // Top left room
-                new Square(60, 7, 16, 2),
+                new Square(60, 8, 16, 2),
                 new Square(52, 3, 2, 1),
                 new Square(52, 4, 1, 1),
                 new Square(58, 3, 3, 1),
