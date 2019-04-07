@@ -82,9 +82,9 @@ namespace VectoidOdyssey
             RoomBounds[] tempBounds =
             {
                 new RoomBounds(104, 28, 24, 34, 20, 128, 28, 24), // Centre
-                new RoomBounds(88, 50, 4, 28, 24, 104, 34, 20), // Corridor Left
+                //new RoomBounds(88, 50, 4, 28, 24, 104, 34, 20), // Corridor Left
                 new RoomBounds(76, 50, 6, 50, 4, 88, 28, 24), // Left Room
-                new RoomBounds(-8, 0, 0, 80, 39, 76, 50, 4), // Outside
+                new RoomBounds(-8, 0, 0, 80, 39, 76, 50, 4), // Outside Left
                 new RoomBounds(52, 3, 3, 10, 3, 76, 50, 4) // Top Left Room
             };
 
@@ -106,8 +106,8 @@ namespace VectoidOdyssey
                 new Square(84, 15, 4, 1),
                 new Square(86, 11, 2, 1),
                 // Top platform
-                new Square(76, 8, 7, 1),
-                new Square(76, 9, 4, 1),
+                new Square(80, 8, 3, 1),
+                //new Square(76, 9, 4, 1),
                 new Square(76, 10, 2, 2),
                 // Bottom
                 new Square(76, 30, 1, 9),
@@ -138,7 +138,7 @@ namespace VectoidOdyssey
                 new Square(7, 46, 6, 1),
 
                 // Top left room
-                new Square(60, 7, 16, 2),
+                new Square(60, 8, 20, 2),
                 new Square(52, 3, 2, 1),
                 new Square(52, 4, 1, 1),
                 new Square(58, 3, 3, 1),
