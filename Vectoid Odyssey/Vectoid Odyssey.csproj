@@ -112,7 +112,7 @@
     <Compile Include="Scripts\Statics\ByteStreamer.cs" />
     <Compile Include="Scripts\Statics\Load.cs" />
     <Compile Include="Scripts\Statics\MathV.cs" />
-    <Compile Include="Scripts\Statics\Noise.cs" />
+    <Compile Include="Scripts\Types\Noise.cs" />
     <Compile Include="Scripts\Statics\Sound.cs" />
     <Compile Include="Scripts\Types\GameState.cs" />
     <Compile Include="Scripts\Map\RoomBounds.cs" />

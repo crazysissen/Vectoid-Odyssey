@@ -14,9 +14,10 @@ namespace VectoidOdyssey
         const float
             ARMBOUNCESPEED = 0.5f;
 
+        // Main pattern active currently
         private enum Pattern
         {
-            ShootA, ShootB, Ram, Laser, Weak
+            ShootA, ShootB, Ram, Laser, Hover, Weak
         }
 
         private Pattern myCurrentPattern;
@@ -83,8 +84,14 @@ namespace VectoidOdyssey
                 case Pattern.Laser:
                     break;
 
+                case Pattern.Hover:
+                    break;
+
                 case Pattern.Weak:
                     break;
+
+                default:
+                    goto case Pattern.Hover; // This is the only acceptable way to use the goto statement
             }
 
             SetRendererPositions(aDeltaTime);
