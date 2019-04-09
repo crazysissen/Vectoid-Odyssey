@@ -12,7 +12,30 @@ namespace VectoidOdyssey
     {
         public enum MapType
         {
-            Sewer1
+            Sewer1, Sewer2
+        }
+
+        private readonly Dictionary<MapType, Func<object[], Map>> myFetchMethods;
+
+        public MapFetcher()
+        {
+            myFetchMethods = new Dictionary<MapType, Func<object[], Map>>()
+            {
+                { MapType.Sewer1, GetNewSewer1 },
+                { MapType.Sewer2, GetNewSewer2 }
+            };
+        }
+
+        public Map Get(MapType aType, object[] var)
+        {
+            try
+            {
+                return myFetchMethods[aType].Invoke(var);
+            }
+            catch
+            {
+                return GetNewSewer1(var);
+            }
         }
 
         public Map GetNew(MapType aType, object[] var)

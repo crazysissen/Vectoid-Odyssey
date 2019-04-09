@@ -25,7 +25,7 @@ namespace VectoidOdyssey
         private HitDetector myHitDetector;
         private Renderer.Sprite myBodyRenderer;
         private PlayerWeapon[] myWeapons;
-        private float myMaxSpeed, myAcceleration, myBrakeAcceleration, myAnimationFrame = ANIMATIONSPEED * 0.5f, myMaxJumpTime, myStartJumpSpeed, myEndJumpSpeed, myCurrentJumpTime, myJumpBlockTimer, myJumpBlockTime;
+        private float myMaxSpeed, myAcceleration, myBrakeAcceleration, myAnimationFrame = ANIMATIONSPEED * 0.5f, myMaxJumpTime, myStartJumpSpeed, myEndJumpSpeed, myCurrentJumpTime, myJumpBlockTimer, myJumpBlockTime, myNonLinear;
         private int myActiveWeapon, myScore;
         private bool myOnGround, myJumping, myGoingToJump;
 
@@ -59,6 +59,7 @@ namespace VectoidOdyssey
             myStartJumpSpeed = aSetup.jumpStartAcceleration;
             myEndJumpSpeed = aSetup.jumpEndAcceleration;
             myMaxJumpTime = aSetup.maxJumpTime;
+            myNonLinear = aSetup.nonLinear;
 
             CreateHUD();
 
@@ -140,7 +141,9 @@ namespace VectoidOdyssey
 
             bool tempBrake = (AccessVelocity.X < 0 && AccessVelocity.X < tempTargetXVelocity) || (AccessVelocity.X > 0 && AccessVelocity.X > tempTargetXVelocity);
 
-            float tempControlMultiplier = 1;
+            float 
+                tempControlMultiplier = 1,
+                tempNonLinearAcceleration = 1 + myNonLinear * AccessVelocity.X.Abs() / myMaxSpeed;
 
             if (myJumpBlockTimer > 0)
             {
@@ -149,7 +152,7 @@ namespace VectoidOdyssey
             }
 
             float
-                tempMaxMovementDistance = aDeltaTime * (tempBrake ? myBrakeAcceleration : myAcceleration) * tempControlMultiplier,
+                tempMaxMovementDistance = aDeltaTime * (tempBrake ? myBrakeAcceleration : myAcceleration) * tempControlMultiplier * tempNonLinearAcceleration,
                 tempVelocityChange = (tempTargetXVelocity - AccessVelocity.X).Clamp(-tempMaxMovementDistance, tempMaxMovementDistance, out bool tempClamped);
                 
 

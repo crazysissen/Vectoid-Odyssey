@@ -21,7 +21,7 @@ namespace VectoidOdyssey
         public static float SineD(float aValue)
             => (float)Math.Sin((aValue - 1) * Math.PI * 0.5) + 1;
 
-        public static float SineUpDown(float aValue)
+        public static float Sine01(float aValue)
             => (float)Math.Sin(Math.PI * 2 * aValue);
 
         public static float Abs(this float thisValue)
