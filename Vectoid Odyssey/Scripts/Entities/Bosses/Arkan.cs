@@ -91,7 +91,7 @@ namespace VectoidOdyssey
                     break;
 
                 default:
-                    goto case Pattern.Hover; // This is the only acceptable way to use the goto statement
+                    goto case Pattern.Hover;
             }
 
             SetRendererPositions(aDeltaTime);
