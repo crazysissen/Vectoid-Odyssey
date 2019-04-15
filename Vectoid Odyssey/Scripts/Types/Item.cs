@@ -8,6 +8,16 @@ namespace VectoidOdyssey
 {
     class Item
     {
-        public string AccessName { get; set; }
+        public string GetName => myName;
+        public int GetIndex => myIndex;
+
+        readonly string myName;
+        readonly int myIndex;
+
+        public Item(string aName, int anIndex)
+        {
+            myName = aName;
+            myIndex = anIndex;
+        }
     }
 }

@@ -111,6 +111,96 @@
 /processorParam:Quality=Best
 /build:Sound/SFX/Bosses/Arkan/ArkanShoot.mp3
 
+#begin Sound/SFX/Generic/Explosion1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Low
+/build:Sound/SFX/Generic/Explosion1.wav
+
+#begin Sound/SFX/Generic/Explosion2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Low
+/build:Sound/SFX/Generic/Explosion2.wav
+
+#begin Sound/SFX/Generic/Explosion3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Low
+/build:Sound/SFX/Generic/Explosion3.wav
+
+#begin Sound/SFX/Generic/Explosion4.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Low
+/build:Sound/SFX/Generic/Explosion4.wav
+
+#begin Sound/SFX/Generic/Explosion5.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Low
+/build:Sound/SFX/Generic/Explosion5.wav
+
+#begin Sound/SFX/Generic/Flamethrower.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Low
+/build:Sound/SFX/Generic/Flamethrower.wav
+
+#begin Sound/SFX/Generic/HitHeavy.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Low
+/build:Sound/SFX/Generic/HitHeavy.wav
+
+#begin Sound/SFX/Generic/HitLight.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Low
+/build:Sound/SFX/Generic/HitLight.wav
+
+#begin Sound/SFX/Generic/HitMedium.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Low
+/build:Sound/SFX/Generic/HitMedium.wav
+
+#begin Sound/SFX/Generic/LowSweep.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Low
+/build:Sound/SFX/Generic/LowSweep.wav
+
+#begin Sound/SFX/Generic/Pickup1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Low
+/build:Sound/SFX/Generic/Pickup1.wav
+
+#begin Sound/SFX/Generic/Pickup2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Low
+/build:Sound/SFX/Generic/Pickup2.wav
+
+#begin Sound/SFX/Generic/Shoot1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Low
+/build:Sound/SFX/Generic/Shoot1.wav
+
+#begin Sound/SFX/Generic/Shoot2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Low
+/build:Sound/SFX/Generic/Shoot2.wav
+
+#begin Sound/SFX/Generic/Whap.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Low
+/build:Sound/SFX/Generic/Whap.wav
+
 #begin Visuals/Bosses/Arkan/ArkanBody.png
 /importer:TextureImporter
 /processor:TextureProcessor

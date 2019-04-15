@@ -38,8 +38,6 @@ namespace VectoidOdyssey
         {
             mainGame = this;
 
-            //System.Console.Beep(1000, 1500);
-
             Point tempRes = GetGameResolution;
 
             myGraphics = new GraphicsDeviceManager(this)
