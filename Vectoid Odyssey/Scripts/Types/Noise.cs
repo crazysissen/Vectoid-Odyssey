@@ -25,16 +25,17 @@ namespace VectoidOdyssey
             tempRandom.NextBytes(myPermutations);
         }
 
-        private float Generate(float x)
+        public float Generate(float x)
         {
             int tempIndex = x.Floor();
             float tempX = x - tempIndex;
 
-            float 
+            float
                 tempFirstValue = (float)Math.Pow(1.0f - tempX * tempX, 4) * Gradient(myPermutations[tempIndex & 0xff], tempX),
-                tempSecondValue = (float)Math.Pow(1.0f - x * x + 2 * x - 1, 4) * Gradient(myPermutations[(tempIndex - 1) & 0xff], tempX - 1);
+                tempIntermittent = 1 - (tempX * tempX - 2 * tempX + 1),
+                tempSecondValue = (float)Math.Pow(tempIntermittent, 4) * Gradient(myPermutations[(tempIndex + 1) & 0xff], tempX - 1);
 
-            // Factor 0.395 scales the range to precisely -1 -> 1
+            //Factor 0.395 scales the range to precisely - 1-> 1
             return 0.395f * (tempFirstValue + tempSecondValue);
         }
 

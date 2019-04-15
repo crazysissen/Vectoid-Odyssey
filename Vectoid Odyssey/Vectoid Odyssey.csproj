@@ -94,6 +94,7 @@
     <Compile Include="Scripts\Map\Map.cs" />
     <Compile Include="Scripts\Map\MapFetcher.cs" />
     <Compile Include="Scripts\Objects\LevelItem.cs" />
+    <Compile Include="Scripts\Objects\LevelPickup.cs" />
     <Compile Include="Scripts\Objects\LevelObject.cs" />
     <Compile Include="Scripts\Objects\WorldObject.cs" />
     <Compile Include="Scripts\Rendering\Camera.cs" />
