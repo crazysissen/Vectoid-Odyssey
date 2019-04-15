@@ -59,6 +59,7 @@ namespace VectoidOdyssey
             base.Initialize();
 
             Font.Init();
+            Preferences.Init();
             Sound.Init();
 
             myRendererController = new RendererController();

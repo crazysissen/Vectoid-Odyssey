@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace VectoidOdyssey
 {
     // For now, includes 1D simplex perlin noise
+    [Serializable]
     class Noise
     {
         // Permutation table of length 512

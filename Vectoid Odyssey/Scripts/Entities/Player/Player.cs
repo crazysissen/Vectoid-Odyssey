@@ -143,7 +143,7 @@ namespace VectoidOdyssey
 
             float 
                 tempControlMultiplier = 1,
-                tempNonLinearAcceleration = 1 + myNonLinear * AccessVelocity.X.Abs() / myMaxSpeed;
+                tempNonLinearAcceleration = tempBrake ? 1 + myNonLinear : 1 + myNonLinear * (1 - AccessVelocity.X.Abs() / myMaxSpeed);
 
             if (myJumpBlockTimer > 0)
             {

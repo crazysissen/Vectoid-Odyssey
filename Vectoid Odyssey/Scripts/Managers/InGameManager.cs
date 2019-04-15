@@ -47,13 +47,13 @@ namespace VectoidOdyssey
             {
                 sheet = Load.Get<Texture2D>("Player"),
                 maxSpeed = 2.0f,
-                acceleration = 4.8f,
-                brakeAcceleration = 10.0f,
+                acceleration = 1.3f,
+                brakeAcceleration = 2.0f,
                 maxJumpTime = 0.35f,
-                jumpStartAcceleration = 2.4f,
+                jumpStartAcceleration = 3.6f,
                 jumpEndAcceleration = 2.4f,
                 health = 100,
-                nonLinear = 0.5f,
+                nonLinear = 4.5f,
                 weapons = new PlayerWeapon[6]
                 {
                     new PlayerWeapon.Teal(), null, null, null, null, null
