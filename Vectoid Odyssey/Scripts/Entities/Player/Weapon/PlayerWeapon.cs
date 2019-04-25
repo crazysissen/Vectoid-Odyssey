@@ -27,12 +27,13 @@ namespace VectoidOdyssey
         public int WeaponLevel { get; protected set; }
 
         protected WeaponStats myWeaponStats;
-        protected float myRotation;
+        protected float myRotation, myCurrentAnimTime;
 
         public PlayerWeapon()
         {
             AccessRenderer = new Renderer.Sprite(new Layer(MainLayer.Main, 1), Load.Get<Texture2D>(GetWeaponType.ToString()), Vector2.Zero, Vector2.One, Color.White, 0, new Vector2(16, 16));
             AccessRenderer.AccessSourceRectangle = new Rectangle(0, 0, 32, 32);
+            AccessRenderer.AccessActive = false;
         }
 
         public abstract void Fire();
@@ -48,6 +49,23 @@ namespace VectoidOdyssey
         protected virtual void SetStats(int aLevel)
         {
 
+        }
+
+        protected void SimpleAnimation(float aDuration)
+        {
+            myCurrentAnimTime = aDuration;
+        }
+
+        protected void UpdateSimpleAnimation(float aDeltaTime)
+        {
+            if (myCurrentAnimTime > 0)
+            {
+                myCurrentAnimTime -= aDeltaTime;
+                AccessRenderer.AccessSourceRectangle = new Rectangle(32, 0, 32, 32);
+                return;
+            }
+
+            AccessRenderer.AccessSourceRectangle = new Rectangle(0, 0, 32, 32);
         }
 
         public void SetLevel(int aLevel)
@@ -72,7 +90,7 @@ namespace VectoidOdyssey
                     break;
 
                 case PlayerWeaponType.Red:
-                    break;
+                    return new Red();
 
                 default:
                     return new Teal();

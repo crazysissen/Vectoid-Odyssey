@@ -65,6 +65,12 @@ namespace VectoidOdyssey
             for (int i = 0; i < allColliders.Count; ++i)
             {
                 HitDetector tempA = allColliders[i];
+               
+                //if (tempA.AccessOwner != null && tempA.AccessOwner is WorldObject worldObjectA)
+                //{
+                //    worldObjectA.UpdateHitDetector();
+                //}
+
                 bool
                     tempACollider = (tempA.AccessOwner != null) ? (((WorldObject)tempA.AccessOwner).AccessWorldCollide ? true : false) : false,
                     tempAWorld = tempA.AccessTags.Contains("World");
@@ -74,6 +80,12 @@ namespace VectoidOdyssey
                 for (int j = i + 1; j < allColliders.Count; ++j)
                 {
                     HitDetector tempB = allColliders[j];
+
+                    //if (tempB.AccessOwner != null && tempB.AccessOwner is WorldObject worldObjectB)
+                    //{
+                    //    worldObjectB.UpdateHitDetector();
+                    //}
+
                     bool
                         tempBCollider = (tempB.AccessOwner != null) ? (((WorldObject)tempB.AccessOwner).AccessWorldCollide ? true : false) : false,
                         tempBWorld = tempB.AccessTags.Contains("World");
@@ -149,6 +161,7 @@ namespace VectoidOdyssey
             }
 
             ((WorldObject)aCollider.AccessOwner).Correct(tempDirections[tempLowestIndex] * tempDistances[tempLowestIndex]);
+            ((WorldObject)aCollider.AccessOwner).UpdateHitDetector();
         }
 
         static bool Overlapping(HitDetector aHitDetector1, HitDetector aHitDetector2)

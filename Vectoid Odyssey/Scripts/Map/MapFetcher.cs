@@ -26,33 +26,15 @@ namespace VectoidOdyssey
             };
         }
 
-        public Map Get(MapType aType, object[] var)
+        public Map Get(MapType aType, object[] arg)
         {
             try
             {
-                return myFetchMethods[aType].Invoke(var);
+                return myFetchMethods[aType].Invoke(arg);
             }
             catch
             {
-                return GetNewSewer1(var);
-            }
-        }
-
-        public Map GetNew(MapType aType, object[] var)
-        {
-            Func<object[], Map>[] tempMapSwitch =
-            {
-                GetNewSewer1
-            };
-
-            try
-            {
-                return tempMapSwitch[(int)aType].Invoke(var);
-            }
-            catch
-            {
-                Console.WriteLine("Could not get new map from enum.");
-                return null;
+                return GetNewSewer1(null);
             }
         }
 
@@ -106,9 +88,10 @@ namespace VectoidOdyssey
             {
                 new RoomBounds(104, 28, 24, 34, 20, 128, 28, 24), // Centre
                 //new RoomBounds(88, 50, 4, 28, 24, 104, 34, 20), // Corridor Left
-                new RoomBounds(76, 50, 6, 50, 4, 88, 28, 24), // Left Room
-                new RoomBounds(-8, 0, 0, 80, 39, 76, 50, 4), // Outside Left
-                new RoomBounds(52, 3, 3, 10, 3, 76, 50, 4) // Top Left Room
+                new RoomBounds(76, 51, 6, 51, 4, 88, 28, 24), // Left Room
+                new RoomBounds(-8, 0, 0, 80, 0, 70, 51, 47), // Outside Left
+                new RoomBounds(52, 3, 3, 10, 3, 76, 50, 4), // Top Left Room
+                new RoomBounds(168, 28, 24, 28, 0, 204, 0, 0) // Outside right
             };
 
             Square.DoubleAll = true;
@@ -130,7 +113,6 @@ namespace VectoidOdyssey
                 new Square(86, 11, 2, 1),
                 // Top platform
                 new Square(80, 8, 3, 1),
-                //new Square(76, 9, 4, 1),
                 new Square(76, 10, 2, 2),
                 // Bottom
                 new Square(76, 30, 1, 9),
@@ -138,12 +120,13 @@ namespace VectoidOdyssey
                 new Square(77, 36, 1, 1),
                 new Square(77, 37, 2, 1),
                 new Square(77, 38, 4, 1),
-                new Square(84, 28, 4, 1),
+                new Square(84, 38, 4, 1),
                 new Square(85, 39, 3, 1),
                 new Square(80, 42, 8, 1),
                 new Square(82, 43, 6, 1),
                 new Square(76, 46, 3, 2),
                 new Square(84, 49, 4, 1),
+                new Square(65, 50, 19, 1),
 
                 // Outside
                 new Square(65, 50, 14, 1),

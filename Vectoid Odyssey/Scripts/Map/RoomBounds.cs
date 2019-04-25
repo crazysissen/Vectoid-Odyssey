@@ -37,10 +37,7 @@ namespace VectoidOdyssey
 
         public Vector2 Correction(Vector2 aTopLeft, Vector2 aBottomRight)
         {
-            bool
-                tempOnLeft = aBottomRight.Y < myLeftFloor, tempOn = aBottomRight.Y < myFloor, tempOnRight = aBottomRight.Y < myRightFloor,
-                tempUnderLeft = aTopLeft.Y > myLeftCeiling, tempUnder = aTopLeft.Y > myCeiling, tempUnderRight = aTopLeft.Y > myRightCeiling,
-                tempInLeft = aTopLeft.X > myLeftWall, tempInRight = aBottomRight.X < myRightWall;
+            bool tempOn = aBottomRight.Y < myFloor, tempUnder = aTopLeft.Y > myCeiling;
 
             Vector2 tempAdditive = new Vector2();
 
@@ -58,34 +55,38 @@ namespace VectoidOdyssey
                 }
             }
 
-            if (tempInLeft && tempInRight)
+            bool tempCompletelyInLeft = aTopLeft.X >= myLeftWall, tempCompletelyInRight = aBottomRight.X <= myRightWall;
+
+            if (tempCompletelyInLeft && tempCompletelyInRight)
             {
                 return tempAdditive;
             }
 
-            if (!tempInLeft)
+            if (!tempCompletelyInLeft)
             {
-                if (!tempUnderLeft)
+                if (aTopLeft.Y + tempAdditive.Y < myLeftCeiling)
                 {
                     tempAdditive += (myLeftWall - aTopLeft.X > myLeftCeiling - aTopLeft.Y) ? new Vector2(0, myLeftCeiling - aTopLeft.Y) : new Vector2(myLeftWall - aTopLeft.X, 0);
                 }
 
-                if (!tempOnLeft)
+                if (aBottomRight.Y + tempAdditive.Y > myLeftFloor)
                 {
-                    tempAdditive += (myLeftWall - aTopLeft.X > aBottomRight.Y - myLeftFloor) ? new Vector2(0, myLeftFloor - aBottomRight.Y) : new Vector2(myLeftWall - aTopLeft.X, 0);
+                    tempAdditive += (myLeftWall - aTopLeft.X > aBottomRight.Y - myLeftFloor) ? 
+                        new Vector2(0, myLeftFloor - aBottomRight.Y) : 
+                        new Vector2(myLeftWall - aTopLeft.X, 0);
                 }
 
                 return tempAdditive;
             }
 
-            if (!tempInRight)
+            if (!tempCompletelyInRight)
             {
-                if (!tempUnderRight)
+                if (aTopLeft.Y + tempAdditive.Y < myRightCeiling)
                 {
                     tempAdditive += (aBottomRight.X - myRightWall > myRightCeiling - aTopLeft.Y) ? new Vector2(0, myRightCeiling - aTopLeft.Y) : new Vector2(myRightWall - aBottomRight.X, 0);
                 }
 
-                if (!tempOnRight)
+                if (aBottomRight.Y + tempAdditive.Y > myRightFloor)
                 {
                     tempAdditive += (aBottomRight.X - myRightWall > aBottomRight.Y - myRightFloor) ? new Vector2(0, myRightFloor - aBottomRight.Y) : new Vector2(myRightWall - aBottomRight.X, 0);
                 }

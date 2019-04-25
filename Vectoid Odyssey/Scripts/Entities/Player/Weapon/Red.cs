@@ -10,29 +10,29 @@ namespace VectoidOdyssey
 {
     abstract partial class PlayerWeapon
     {
-        public class Teal : PlayerWeapon
+        public class Red : PlayerWeapon
         {
             const float
-                DISTANCE = 1.0f,
-                ANIMATIONTIME = 0.08f;
-
+                DISTANCE = 2.5f,
+                ANIMATIONTIME = 0.05f;
+                
             private Player myPlayer;
             private float myCurrentCooldown;
 
             private int myDamage;
             private float myBulletVelocity, myFireDelay;
 
-            public override PlayerWeaponType GetWeaponType => PlayerWeaponType.Teal;
+            public override PlayerWeaponType GetWeaponType => PlayerWeaponType.Red;
 
-            public Teal()
+            public Red()
             {
                 Dictionary<string, object[]> tempDictionary = new Dictionary<string, object[]>()
                 {
-                    { "Damage: hp", new object[] { 1, 1, 2, 2, 3, 4 } },
+                    { "Damage: hp", new object[] { 1, 1, 1, 1, 1, 1 } },
 
                     { "Velocity:", new object[] { 4.0f, 4.5f, 4.5f, 4.5f, 5.5f, 7.0f } },
 
-                    { "Delay: s", new object[] { 0.1f, 0.6f, 0.55f, 0.5f, 0.5f, 0.4f } },
+                    { "Delay: s", new object[] { 0.1f, 0.085f, 0.775f, 0.07f, 0.065f, 0.06f } },
                 };
 
                 myWeaponStats = new WeaponStats(new Currency(12, 4, 0), tempDictionary);

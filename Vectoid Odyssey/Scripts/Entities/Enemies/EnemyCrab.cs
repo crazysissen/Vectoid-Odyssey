@@ -162,7 +162,7 @@ namespace VectoidOdyssey
             }
         }
 
-        protected override void UpdateHitDetector()
+        public override void UpdateHitDetector()
         {
             AccessBoundingBox.Set(AccessPosition - Vector2.One, AccessPosition + Vector2.One);
         }

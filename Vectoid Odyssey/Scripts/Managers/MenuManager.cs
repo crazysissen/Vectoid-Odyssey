@@ -19,11 +19,11 @@ namespace VectoidOdyssey
         public GUI.Collection myMainMenu, myOptionsMenu, myPlayMenu;
         #region Elements
         Renderer.Text tTitle;
-        GUI.Button bStart, bOptions, bQuit, bSewer, bArkan;
+        GUI.Button bStart, bStart2, bOptions, bQuit, bSewer, bArkan;
         #endregion
 
         //In Game
-        public GUI.Collection myPauseMenu, myHUD, myUpgradeMenu;
+        public GUI.Collection /*myPauseMenu,*/ myHUD/*, myUpgradeMenu*/;
         #region Elements
         #endregion
 
@@ -53,8 +53,12 @@ namespace VectoidOdyssey
             Color tempButtonColor = new Color(81, 162, 0);
 
             bStart = new GUI.Button(Layer.GUI, new Rectangle(0, 240, 200, 80), tempButtonColor) { AccessScaleEffect = true };
-            bStart.AddText("Start", 4, true, Color.White, Font.Bold);
+            bStart.AddText("Start 1", 4, true, Color.White, Font.Bold);
             bStart.OnClick += MainMenuStart;
+
+            bStart2 = new GUI.Button(Layer.GUI, new Rectangle(240, 240, 200, 80), tempButtonColor) { AccessScaleEffect = true };
+            bStart2.AddText("Start 2", 4, true, Color.White, Font.Bold);
+            bStart2.OnClick += MainMenuStart2;
 
             bOptions = new GUI.Button(Layer.GUI, new Rectangle(0, 340, 200, 80), tempButtonColor) { AccessScaleEffect = true };
             bOptions.AddText("Options", 4, true, Color.White, Font.Bold);
@@ -64,14 +68,21 @@ namespace VectoidOdyssey
             bQuit.AddText("Quit", 4, true, Color.White, Font.Bold);
             bQuit.OnClick += MainMenuQuit;
 
-            myMainMenu.Add(tTitle, bStart, bOptions, bQuit);
+            myMainMenu.Add(tTitle, bStart, bStart2, bOptions, bQuit);
         }
 
         private void MainMenuStart()
         {
             myMainMenu.AccessActive = false;
 
-            myUpdateManager.StartGame();
+            myUpdateManager.StartGame(MapFetcher.MapType.Sewer1, null);
+        }
+
+        private void MainMenuStart2()
+        {
+            myMainMenu.AccessActive = false;
+
+            myUpdateManager.StartGame(MapFetcher.MapType.Sewer2, null);
         }
 
         private void MainMenuOptions()
