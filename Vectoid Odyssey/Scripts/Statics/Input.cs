@@ -33,6 +33,7 @@ namespace VectoidOdyssey
         public static bool GetRightMouse => myMState.RightButton == ButtonState.Pressed;
         public static bool GetLeftMouseDown => myMState.LeftButton == ButtonState.Pressed && myLastMState.LeftButton == ButtonState.Released;
         public static bool GetRightMouseDown => myMState.RightButton == ButtonState.Pressed && myLastMState.RightButton == ButtonState.Released;
+        public static int GetScrollWheelChange => myScrollWheelState == myLastScrollWheelState ? 0 : (myScrollWheelState > myLastScrollWheelState ? 1 : -1);
 
         private static KeyboardState myKState, myLastKState;
         private static MouseState myMState, myLastMState;
@@ -40,6 +41,7 @@ namespace VectoidOdyssey
 
         private static bool[] myActiveControls, myLastActiveControls;
         private static ControlScheme myScheme;
+        private static int myScrollWheelState, myLastScrollWheelState;
 
         public static void Init()
         {
@@ -47,7 +49,14 @@ namespace VectoidOdyssey
             myMState = new MouseState();
             myGState = new GamePadState();
 
+            myLastKState = myKState;
+            myLastMState = myMState;
+            myLastGState = myGState;
+
             myActiveControls = new bool[8];
+            myLastActiveControls = new bool[8];
+
+            myScrollWheelState = myMState.ScrollWheelValue;
         }
 
         /// <summary>
@@ -59,9 +68,13 @@ namespace VectoidOdyssey
             myLastMState = myMState;
             myLastGState = myGState;
 
+            myLastScrollWheelState = myScrollWheelState;
+
             myKState = Keyboard.GetState();
             myMState = Mouse.GetState();
             myGState = GamePad.GetState(1);
+
+            myScrollWheelState = myMState.ScrollWheelValue;
 
             myLastActiveControls = myActiveControls;
             UpdateControls();

@@ -37,6 +37,7 @@ namespace VectoidOdyssey
 
             AccessHealth = aSetup.health;
             AccessGravity = true;
+            AccessGravityModifier = 1.7f;
             AccessDynamic = true;
             AccessPosition = aPosition;
             AccessKeepInBounds = true;
@@ -51,6 +52,8 @@ namespace VectoidOdyssey
             OnBoundCorrection += UpdateCorrection;
 
             myMenuManager = aMenuManager;
+
+            myActiveWeapon = 1;
 
             myWeapons = aSetup.weapons;
             myMaxSpeed = aSetup.maxSpeed;
@@ -78,7 +81,7 @@ namespace VectoidOdyssey
             UpdateRenderer();
         }
 
-        protected override void UpdateHitDetector()
+        public override void UpdateHitDetector()
         {
             myHitDetector.Set(AccessPosition - new Vector2(2, 2), AccessPosition + new Vector2(2, 2));
         }
@@ -116,6 +119,19 @@ namespace VectoidOdyssey
         {
             if (!GetDead)
             {
+                int tempScrollWheel = Input.GetScrollWheelChange;
+
+                if (tempScrollWheel != 0)
+                {
+                    myActiveWeapon += (tempScrollWheel > 0) ? 1 : -1;
+                    myActiveWeapon = (myActiveWeapon + myWeapons.Length) % myWeapons.Length;
+                }
+
+                for (int i = 0; i < myWeapons.Length; i++)
+                {
+                    myWeapons[i].AccessRenderer.AccessActive = i == myActiveWeapon;
+                }
+
                 GetActiveWeapon.Update(aDeltaTime);
                 GetActiveWeapon.SetRotation((RendererController.AccessCamera.ScreenToWorldPosition(Input.GetMousePosition.ToVector2()) - GetWeaponOrigin.PixelPosition()).ToRadian());
 
@@ -143,7 +159,7 @@ namespace VectoidOdyssey
 
             float 
                 tempControlMultiplier = 1,
-                tempNonLinearAcceleration = 1 + myNonLinear * AccessVelocity.X.Abs() / myMaxSpeed;
+                tempNonLinearAcceleration = tempBrake ? 1 + myNonLinear : 1 + myNonLinear * (1 - AccessVelocity.X.Abs() / myMaxSpeed);
 
             if (myJumpBlockTimer > 0)
             {

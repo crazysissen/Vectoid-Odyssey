@@ -26,7 +26,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>553</ApplicationRevision>
-    <ApplicationVersion>0.1.187.%2a</ApplicationVersion>
+    <ApplicationVersion>0.2.187.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -84,10 +84,12 @@
     <Compile Include="Scripts\Entities\Player\PlayerSetup.cs" />
     <Compile Include="Scripts\Entities\Player\Weapon\Bullet.cs" />
     <Compile Include="Scripts\Entities\Player\Weapon\PlayerWeapon.cs" />
+    <Compile Include="Scripts\Entities\Player\Weapon\Red.cs" />
     <Compile Include="Scripts\Entities\Player\Weapon\WeaponStats.cs" />
     <Compile Include="Scripts\Entities\Player\Weapon\Teal.cs" />
     <Compile Include="Scripts\Managers\InGameManager.cs" />
     <Compile Include="Scripts\Managers\MenuManager.cs" />
+    <Compile Include="Scripts\Managers\PauseManager.cs" />
     <Compile Include="Scripts\Map\CompleteMap.cs" />
     <Compile Include="Scripts\Map\Map Types\MapSewer.cs" />
     <Compile Include="Scripts\Map\Map Types\MapArkan.cs" />
@@ -103,6 +105,7 @@
     <Compile Include="Scripts\Rendering\GUI\GUIMembers.cs" />
     <Compile Include="Scripts\Rendering\RendererFocus.cs" />
     <Compile Include="Scripts\Statics\Easing.cs" />
+    <Compile Include="Scripts\Statics\FileManager.cs" />
     <Compile Include="Scripts\Statics\Font.cs" />
     <Compile Include="Scripts\Statics\ImageProcessing.cs" />
     <Compile Include="Scripts\Statics\Input.cs" />
@@ -113,6 +116,7 @@
     <Compile Include="Scripts\Statics\ByteStreamer.cs" />
     <Compile Include="Scripts\Statics\Load.cs" />
     <Compile Include="Scripts\Statics\MathV.cs" />
+    <Compile Include="Scripts\Statics\Preferences.cs" />
     <Compile Include="Scripts\Types\Item.cs" />
     <Compile Include="Scripts\Types\Noise.cs" />
     <Compile Include="Scripts\Statics\Sound.cs" />
@@ -128,6 +132,9 @@
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -183,6 +190,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.manifest" />
+    <None Include="packages.config" />
     <None Include="Vectoid Odyssey_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

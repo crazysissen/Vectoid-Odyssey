@@ -21,13 +21,15 @@ namespace VectoidOdyssey
 
         private UpdateManager myUpdateManager;
         private MenuManager myMenuManager;
+        private PauseManager myPauseManager;
 
         private List<WorldObject> myObjects, myRemoveQueue, myAddQueue;
 
         private Map myMap;
         private Player myPlayer;
-        private int lastIndex = -1;
-        private bool myInUpdate;
+        private int myLastIndex = -1;
+        private float myTimeMultiplier;
+        private bool myInUpdate, myPaused;
 
         public InGameManager(UpdateManager anUpdateManager, MenuManager aMenuManager)
         {
@@ -47,16 +49,16 @@ namespace VectoidOdyssey
             {
                 sheet = Load.Get<Texture2D>("Player"),
                 maxSpeed = 2.0f,
-                acceleration = 4.8f,
-                brakeAcceleration = 10.0f,
+                acceleration = 1.3f,
+                brakeAcceleration = 2.0f,
                 maxJumpTime = 0.35f,
-                jumpStartAcceleration = 2.4f,
-                jumpEndAcceleration = 2.4f,
+                jumpStartAcceleration = 3.0f,
+                jumpEndAcceleration = 2.5f,
                 health = 100,
-                nonLinear = 0.5f,
-                weapons = new PlayerWeapon[6]
+                nonLinear = 4.5f,
+                weapons = new PlayerWeapon[]
                 {
-                    new PlayerWeapon.Teal(), null, null, null, null, null
+                    new PlayerWeapon.Teal(), new PlayerWeapon.Red()
                 }
             };
 
@@ -64,6 +66,8 @@ namespace VectoidOdyssey
             myMap.ActivateEnemies();
 
             myPlayer = myMap.SpawnPlayer(tempSetup, myMenuManager);
+
+            myPauseManager = new PauseManager();
         }
 
         public void Update(float aDeltaTime)
@@ -74,13 +78,17 @@ namespace VectoidOdyssey
 
                 myInUpdate = true;
 
+                foreach (WorldObject current in myObjects)
+                {
+                    current.UpdateDynamic(aDeltaTime);
+                }
+
+                HitDetector.UpdateAll();
 
                 foreach (WorldObject current in myObjects)
                 {
                     current.SimpleCollision(aDeltaTime);
                 }
-
-                HitDetector.UpdateAll();
 
                 foreach (WorldObject current in myObjects)
                 {
@@ -149,7 +157,7 @@ namespace VectoidOdyssey
             => (anObjectIndex == null) ? myMap.GetRoom(aPosition) : myMap.GetRoom(aPosition, anObjectIndex.Value);
 
         public int GetNewIndex()
-            => ++lastIndex;
+            => ++myLastIndex;
 
         private void SetCamera()
         {

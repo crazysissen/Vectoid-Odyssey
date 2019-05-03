@@ -19,6 +19,7 @@ namespace VectoidOdyssey
         public readonly int index;
 
         public float AccessDamping { get; set; } = 0.0f;
+        public float AccessGravityModifier { get; set; } = 1.0f;
         public bool AccessActive { get; set; } = true;
         public bool AccessDynamic { get; set; } = false;
         public bool AccessGravity { get; set; } = false;
@@ -41,20 +42,23 @@ namespace VectoidOdyssey
             index = AccessManager.GetNewIndex();
         }
 
-        public void SimpleCollision(float aDeltaTime)
+        public void UpdateDynamic(float aDeltaTime)
         {
             if (AccessDynamic)
             {
                 if (AccessGravity)
                 {
-                    AccessVelocity += new Vector2(0, GRAVITY) * aDeltaTime;
+                    AccessVelocity += new Vector2(0, GRAVITY * AccessGravityModifier) * aDeltaTime;
                 }
 
                 AccessPosition += AccessVelocity * aDeltaTime * Camera.WORLDUNITPIXELS;
             }
 
             UpdateHitDetector();
+        }
 
+        public void SimpleCollision(float aDeltaTime)
+        {
             if (AccessKeepInBounds && AccessBoundingBox != null)
             {
                 Vector2 tempCorrection = AccessManager.GetCurrentBounds(AccessPosition, index).Correction(AccessBoundingBox.AccessTopLeft, AccessBoundingBox.AccessBottomRight);
@@ -108,7 +112,7 @@ namespace VectoidOdyssey
             AccessManager.Remove(this);
         }
 
-        protected virtual void UpdateHitDetector()
+        public virtual void UpdateHitDetector()
         {
 
         }

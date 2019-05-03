@@ -61,7 +61,7 @@ namespace VectoidOdyssey
             allBullets.Remove(this);
         }
 
-        protected override void UpdateHitDetector()
+        public override void UpdateHitDetector()
         {
             Vector2 tempCornerOffset = myRenderer.AccessSize * myRenderer.AccessTexture.Bounds.Size.ToVector2() / Camera.WORLDUNITPIXELS;
             myHitDetector.Set(AccessPosition - tempCornerOffset, AccessPosition + tempCornerOffset);
