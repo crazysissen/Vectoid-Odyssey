@@ -262,5 +262,10 @@ namespace VectoidOdyssey
             myJumpBlockTimer = aTime;
             myJumpBlockTime = aTime;
         }
+
+        public void PickupItem(Item item)
+        {
+
+        }
     }
 }

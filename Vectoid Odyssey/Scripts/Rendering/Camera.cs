@@ -9,8 +9,9 @@ namespace VectoidOdyssey
 {
     class Camera
     {
-        const float
-            UNIVERSALMODIFIER = 1.0f;
+        public const float
+            UNIVERSALMODIFIER = 1.0f,
+            WORLDUNITMULTIPLIER = 1 / WORLDUNITPIXELS;
 
         // A square based on the average distances to the screen edges, divided into pieces. This makes the scale optimally similar across screen dimensions and formats.
         public const int

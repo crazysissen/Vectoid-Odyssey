@@ -14,15 +14,19 @@ namespace VectoidOdyssey
 
         public LevelItem(Item anItem, Vector2 aPosition, Texture2D aSpriteSheet, float anInterval, Point aFrameSize, Color? aColor = null) : base(aPosition, aSpriteSheet, anInterval, aFrameSize, aColor)
         {
+            myUseBounce = true;
+            myAnimation = PickupAnimation.Bounce;
             AccessItem = anItem;
         }
 
-        protected override void Touch()
+        protected override void Touch(Player aPlayer)
         {
+
         }
 
-        protected override void Activate()
+        protected override void Activate(Player aPlayer)
         {
+            aPlayer.PickupItem(AccessItem);
         }
     }
 }

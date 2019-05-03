@@ -14,15 +14,15 @@ namespace VectoidOdyssey
 
         private Texture2D myTexture;
         private Vector2 mySpawnPosition;
-        private Enemy[] myEnemies;
+        private WorldObject[] myWorldObjects;
 
         private Renderer.Sprite myRenderer;
 
-        public CompleteMap(Texture2D aTexture, RoomBounds[] someRoomBounds, Square[] someColliders, Enemy[] someEnemies, Vector2 aSpawnPosition)
+        public CompleteMap(Texture2D aTexture, RoomBounds[] someRoomBounds, Square[] someColliders, WorldObject[] someObjects, Vector2 aSpawnPosition)
         {
             myTexture = aTexture;
             mySpawnPosition = aSpawnPosition;
-            myEnemies = someEnemies;
+            myWorldObjects = someObjects;
             myBounds.AddRange(someRoomBounds);
 
             HitDetector[] tempDetectors = new HitDetector[someColliders.Length];
@@ -31,9 +31,9 @@ namespace VectoidOdyssey
                 tempDetectors[i] = new HitDetector(someColliders[i].GetPosition, someColliders[i].GetBRPosition, "World", "BulletTarget");
             }
 
-            foreach (Enemy enemy in myEnemies)
+            foreach (WorldObject obj in myWorldObjects)
             {
-                enemy.AccessActive = false;
+                obj.AccessActive = false;
             }
 
             myRenderer = new Renderer.Sprite(new Layer(MainLayer.Background, -1), myTexture, Vector2.Zero, Vector2.One, Color.White, 0, Vector2.Zero /*new Vector2(aTexture.Width, aTexture.Height) * 0.5f*/);
@@ -44,9 +44,9 @@ namespace VectoidOdyssey
 
         public override void ActivateEnemies()
         {
-            foreach (Enemy enemy in myEnemies)
+            foreach (WorldObject obj in myWorldObjects)
             {
-                enemy.AccessActive = true;
+                obj.AccessActive = true;
             }
         }
     }
