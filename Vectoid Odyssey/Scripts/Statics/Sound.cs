@@ -32,6 +32,14 @@ namespace VectoidOdyssey
             }
         }
 
+        public static void DeInit()
+        {
+            effects = null;
+
+            StopSong();
+            StopAllEffects();
+        }
+
         public static void Update()
         {
             for (int i = playingEffects.Count; i >= 0; --i)
@@ -101,6 +109,17 @@ namespace VectoidOdyssey
             {
                 effect.Resume();
             }
+        }
+
+        public static void StopAllEffects()
+        {
+            foreach (SoundEffectInstance effect in playingEffects)
+            {
+                effect.Stop();
+                effect.Dispose();
+            }
+
+            playingEffects.Clear();
         }
     }
 }

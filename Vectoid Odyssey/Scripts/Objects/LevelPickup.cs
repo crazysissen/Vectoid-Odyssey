@@ -18,10 +18,12 @@ namespace VectoidOdyssey
             FLOATDISTANCE = 0.3f,
             BOUNCEFORCE = 30.0f,
             FOLLOWFORCE = 60.0f,
+            DIRECTFOLLOW = 20.0f,
             ROTATIONFORCE = 0.5f,
             SLOWDOWN = 0.7f,
-            MINTIME = 0.1f,
-            DIVERGENT = 1.0f;
+            MINTIME = 0.1f;
+
+        private static Random myR;
 
         protected bool myUseBounce;
         protected float myBounceMultiplier;
@@ -48,6 +50,11 @@ namespace VectoidOdyssey
         /// </summary>
         public LevelPickup(Vector2 aPosition, Texture2D aSpriteSheet, float anInterval, Point aFrameSize, Color? aColor = null, string anEffect = null)
         {
+            if (myR == null)
+            {
+                myR = new Random();
+            }
+
             AccessPosition = aPosition;
             myEffect = anEffect;
 
@@ -76,11 +83,11 @@ namespace VectoidOdyssey
                 UpdateFloat(aDeltaTime);
             }
 
-            myRenderer.AccessPosition = AccessPosition;
+            myRenderer.AccessPosition = AccessPosition + myFloatOffset;
             myRenderer.AccessRotation = myRotation;
         }
 
-        protected override void UpdateHitDetector()
+        public override void UpdateHitDetector()
         {
             myHitDetector.Set(AccessPosition - myHalfWSize, AccessPosition + myHalfWSize);
         }
@@ -93,6 +100,7 @@ namespace VectoidOdyssey
 
         private void UpdateFloat(float aDeltaTime)
         {
+            myTimer += aDeltaTime;
             myTimer = (myTimer + aDeltaTime * myBounceMultiplier) % FLOATTIME;
 
             myFloatOffset = new Vector2(0, FLOATDISTANCE * MathV.Sine01(myTimer));
@@ -107,7 +115,8 @@ namespace VectoidOdyssey
 
             myAngularVelocity *= (1 - aDeltaTime * SLOWDOWN);
 
-            AccessPosition += myCurrentVelocity * aDeltaTime + myFloatOffset;
+            AccessPosition += (myCurrentVelocity * aDeltaTime + myFloatOffset) +
+                tempPlayerVector * myTimer * aDeltaTime * DIRECTFOLLOW;
             myRotation += myAngularVelocity;
         }
 
@@ -163,11 +172,9 @@ namespace VectoidOdyssey
             myAnimating = true;
             myTimer = 0;
 
-            Random r = new Random();
+            myCurrentVelocity = (AccessPosition - aPlayer.AccessPosition + new Vector2(0, -0.2f - (float)myR.NextDouble() * 0.8f)).Normalized() * BOUNCEFORCE * (0.85f + 0.3f * (float)myR.NextDouble());
 
-            myCurrentVelocity = (AccessPosition - aPlayer.AccessPosition + new Vector2(0, -0.2f - (float)r.NextDouble() * 0.8f)).Normalized() * BOUNCEFORCE * (0.85f + 0.3f * (float)r.NextDouble());
-
-            myAngularVelocity = (ROTATIONFORCE - (float)r.NextDouble() * ROTATIONFORCE * 0.4f) * (r.Next(2) == 1 ? 1 : -1);
+            myAngularVelocity = (ROTATIONFORCE - (float)myR.NextDouble() * ROTATIONFORCE * 0.4f) * (myR.Next(2) == 1 ? 1 : -1);
         }
     }
 }

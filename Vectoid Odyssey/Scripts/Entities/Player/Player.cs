@@ -45,7 +45,7 @@ namespace VectoidOdyssey
 
             myBodyRenderer = new Renderer.Sprite(Layer.Default, aSetup.sheet, aPosition, Vector2.One, Color.White, 0, new Vector2(16, 16));
 
-            myHitDetector = new HitDetector(AccessPosition - new Vector2(2, 2), AccessPosition + new Vector2(2, 2), "Player", "BulletTarget");
+            myHitDetector = new HitDetector(AccessPosition - new Vector2(2, 1.5f), AccessPosition + new Vector2(2, 2), "Player", "BulletTarget");
             myHitDetector.AccessOwner = this;
 
             AccessBoundingBox = myHitDetector;
@@ -83,7 +83,7 @@ namespace VectoidOdyssey
 
         public override void UpdateHitDetector()
         {
-            myHitDetector.Set(AccessPosition - new Vector2(2, 2), AccessPosition + new Vector2(2, 2));
+            myHitDetector.Set(AccessPosition - new Vector2(2, 1.5f), AccessPosition + new Vector2(2, 2));
         }
 
         protected override void Death()
