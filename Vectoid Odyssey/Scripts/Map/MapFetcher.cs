@@ -153,31 +153,15 @@ namespace VectoidOdyssey
             };
             Square.DoubleAll = false;
 
+            Texture2D tempKeyTexture = Load.Get<Texture2D>("Key");
+
             WorldObject[] tempObjects =
             {
-                //new LevelItem(new Item("Key1", 1), new Vector2(203, 54), Load.Get<Texture2D>("Key"), 0.1f, new Point(8, 8)),
-                //new LevelItem(new Item("Key1", 1), new Vector2(201, 54), Load.Get<Texture2D>("Key"), 0.1f, new Point(8, 8)),
-                //new LevelItem(new Item("Key1", 1), new Vector2(199, 54), Load.Get<Texture2D>("Key"), 0.1f, new Point(8, 8)),
-                //new LevelItem(new Item("Key1", 1), new Vector2(197, 54), Load.Get<Texture2D>("Key"), 0.1f, new Point(8, 8)),
-                //new LevelItem(new Item("Key1", 1), new Vector2(195, 54), Load.Get<Texture2D>("Key"), 0.1f, new Point(8, 8)),
-                //new LevelItem(new Item("Key1", 1), new Vector2(203, 55), Load.Get<Texture2D>("Key"), 0.1f, new Point(8, 8)),
-                //new LevelItem(new Item("Key1", 1), new Vector2(201, 55), Load.Get<Texture2D>("Key"), 0.1f, new Point(8, 8)),
-                //new LevelItem(new Item("Key1", 1), new Vector2(199, 55), Load.Get<Texture2D>("Key"), 0.1f, new Point(8, 8)),
-                //new LevelItem(new Item("Key1", 1), new Vector2(197, 55), Load.Get<Texture2D>("Key"), 0.1f, new Point(8, 8)),
-                //new LevelItem(new Item("Key1", 1), new Vector2(195, 55), Load.Get<Texture2D>("Key"), 0.1f, new Point(8, 8)),
+                new LevelItem(new Item("Penthouse Key", 0, ItemType.Key), new Vector2(10, 44.5f), tempKeyTexture, 0.1f, new Point(8, 8)),
+                new LevelItem(new Item("E Hallway Key", 1, ItemType.Key), new Vector2(56, 8.5f), tempKeyTexture, 0.1f, new Point(8, 8))
             };
 
-            List<WorldObject> list = new List<WorldObject>();
-
-            for (int x = 177; x <= 203; x += 2)
-            {
-                for (int y = 53; y <= 55; y++)
-                {
-                    list.Add(new LevelItem(new Item("Key1", 1), new Vector2(x, y), Load.Get<Texture2D>("Key"), 0.1f, new Point(8, 8)));
-                }
-            }
-
-            return new CompleteMap(Load.Get<Texture2D>("Sewer2"), tempBounds, tempWorldColliders, /*tempObjects*/ list.ToArray(), new Vector2(232, 62));
+            return new CompleteMap(Load.Get<Texture2D>("Sewer2"), tempBounds, tempWorldColliders, tempObjects, new Vector2(232, 62));
         }
     }
 }

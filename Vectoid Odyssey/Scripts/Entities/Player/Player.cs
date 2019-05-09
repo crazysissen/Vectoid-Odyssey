@@ -25,6 +25,7 @@ namespace VectoidOdyssey
         private HitDetector myHitDetector;
         private Renderer.Sprite myBodyRenderer;
         private PlayerWeapon[] myWeapons;
+        private List<Item> myItems;
         private float myMaxSpeed, myAcceleration, myBrakeAcceleration, myAnimationFrame = ANIMATIONSPEED * 0.5f, myMaxJumpTime, myStartJumpSpeed, myEndJumpSpeed, myCurrentJumpTime, myJumpBlockTimer, myJumpBlockTime, myNonLinear;
         private int myActiveWeapon, myScore;
         private bool myOnGround, myJumping, myGoingToJump;
@@ -52,7 +53,7 @@ namespace VectoidOdyssey
             OnBoundCorrection += UpdateCorrection;
 
             myMenuManager = aMenuManager;
-
+            myItems = new List<Item>();
             myActiveWeapon = 1;
 
             myWeapons = aSetup.weapons;
@@ -279,9 +280,28 @@ namespace VectoidOdyssey
             myJumpBlockTime = aTime;
         }
 
-        public void PickupItem(Item item)
+        public void PickupItem(Item anItem)
         {
+            myItems.Add(anItem);
+        }
 
+        public bool HasItem(ItemType aType, int anIndex, bool aRemoveBool = false)
+        {
+            Item foundItem = null;
+            for (int i = 0; i < myItems.Count && foundItem == null; ++i)
+            {
+                if (myItems[i].GetItemType == aType && myItems[i].GetIndex == anIndex)
+                {
+                    foundItem = myItems[i];
+                }
+            }
+
+            if (aRemoveBool && foundItem != null)
+            {
+                myItems.Remove(foundItem);
+            }
+
+            return foundItem != null;
         }
     }
 }

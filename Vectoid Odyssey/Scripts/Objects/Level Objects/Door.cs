@@ -40,7 +40,14 @@ namespace VectoidOdyssey
 
             if (myTimer > 0)
             {
+                if (myOpen)
+                {
 
+                }
+                else
+                {
+
+                }
             }
         }
 

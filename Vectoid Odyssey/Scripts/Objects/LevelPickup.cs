@@ -48,20 +48,22 @@ namespace VectoidOdyssey
         /// <summary>
         /// Animator
         /// </summary>
-        public LevelPickup(Vector2 aPosition, Texture2D aSpriteSheet, float anInterval, Point aFrameSize, Color? aColor = null, string anEffect = null)
+        public LevelPickup(Vector2 aFullCoordinate, Texture2D aSpriteSheet, float anInterval = 0, Point? aFrameSize = null, Color? aColor = null, string anEffect = null)
         {
             if (myR == null)
             {
                 myR = new Random();
             }
 
-            AccessPosition = aPosition;
+            AccessPosition = aFullCoordinate * 2;
             myEffect = anEffect;
 
-            myRenderer = new Renderer.Animator(Layer.Default, aSpriteSheet, aFrameSize, aPosition, Vector2.One, aFrameSize.ToVector2() * 0.5f, 0, aColor ?? Color.White, anInterval, 0, true, SpriteEffects.None);
+            Point tempFrameSize = aFrameSize ?? aSpriteSheet.Bounds.Size;
 
-            myHalfWSize = (aFrameSize.ToVector2() * 0.5f) * Camera.WORLDUNITMULTIPLIER * 0.6f;
-            myHitDetector = new HitDetector(aPosition - myHalfWSize, aPosition + myHalfWSize, "Pickup");
+            myRenderer = new Renderer.Animator(Layer.Default, aSpriteSheet, tempFrameSize, aFullCoordinate * 2, Vector2.One, tempFrameSize.ToVector2() * 0.5f, 0, aColor ?? Color.White, anInterval, 0, true, SpriteEffects.None);
+
+            myHalfWSize = (tempFrameSize.ToVector2() * 0.5f) * Camera.WORLDUNITMULTIPLIER * 0.6f;
+            myHitDetector = new HitDetector(aFullCoordinate * 2 - myHalfWSize, aFullCoordinate * 2 + myHalfWSize, "Pickup");
             myHitDetector.AccessOwner = this;
             myHitDetector.OnEnter += Collide;
             AccessBoundingBox = myHitDetector;

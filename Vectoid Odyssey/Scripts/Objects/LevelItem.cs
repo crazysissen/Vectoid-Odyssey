@@ -12,7 +12,7 @@ namespace VectoidOdyssey
     {
         public Item AccessItem { get; set; }
 
-        public LevelItem(Item anItem, Vector2 aPosition, Texture2D aSpriteSheet, float anInterval, Point aFrameSize, Color? aColor = null) : base(aPosition, aSpriteSheet, anInterval, aFrameSize, aColor)
+        public LevelItem(Item anItem, Vector2 aPosition, Texture2D aSpriteSheet, float anInterval = 0, Point? aFrameSize = null, Color? aColor = null) : base(aPosition, aSpriteSheet, anInterval, aFrameSize, aColor)
         {
             myUseBounce = true;
             myAnimation = PickupAnimation.Bounce;
