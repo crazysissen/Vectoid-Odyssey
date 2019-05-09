@@ -19,9 +19,11 @@ namespace VectoidOdyssey
         private Vector2 myVicinityOrigin;
         private bool myLocked, myOpen;
         private float myTimer;
+        private int? myKey;
 
         public Door(Vector2 aTopLeft, int? aKey = null)
         {
+            myKey = aKey;
             myLocked = aKey != null;
             myVicinityOrigin = aTopLeft + new Vector2(1, 5);
             myRenderer = new Renderer.Sprite(Layer.Default, Load.Get<Texture2D>(myLocked ? "LockedDoor" : "UnlockedDoor"), aTopLeft, Vector2.One, Color.White, 0, Vector2.Zero);
