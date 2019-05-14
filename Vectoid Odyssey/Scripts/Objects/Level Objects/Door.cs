@@ -52,20 +52,24 @@ namespace VectoidOdyssey
 
                 if (myOpen) // Door opening
                 {
-                    SetFrame(myTimer < OPENTIME * 0.5f ? 1 : 2);
-
                     if (myTimer < 0)
                     {
                         SetFrame(3);
                     }
+                    else
+                    {
+                        SetFrame(myTimer < OPENTIME * 0.5f ? 1 : 2);
+                    }
                 }
                 else // Door closing
                 {
-                    SetFrame(myTimer < OPENTIME * 0.5f ? 1 : 2);
-
                     if (myTimer < 0)
                     {
                         SetFrame(0);
+                    }
+                    else
+                    {
+                        SetFrame(myTimer < OPENTIME * 0.5f ? 1 : 2);
                     }
                 }
             }
@@ -86,15 +90,29 @@ namespace VectoidOdyssey
 
         public void Open()
         {
-            if ()
-
             myOpen = true;
+
+            if (myTimer > 0)
+            {
+                myTimer = OPENTIME - myTimer;
+
+                return;
+            }
+
             myTimer = OPENTIME;
         }
 
         public void Close()
         {
             myOpen = false;
+
+            if (myTimer > 0)
+            {
+                myTimer = OPENTIME - myTimer;
+
+                return;
+            }
+
             myTimer = OPENTIME;
         }
 

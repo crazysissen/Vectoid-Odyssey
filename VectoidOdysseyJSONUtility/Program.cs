@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using System.IO;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json;
+//using Newtonsoft.Json.Linq;
 
 namespace VectoidOdysseyJSONUtility
 {
@@ -51,37 +51,37 @@ namespace VectoidOdysseyJSONUtility
 
             try
             {
-                string tempJSON = File.ReadAllText(tempPath);
-                Dictionary<string, object> tempRawData = JsonConvert.DeserializeObject<Dictionary<string, object>>(tempJSON);
+                //string tempJSON = File.ReadAllText(tempPath);
+                //Dictionary<string, object> tempRawData = JsonConvert.DeserializeObject<Dictionary<string, object>>(tempJSON);
 
-                List<object> tempLayers = ((IEnumerable<object>)tempRawData["layers"]).ToList();
+                //List<object> tempLayers = ((IEnumerable<object>)tempRawData["layers"]).ToList();
 
-                foreach (object layer in tempLayers)
-                {
-                    IEnumerable<object> tempCurrentLayer = (IEnumerable<object>)layer;
+                //foreach (object layer in tempLayers)
+                //{
+                //    IEnumerable<object> tempCurrentLayer = (IEnumerable<object>)layer;
 
-                    if (((JProperty)tempCurrentLayer.First()).Name != "draworder")
-                    {
-                        WriteLine(ConsoleColor.DarkGray, "Irrelevant layer found.");
-                        continue;
-                    }
+                //    if (((JProperty)tempCurrentLayer.First()).Name != "draworder")
+                //    {
+                //        WriteLine(ConsoleColor.DarkGray, "Irrelevant layer found.");
+                //        continue;
+                //    }
 
-                    string layerName = "";
+                //    string layerName = "";
 
-                    foreach (JProperty topMember in tempCurrentLayer)
-                    {
-                        switch (topMember.Name)
-                        {
-                            case "name":
-                                layerName = (string)topMember.Value;
-                                WriteLine(ConsoleColor.Gray, "Layer: {0}", layerName);
-                                break;
+                //    foreach (JProperty topMember in tempCurrentLayer)
+                //    {
+                //        switch (topMember.Name)
+                //        {
+                //            case "name":
+                //                layerName = (string)topMember.Value;
+                //                WriteLine(ConsoleColor.Gray, "Layer: {0}", layerName);
+                //                break;
 
 
-                        }
+                //        }
 
-                    }
-                }
+                //    }
+                //}
 
                 Console.WriteLine("\nComplete!");
                 Console.ReadKey(true);
