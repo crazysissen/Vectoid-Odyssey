@@ -35,7 +35,7 @@ namespace VectoidOdyssey
         public bool InRoom(Vector2 aPosition)
             => aPosition.X > myLeftWall && aPosition.X < myRightWall && aPosition.Y > myCeiling && aPosition.Y < myFloor;
 
-        public Vector2 Correction(Vector2 aTopLeft, Vector2 aBottomRight)
+        public Vector2 Correction(Vector2 aTopLeft, Vector2 aBottomRight, bool anUpwardsBool)
         {
             bool tempOn = aBottomRight.Y < myFloor, tempUnder = aTopLeft.Y > myCeiling;
 
@@ -54,12 +54,16 @@ namespace VectoidOdyssey
                     tempAdditive += new Vector2(0, myCeiling - aTopLeft.Y);
                 }
             }
+            //else
+            //{
+            //    return Vector2.Zero;
+            //}
 
             bool tempCompletelyInLeft = aTopLeft.X >= myLeftWall, tempCompletelyInRight = aBottomRight.X <= myRightWall;
 
             if (tempCompletelyInLeft && tempCompletelyInRight)
             {
-                return tempAdditive;
+                return anUpwardsBool ? tempAdditive * new Vector2(0, 1) : new Vector2(tempAdditive.X, tempAdditive.Y.Min(0));
             }
 
             if (!tempCompletelyInLeft)
@@ -76,7 +80,7 @@ namespace VectoidOdyssey
                         new Vector2(myLeftWall - aTopLeft.X, 0);
                 }
 
-                return tempAdditive;
+                return anUpwardsBool ? tempAdditive * new Vector2(0, 1) : new Vector2(tempAdditive.X, tempAdditive.Y.Min(0));
             }
 
             if (!tempCompletelyInRight)
@@ -91,7 +95,7 @@ namespace VectoidOdyssey
                     tempAdditive += (aBottomRight.X - myRightWall > aBottomRight.Y - myRightFloor) ? new Vector2(0, myRightFloor - aBottomRight.Y) : new Vector2(myRightWall - aBottomRight.X, 0);
                 }
 
-                return tempAdditive;
+                return anUpwardsBool ? tempAdditive * new Vector2(0, 1) : new Vector2(tempAdditive.X, tempAdditive.Y.Min(0));
             }
 
             return Vector2.Zero;

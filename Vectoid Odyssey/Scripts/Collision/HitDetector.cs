@@ -171,13 +171,13 @@ namespace VectoidOdyssey
                 return false;
 
             // Check if the colliders line up vertically
-            bool tempVerticalLineup = !(aHitDetector1.AccessBottomRight.Y < aHitDetector2.AccessTopLeft.Y || aHitDetector1.AccessTopLeft.Y > aHitDetector2.AccessBottomRight.Y);
+            bool tempVerticalLineup = !(aHitDetector1.AccessBottomRight.Y <= aHitDetector2.AccessTopLeft.Y || aHitDetector1.AccessTopLeft.Y >= aHitDetector2.AccessBottomRight.Y);
 
             if (!tempVerticalLineup)
                 return false;
 
             // Check if the colliders line up horizontally, if so, then they are overlapping
-            bool tempHorizontalLineup = !(aHitDetector1.AccessBottomRight.X < aHitDetector2.AccessTopLeft.X || aHitDetector1.AccessTopLeft.X > aHitDetector2.AccessBottomRight.X);
+            bool tempHorizontalLineup = !(aHitDetector1.AccessBottomRight.X <= aHitDetector2.AccessTopLeft.X || aHitDetector1.AccessTopLeft.X >= aHitDetector2.AccessBottomRight.X);
 
             return tempHorizontalLineup;
         }

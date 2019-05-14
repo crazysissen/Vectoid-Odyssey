@@ -28,34 +28,73 @@ namespace VectoidOdyssey
             myVicinityOrigin = aTopLeft + new Vector2(1, 5);
             myRenderer = new Renderer.Sprite(Layer.Default, Load.Get<Texture2D>(myLocked ? "LockedDoor" : "UnlockedDoor"), aTopLeft, Vector2.One, Color.White, 0, Vector2.Zero);
 
-            AddCollider(aTopLeft, aTopLeft + new Vector2(2, 8));
+            AddCollider(aTopLeft, aTopLeft + new Vector2(2, 8), true);
 
             OnPlayerTouch += PlayerTouch;
         }
 
         protected override void Update(float aDeltaTime)
         {
-            if ((Player.AccessMainPlayer.AccessPosition - myVicinityOrigin).Length() < OPENDISTANCE && !myOpen)
+            float tempPlayerDistance = (Player.AccessMainPlayer.AccessPosition - myVicinityOrigin).Length();
+
+            if (tempPlayerDistance < OPENDISTANCE && !myOpen)
             {
-                Open();
+                Trigger(Player.AccessMainPlayer);
+            }
+            else if (myOpen && tempPlayerDistance > CLOSEDISTANCE)
+            {
+                Close();
             }
 
             if (myTimer > 0)
             {
-                if (myOpen)
-                {
+                myTimer -= aDeltaTime;
 
+                if (myOpen) // Door opening
+                {
+                    SetFrame(myTimer < OPENTIME * 0.5f ? 1 : 2);
+
+                    if (myTimer < 0)
+                    {
+                        SetFrame(3);
+                    }
                 }
-                else
+                else // Door closing
                 {
+                    SetFrame(myTimer < OPENTIME * 0.5f ? 1 : 2);
 
+                    if (myTimer < 0)
+                    {
+                        SetFrame(0);
+                    }
                 }
             }
         }
 
+        public void Trigger(Player aPlayer)
+        {
+            // TODO: Fix trigger
+            
+            if (myLocked && !aPlayer.HasItem(ItemType.Key, myKey.Value, true))
+            {
+                return;
+            }
+
+            myLocked = false;
+            Open();
+        }
+
         public void Open()
         {
+            if ()
+
             myOpen = true;
+            myTimer = OPENTIME;
+        }
+
+        public void Close()
+        {
+            myOpen = false;
             myTimer = OPENTIME;
         }
 

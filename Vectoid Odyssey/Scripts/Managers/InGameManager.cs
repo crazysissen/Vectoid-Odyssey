@@ -83,12 +83,7 @@ namespace VectoidOdyssey
                     current.UpdateDynamic(aDeltaTime);
                 }
 
-                HitDetector.UpdateAll();
-
-                foreach (WorldObject current in myObjects)
-                {
-                    current.SimpleCollision(aDeltaTime);
-                }
+                UpdateCollision(aDeltaTime);
 
                 foreach (WorldObject current in myObjects)
                 {
@@ -151,6 +146,22 @@ namespace VectoidOdyssey
             myObjects = null;
             myAddQueue = null;
             myRemoveQueue = null;
+        }
+
+        private void UpdateCollision(float aDeltaTime)
+        {
+            foreach (WorldObject current in myObjects)
+            {
+                current.SimpleCollision(aDeltaTime, true);
+                current.UpdateHitDetector();
+            }
+
+            HitDetector.UpdateAll();
+
+            foreach (WorldObject current in myObjects)
+            {
+                current.SimpleCollision(aDeltaTime, false);
+            }
         }
 
         public RoomBounds GetCurrentBounds(Vector2 aPosition, int? anObjectIndex = null)

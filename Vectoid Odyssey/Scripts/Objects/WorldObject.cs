@@ -57,11 +57,11 @@ namespace VectoidOdyssey
             UpdateHitDetector();
         }
 
-        public void SimpleCollision(float aDeltaTime)
+        public void SimpleCollision(float aDeltaTime, bool anUpwardsBool)
         {
             if (AccessKeepInBounds && AccessBoundingBox != null)
             {
-                Vector2 tempCorrection = AccessManager.GetCurrentBounds(AccessPosition, index).Correction(AccessBoundingBox.AccessTopLeft, AccessBoundingBox.AccessBottomRight);
+                Vector2 tempCorrection = AccessManager.GetCurrentBounds(AccessPosition, index).Correction(AccessBoundingBox.AccessTopLeft, AccessBoundingBox.AccessBottomRight, anUpwardsBool);
 
                 if (tempCorrection != Vector2.Zero)
                 {
@@ -88,7 +88,7 @@ namespace VectoidOdyssey
             }
 
             if ((aCorrection.X < 0 && AccessVelocity.X > 0) || (aCorrection.X > 0 && AccessVelocity.X < 0))
-                AccessVelocity = new Vector2(0, AccessVelocity.Y);
+                  AccessVelocity = new Vector2(0, AccessVelocity.Y);
 
             if ((aCorrection.Y < 0 && AccessVelocity.Y > 0) || (aCorrection.Y > 0 && AccessVelocity.Y < 0))
                 AccessVelocity = new Vector2(AccessVelocity.X, 0);

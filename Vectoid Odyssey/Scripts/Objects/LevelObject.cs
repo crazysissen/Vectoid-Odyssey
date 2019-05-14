@@ -16,10 +16,16 @@ namespace VectoidOdyssey
 
         }
 
-        public void AddCollider(Vector2 aTopLeft, Vector2 aBottomRight)
+        public void AddCollider(Vector2 aTopLeft, Vector2 aBottomRight, bool aWorldCollider)
         {
             AccessBoundingBox = new HitDetector(aTopLeft, aBottomRight);
+            AccessBoundingBox.AccessOwner = this;
             AccessBoundingBox.OnEnter += Collide;
+
+            if (aWorldCollider)
+            {
+
+            }
         }
 
         private void Collide(HitDetector aHitDetector)
