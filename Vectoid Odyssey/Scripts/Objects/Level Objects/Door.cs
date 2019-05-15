@@ -11,9 +11,9 @@ namespace VectoidOdyssey
     class Door : LevelObject
     {
         const float
-            OPENDISTANCE = 5.5f,
-            CLOSEDISTANCE = 7.0f,
-            OPENTIME = 0.6f;
+            OPENDISTANCE = 7.5f,
+            CLOSEDISTANCE = 10.0f,
+            OPENTIME = 0.2f;
 
         private Renderer.Sprite myRenderer;
         private Vector2 myVicinityOrigin;
@@ -25,10 +25,12 @@ namespace VectoidOdyssey
         {
             myKey = aKey;
             myLocked = aKey != null;
-            myVicinityOrigin = aTopLeft + new Vector2(1, 5);
-            myRenderer = new Renderer.Sprite(Layer.Default, Load.Get<Texture2D>(myLocked ? "LockedDoor" : "UnlockedDoor"), aTopLeft, Vector2.One, Color.White, 0, Vector2.Zero);
+            myVicinityOrigin = aTopLeft * 2 + new Vector2(1, 5);
+            myRenderer = new Renderer.Sprite(Layer.Default, Load.Get<Texture2D>(myLocked ? "LockedDoor" : "UnlockedDoor"), aTopLeft * 2, Vector2.One, Color.White, 0, Vector2.Zero);
 
-            AddCollider(aTopLeft, aTopLeft + new Vector2(2, 8), true);
+            SetFrame(0);
+
+            AddCollider(aTopLeft * 2, aTopLeft * 2 + new Vector2(2, 8), true);
 
             OnPlayerTouch += PlayerTouch;
         }
@@ -58,7 +60,7 @@ namespace VectoidOdyssey
                     }
                     else
                     {
-                        SetFrame(myTimer < OPENTIME * 0.5f ? 1 : 2);
+                        SetFrame(myTimer < OPENTIME * 0.5f ? 2 : 1);
                     }
                 }
                 else // Door closing
@@ -91,6 +93,7 @@ namespace VectoidOdyssey
         public void Open()
         {
             myOpen = true;
+            AccessBoundingBox.AccessActive = false;
 
             if (myTimer > 0)
             {
@@ -105,6 +108,7 @@ namespace VectoidOdyssey
         public void Close()
         {
             myOpen = false;
+            AccessBoundingBox.AccessActive = true;
 
             if (myTimer > 0)
             {

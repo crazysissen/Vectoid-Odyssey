@@ -19,6 +19,8 @@ namespace VectoidOdyssey
 
         public event Action<HitDetector> OnEnter, OnColliding;
 
+        public bool AccessActive { get; set; } = true;
+
         public Vector2 AccessTopLeft { get; private set; }
         public Vector2 AccessBottomRight { get; private set; }
         public List<string> AccessTags { get; private set; }
@@ -65,6 +67,9 @@ namespace VectoidOdyssey
             for (int i = 0; i < allColliders.Count; ++i)
             {
                 HitDetector tempA = allColliders[i];
+
+                if (!tempA.AccessActive)
+                    continue;
                
                 //if (tempA.AccessOwner != null && tempA.AccessOwner is WorldObject worldObjectA)
                 //{
@@ -80,6 +85,9 @@ namespace VectoidOdyssey
                 for (int j = i + 1; j < allColliders.Count; ++j)
                 {
                     HitDetector tempB = allColliders[j];
+
+                    if (!tempB.AccessActive)
+                        continue;
 
                     //if (tempB.AccessOwner != null && tempB.AccessOwner is WorldObject worldObjectB)
                     //{

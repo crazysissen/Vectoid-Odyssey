@@ -24,7 +24,8 @@ namespace VectoidOdyssey
 
             if (aWorldCollider)
             {
-
+                AccessBoundingBox.AccessTags.Add("World");
+                AccessBoundingBox.AccessTags.Add("BulletTarget");
             }
         }
 
