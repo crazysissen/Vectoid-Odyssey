@@ -13,7 +13,7 @@ namespace VectoidOdyssey
         const float
             OPENDISTANCE = 7.5f,
             CLOSEDISTANCE = 10.0f,
-            OPENTIME = 0.2f;
+            OPENTIME = 0.1f;
 
         private Renderer.Sprite myRenderer;
         private Vector2 myVicinityOrigin;
