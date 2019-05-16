@@ -89,6 +89,7 @@
     <Compile Include="Scripts\Entities\Player\Weapon\Teal.cs" />
     <Compile Include="Scripts\Managers\InGameManager.cs" />
     <Compile Include="Scripts\Managers\MenuManager.cs" />
+    <Compile Include="Scripts\Managers\MusicManager.cs" />
     <Compile Include="Scripts\Managers\PauseManager.cs" />
     <Compile Include="Scripts\Map\CompleteMap.cs" />
     <Compile Include="Scripts\Map\Map Types\MapSewer.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Scripts\Map\Map.cs" />
     <Compile Include="Scripts\Map\MapFetcher.cs" />
     <Compile Include="Scripts\Objects\Level Objects\Door.cs" />
+    <Compile Include="Scripts\Objects\Level Objects\Pitfall.cs" />
     <Compile Include="Scripts\Objects\Level Objects\Portal.cs" />
     <Compile Include="Scripts\Objects\LevelItem.cs" />
     <Compile Include="Scripts\Objects\LevelPickup.cs" />

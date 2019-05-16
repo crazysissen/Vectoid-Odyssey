@@ -20,6 +20,8 @@ namespace VectoidOdyssey
 
         public void Init()
         {
+            MusicManager.Init();
+
             myMenuManager = new MenuManager(this);
 
             myMenuManager.CreateMainMenu();

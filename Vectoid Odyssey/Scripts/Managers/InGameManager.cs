@@ -12,7 +12,6 @@ namespace VectoidOdyssey
     sealed class InGameManager
     {
         const float
-            CAMERAELEVATION = -44,
             MOUSELERP = 0.15f;
 
         static public InGameManager AccessMain { get; private set; }
@@ -52,15 +51,17 @@ namespace VectoidOdyssey
                 acceleration = 1.3f,
                 brakeAcceleration = 2.0f,
                 maxJumpTime = 0.35f,
-                jumpStartAcceleration = 3.0f,
-                jumpEndAcceleration = 2.5f,
+                jumpStartAcceleration = 4.2f,
+                jumpEndAcceleration = 3.3f,
                 health = 100,
-                nonLinear = 4.5f,
+                nonLinear = 8.5f,
                 weapons = new PlayerWeapon[]
                 {
                     new PlayerWeapon.Teal(), new PlayerWeapon.Red()
                 }
             };
+
+            MusicManager.Play("Sludge");
 
             myMap = aMap;
             myMap.ActivateEnemies();

@@ -65,9 +65,15 @@
 
 #begin Sound/Music/Bosses/SongArkan.mp3
 /importer:Mp3Importer
-/processor:SongProcessor
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sound/Music/Bosses/SongArkan.mp3
+
+#begin Sound/Music/Levels/Sludge.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/Music/Levels/Sludge.mp3
 
 #begin Sound/SFX/Bosses/Arkan/ArkanAngry.mp3
 /importer:Mp3Importer
@@ -110,6 +116,42 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sound/SFX/Bosses/Arkan/ArkanShoot.mp3
+
+#begin Sound/SFX/Generic/Click1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Click1.wav
+
+#begin Sound/SFX/Generic/Death.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Death.wav
+
+#begin Sound/SFX/Generic/Door1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Door1.wav
+
+#begin Sound/SFX/Generic/Door2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Door2.wav
+
+#begin Sound/SFX/Generic/Door3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Door3.wav
+
+#begin Sound/SFX/Generic/DyingBreath.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/DyingBreath.wav
 
 #begin Sound/SFX/Generic/Explosion1.wav
 /importer:WavImporter
@@ -183,6 +225,24 @@
 /processorParam:Quality=Low
 /build:Sound/SFX/Generic/Pickup2.wav
 
+#begin Sound/SFX/Generic/Powerup2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Powerup2.wav
+
+#begin Sound/SFX/Generic/SharpScreech.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/SharpScreech.wav
+
+#begin Sound/SFX/Generic/SharpSwoosh.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/SharpSwoosh.wav
+
 #begin Sound/SFX/Generic/Shoot1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -194,6 +254,24 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Low
 /build:Sound/SFX/Generic/Shoot2.wav
+
+#begin Sound/SFX/Generic/Shoot3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Shoot3.wav
+
+#begin Sound/SFX/Generic/Shoot4.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Shoot4.wav
+
+#begin Sound/SFX/Generic/SweepShort.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/SweepShort.wav
 
 #begin Sound/SFX/Generic/Whap.wav
 /importer:WavImporter
@@ -405,6 +483,18 @@
 /processorParam:TextureFormat=Color
 /build:Visuals/GUI/InGameMenu.png
 
+#begin Visuals/GUI/InGameMenuSmall.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Visuals/GUI/InGameMenuSmall.png
+
 #begin Visuals/LevelObjects/Key.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -428,6 +518,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Visuals/LevelObjects/LockedDoor.png
+
+#begin Visuals/LevelObjects/LockedDoorBlocked.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Visuals/LevelObjects/LockedDoorBlocked.png
 
 #begin Visuals/LevelObjects/Tube-128.png
 /importer:TextureImporter
@@ -488,6 +590,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Visuals/LevelObjects/UnlockedDoor.png
+
+#begin Visuals/LevelObjects/UnlockedDoorBlocked.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Visuals/LevelObjects/UnlockedDoorBlocked.png
 
 #begin Visuals/Levels/Sewer.png
 /importer:TextureImporter

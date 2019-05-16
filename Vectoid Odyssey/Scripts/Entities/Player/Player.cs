@@ -38,7 +38,7 @@ namespace VectoidOdyssey
 
             AccessHealth = aSetup.health;
             AccessGravity = true;
-            AccessGravityModifier = 1.7f;
+            AccessGravityModifier = 2.3f;
             AccessDynamic = true;
             AccessPosition = aPosition;
             AccessKeepInBounds = true;
