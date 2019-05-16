@@ -168,7 +168,8 @@ namespace VectoidOdyssey
                 new Door(new Vector2(80, 4), 0),
 
                 // Misc
-                new Portal(new Vector2(372, 54))
+                new Portal(new Vector2(372, 54)),
+                new Pitfall(new Vector2(-32, 128), new Vector2(160, 160))
             };
 
             return new CompleteMap(Load.Get<Texture2D>("Sewer2"), tempBounds, tempWorldColliders, tempObjects, new Vector2(232, 62));

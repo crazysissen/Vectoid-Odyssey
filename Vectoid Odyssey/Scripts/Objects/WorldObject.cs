@@ -10,7 +10,8 @@ namespace VectoidOdyssey
     abstract class WorldObject
     {
         public const float 
-            GRAVITY = 8.0f;
+            GRAVITY = 8.0f,
+            TERMINALVELOCITY = 7.0f;
 
         public event Action<Vector2> OnBoundCorrection;
 
@@ -20,6 +21,7 @@ namespace VectoidOdyssey
 
         public float AccessDamping { get; set; } = 0.0f;
         public float AccessGravityModifier { get; set; } = 1.0f;
+        public float AccessTerminalGravity { get; set; } = TERMINALVELOCITY;
         public bool AccessActive { get; set; } = true;
         public bool AccessDynamic { get; set; } = false;
         public bool AccessGravity { get; set; } = false;
@@ -46,7 +48,7 @@ namespace VectoidOdyssey
         {
             if (AccessDynamic)
             {
-                if (AccessGravity)
+                if (AccessGravity && (AccessTerminalGravity <= 0 || AccessVelocity.Y < AccessTerminalGravity))
                 {
                     AccessVelocity += new Vector2(0, GRAVITY * AccessGravityModifier) * aDeltaTime;
                 }

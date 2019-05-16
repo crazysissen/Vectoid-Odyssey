@@ -12,7 +12,7 @@ namespace VectoidOdyssey
         public Pitfall(Vector2 aTopLeft, Vector2 aBottomRight)
         {
             AddCollider(aTopLeft, aBottomRight, false);
-            AccessBoundingBox.OnEnter += Collide;
+            OnPlayerTouch += Collide;
         }
 
         protected override void Update(float aDeltaTime)
@@ -20,12 +20,9 @@ namespace VectoidOdyssey
             
         }
 
-        private void Collide(HitDetector aHitDetector)
+        private void Collide(Player aPlayer)
         {
-            if (aHitDetector.AccessOwner != null && aHitDetector.AccessOwner is Player player)
-            {
-                InGameManager.AccessMain.
-            }
+            aPlayer.PitfallDeath();
         }
     }
 }
