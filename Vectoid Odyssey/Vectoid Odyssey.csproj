@@ -96,6 +96,7 @@
     <Compile Include="Scripts\Map\Map.cs" />
     <Compile Include="Scripts\Map\MapFetcher.cs" />
     <Compile Include="Scripts\Objects\Level Objects\Door.cs" />
+    <Compile Include="Scripts\Objects\Level Objects\Portal.cs" />
     <Compile Include="Scripts\Objects\LevelItem.cs" />
     <Compile Include="Scripts\Objects\LevelPickup.cs" />
     <Compile Include="Scripts\Objects\LevelObject.cs" />
