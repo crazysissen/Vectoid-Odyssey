@@ -17,7 +17,7 @@ namespace VectoidOdyssey
 
         private Renderer.Sprite myRenderer;
         private Vector2 myVicinityOrigin;
-        private bool myLocked, myOpen;
+        private bool myLocked, myOpen, myBlocked;
         private float myTimer;
         private int? myKey;
 
@@ -118,6 +118,21 @@ namespace VectoidOdyssey
             }
 
             myTimer = OPENTIME;
+        }
+
+        public void Block()
+        {
+            myBlocked = true;
+
+            if (myOpen)
+            {
+                Close();
+            }
+        }
+
+        public void Unblock()
+        {
+            myBlocked = false;
         }
 
         private void PlayerTouch(Player aPlayer)

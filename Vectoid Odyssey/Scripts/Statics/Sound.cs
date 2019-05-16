@@ -11,8 +11,8 @@ namespace VectoidOdyssey
 {
     static class Sound
     {
-        public static float SFXVolume { get; private set; }
-        public static float MusicVolume { get; private set; }
+        public static float SFXVolume { get; private set; } = 1; // TODO: Fix audio volume
+        public static float MusicVolume { get; private set; } = 1;
 
         private static Dictionary<string, SoundEffect> effects;
 
@@ -28,7 +28,7 @@ namespace VectoidOdyssey
 
             foreach (SoundEffect effect in tempEffects)
             {
-                effects.Add(effect.Name, effect);
+                effects.Add(effect.Name.Split('/').LastOrDefault(), effect);
             }
         }
 
@@ -53,6 +53,12 @@ namespace VectoidOdyssey
 
         public static void PlayEffect(string aName)
         {
+            if (!effects.ContainsKey(aName))
+            {
+                Console.WriteLine("Tried to play nonexistent sound effect file.");
+                return;
+            }
+
             SoundEffectInstance tempInstance = effects[aName].CreateInstance();
             tempInstance.Play();
             tempInstance.Volume = SFXVolume;

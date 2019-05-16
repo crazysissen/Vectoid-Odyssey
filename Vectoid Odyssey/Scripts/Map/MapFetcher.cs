@@ -157,6 +157,9 @@ namespace VectoidOdyssey
 
             WorldObject[] tempObjects =
             {
+                // -- Enemies
+                //new EnemyCrab()
+
                 new LevelItem(new Item("Penthouse Key", 0, ItemType.Key), new Vector2(10, 44.5f), tempKeyTexture, 0.1f, new Point(8, 8)),
                 new LevelItem(new Item("E Hallway Key", 1, ItemType.Key), new Vector2(56, 8.5f), tempKeyTexture, 0.1f, new Point(8, 8)),
                 new Door(new Vector2(128, 24), 1),

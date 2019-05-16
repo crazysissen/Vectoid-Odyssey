@@ -61,6 +61,8 @@ namespace VectoidOdyssey
             {
                 if (myCurrentCooldown <= 0)
                 {
+                    Sound.PlayEffect("Shoot1");
+
                     Vector2 tempRotatedVector = new Vector2(1, 0).Rotate(myRotation);
 
                     Bullet tempNewBullet = new Bullet(AccessRenderer.AccessPosition + tempRotatedVector * DISTANCE, tempRotatedVector * myBulletVelocity, Vector2.One * 2, Bullet.TargetType.Enemy, new Color(255, 243, 146), myDamage, false);
