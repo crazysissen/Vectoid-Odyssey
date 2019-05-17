@@ -24,7 +24,7 @@ namespace VectoidOdyssey
         {
             if (aHitDetector.AccessOwner != null && aHitDetector.AccessOwner is Player player)
             {
-                InGameManager.AccessMain.
+                //InGameManager.AccessMain.
             }
         }
     }
