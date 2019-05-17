@@ -117,42 +117,6 @@
 /processorParam:Quality=Best
 /build:Sound/SFX/Bosses/Arkan/ArkanShoot.mp3
 
-#begin Sound/SFX/Generic/Click1.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sound/SFX/Generic/Click1.wav
-
-#begin Sound/SFX/Generic/Death.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sound/SFX/Generic/Death.wav
-
-#begin Sound/SFX/Generic/Door1.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sound/SFX/Generic/Door1.wav
-
-#begin Sound/SFX/Generic/Door2.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sound/SFX/Generic/Door2.wav
-
-#begin Sound/SFX/Generic/Door3.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sound/SFX/Generic/Door3.wav
-
-#begin Sound/SFX/Generic/DyingBreath.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sound/SFX/Generic/DyingBreath.wav
-
 #begin Sound/SFX/Generic/Explosion1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -225,24 +189,6 @@
 /processorParam:Quality=Low
 /build:Sound/SFX/Generic/Pickup2.wav
 
-#begin Sound/SFX/Generic/Powerup2.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sound/SFX/Generic/Powerup2.wav
-
-#begin Sound/SFX/Generic/SharpScreech.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sound/SFX/Generic/SharpScreech.wav
-
-#begin Sound/SFX/Generic/SharpSwoosh.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sound/SFX/Generic/SharpSwoosh.wav
-
 #begin Sound/SFX/Generic/Shoot1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -255,23 +201,11 @@
 /processorParam:Quality=Low
 /build:Sound/SFX/Generic/Shoot2.wav
 
-#begin Sound/SFX/Generic/Shoot3.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sound/SFX/Generic/Shoot3.wav
-
 #begin Sound/SFX/Generic/Shoot4.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sound/SFX/Generic/Shoot4.wav
-
-#begin Sound/SFX/Generic/SweepShort.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sound/SFX/Generic/SweepShort.wav
 
 #begin Sound/SFX/Generic/Whap.wav
 /importer:WavImporter
@@ -482,18 +416,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Visuals/GUI/InGameMenu.png
-
-#begin Visuals/GUI/InGameMenuSmall.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Visuals/GUI/InGameMenuSmall.png
 
 #begin Visuals/LevelObjects/Key.png
 /importer:TextureImporter
@@ -842,4 +764,106 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Visuals/Tiles/Sewer/Wall1-4.png
+
+#begin Visuals/GUI/InGameMenuSmall.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Visuals/GUI/InGameMenuSmall.png
+
+#begin Sound/SFX/Generic/Click1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Click1.wav
+
+#begin Sound/SFX/Generic/Death.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Death.wav
+
+#begin Sound/SFX/Generic/Door1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Door1.wav
+
+#begin Sound/SFX/Generic/Door2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Door2.wav
+
+#begin Sound/SFX/Generic/Door3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Door3.wav
+
+#begin Sound/SFX/Generic/DyingBreath.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/DyingBreath.wav
+
+#begin Sound/SFX/Generic/Powerup2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Powerup2.wav
+
+#begin Sound/SFX/Generic/SharpScreech.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/SharpScreech.wav
+
+#begin Sound/SFX/Generic/SharpSwoosh.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/SharpSwoosh.wav
+
+#begin Sound/SFX/Generic/Shoot3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Shoot3.wav
+
+#begin Sound/SFX/Generic/SweepShort.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/SweepShort.wav
+
+#begin Visuals/LevelObjects/Portal.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Visuals/LevelObjects/Portal.png
+
+#begin Visuals/Tiles/Sewer/Exit1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Visuals/Tiles/Sewer/Exit1.png
 

@@ -265,6 +265,12 @@ namespace VectoidOdyssey
             myBodyRenderer.AccessSourceRectangle = new Rectangle(32 * (int)myAnimationFrame, 0, 32, 32);
         }
 
+        public void PitfallDeath()
+        {
+            InGameManager.AccessMain.StopCamera();
+            ChangeHP(-AccessHealth);
+        }
+
         private void CreateHUD()
         {
             myGUIHealth = new Renderer.Text(Layer.GUI, Font.Default, "HP: ", 4, 0, new Vector2(10, 10), Vector2.Zero, Color.White);

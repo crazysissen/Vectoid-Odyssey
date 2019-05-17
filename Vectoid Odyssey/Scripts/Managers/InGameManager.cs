@@ -28,7 +28,7 @@ namespace VectoidOdyssey
         private Player myPlayer;
         private int myLastIndex = -1;
         private float myTimeMultiplier;
-        private bool myInUpdate, myPaused;
+        private bool myInUpdate, myPaused, myCameraMovement;
 
         public InGameManager(UpdateManager anUpdateManager, MenuManager aMenuManager)
         {
@@ -67,6 +67,8 @@ namespace VectoidOdyssey
             myMap.ActivateEnemies();
 
             myPlayer = myMap.SpawnPlayer(tempSetup, myMenuManager);
+
+            myCameraMovement = true;
 
             myPauseManager = new PauseManager();
         }
@@ -171,9 +173,17 @@ namespace VectoidOdyssey
         public int GetNewIndex()
             => ++myLastIndex;
 
+        public void StopCamera()
+        {
+            myCameraMovement = false;
+        }
+
         private void SetCamera()
         {
-            RendererController.AccessCamera.AccessPosition = new Vector2(myPlayer.AccessPosition.PixelPosition().X, myPlayer.AccessPosition.PixelPosition().Y).Lerp(RendererController.AccessCamera.ScreenToWorldPosition(Input.GetMousePosition.ToVector2()), MOUSELERP);
+            if (myCameraMovement)
+            {
+                RendererController.AccessCamera.AccessPosition = new Vector2(myPlayer.AccessPosition.PixelPosition().X, myPlayer.AccessPosition.PixelPosition().Y).Lerp(RendererController.AccessCamera.ScreenToWorldPosition(Input.GetMousePosition.ToVector2()), MOUSELERP);
+            }
         }
     }
 }

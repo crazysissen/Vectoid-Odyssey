@@ -158,12 +158,18 @@ namespace VectoidOdyssey
             WorldObject[] tempObjects =
             {
                 // -- Enemies
-                //new EnemyCrab()
 
+                // Items
                 new LevelItem(new Item("Penthouse Key", 0, ItemType.Key), new Vector2(10, 44.5f), tempKeyTexture, 0.1f, new Point(8, 8)),
                 new LevelItem(new Item("E Hallway Key", 1, ItemType.Key), new Vector2(56, 8.5f), tempKeyTexture, 0.1f, new Point(8, 8)),
-                new Door(new Vector2(128, 24), 1),
-                new Door(new Vector2(80, 4), 0)
+
+                // Doors
+                new Door(new Vector2(128, 24)),
+                new Door(new Vector2(80, 4), 0),
+
+                // Misc
+                new Portal(new Vector2(372, 54)),
+                new Pitfall(new Vector2(-32, 128), new Vector2(160, 160))
             };
 
             return new CompleteMap(Load.Get<Texture2D>("Sewer2"), tempBounds, tempWorldColliders, tempObjects, new Vector2(232, 62));
