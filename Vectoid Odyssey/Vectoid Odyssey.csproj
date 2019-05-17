@@ -81,6 +81,7 @@
     <Compile Include="Scripts\Entities\Entity.cs" />
     <Compile Include="Scripts\Entities\Player\Currency.cs" />
     <Compile Include="Scripts\Entities\Player\Player.cs" />
+    <Compile Include="Scripts\Entities\Player\PlayerInteraction.cs" />
     <Compile Include="Scripts\Entities\Player\PlayerSetup.cs" />
     <Compile Include="Scripts\Entities\Player\Weapon\Bullet.cs" />
     <Compile Include="Scripts\Entities\Player\Weapon\PlayerWeapon.cs" />

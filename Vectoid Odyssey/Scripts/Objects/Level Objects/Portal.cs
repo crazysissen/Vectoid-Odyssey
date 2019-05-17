@@ -18,6 +18,14 @@ namespace VectoidOdyssey
             myCentre = aCentrePosition /** 2*/;
 
             myRenderer = new Renderer.Animator(new Layer(MainLayer.Background, 100), Load.Get<Texture2D>("Portal"), new Point(32, 32), myCentre, Vector2.One, new Vector2(16, 16), 0, Color.White, 0.1f, 0, true, SpriteEffects.None);
+
+            AddCollider(aCentrePosition - Vector2.One * 2, aCentrePosition + Vector2.One * 2, false);
+            OnPlayerTouch += OnTouch;
+        }
+
+        private void OnTouch(Player aPlayer)
+        {
+
         }
     }
 }

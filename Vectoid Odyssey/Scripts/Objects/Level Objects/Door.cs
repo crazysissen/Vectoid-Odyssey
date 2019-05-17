@@ -57,6 +57,12 @@ namespace VectoidOdyssey
                     if (myTimer < 0)
                     {
                         SetFrame(3);
+
+                        if (myKey != null)
+                        {
+                            myKey = null;
+                            myRenderer.AccessTexture = Load.Get<Texture2D>("UnlockedDoor");
+                        }
                     }
                     else
                     {
