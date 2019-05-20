@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     /// <summary>
     /// The main content manager/importer.

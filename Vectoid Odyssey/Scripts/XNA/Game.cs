@@ -2,13 +2,14 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class VectoidOdyssey : Game
+    public class DCOdyssey : Game
     {
+        static public Vector2 GetScreenPoint { get; private set; }
         static public Point GetGameResolution => new Point(480, 270);
         static public Point AccessResolution
         {
@@ -24,17 +25,18 @@ namespace VectoidOdyssey
         }
 
         // SINGLETON
-        static private VectoidOdyssey mainGame;
+        static private DCOdyssey mainGame;
 
         // XNA
         private GraphicsDeviceManager myGraphics;
         private SpriteBatch mySpriteBatch;
 
         // LOCAL
+        private SplashHandler mySplashHandler;
         private RendererController myRendererController;
         private UpdateManager myUpdateManager;
 
-        public VectoidOdyssey()
+        public DCOdyssey()
         {
             mainGame = this;
 
@@ -42,10 +44,12 @@ namespace VectoidOdyssey
 
             myGraphics = new GraphicsDeviceManager(this)
             {
-                PreferredBackBufferWidth = tempRes.X * 3,
-                PreferredBackBufferHeight = tempRes.Y * 3,
+                PreferredBackBufferWidth = tempRes.X * 5,
+                PreferredBackBufferHeight = tempRes.Y * 5,
                 IsFullScreen = false
             };
+
+            GetScreenPoint = AccessResolution.ToVector2() / GetGameResolution.ToVector2();
 
             IsMouseVisible = true;
 
@@ -64,7 +68,9 @@ namespace VectoidOdyssey
             myUpdateManager = new UpdateManager(this);
 
             myRendererController.Init(myGraphics, Vector2.Zero, 2 / 46.875f, Color.Black);
-            myUpdateManager.Init();
+
+            mySplashHandler = new SplashHandler();
+            mySplashHandler.InitAndPlay(InitUpdate);
         }
 
         protected override void LoadContent()
@@ -77,6 +83,13 @@ namespace VectoidOdyssey
         protected override void Update(GameTime aGameTime)
         {
             float tempDeltaTime = (float)aGameTime.ElapsedGameTime.TotalSeconds;
+
+            if (mySplashHandler != null)
+            {
+                mySplashHandler.Update(tempDeltaTime);
+                base.Update(aGameTime);
+                return;
+            }
 
             Input.Update();
 
@@ -97,6 +110,14 @@ namespace VectoidOdyssey
         public static void Quit()
         {
             mainGame.Exit();
+        }
+
+        private void InitUpdate()
+        {
+            mySplashHandler.Destroy();
+            mySplashHandler = null;
+
+            myUpdateManager.Init();
         }
     }
 }

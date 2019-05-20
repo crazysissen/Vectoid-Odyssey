@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     class Door : LevelObject
     {
@@ -17,6 +17,7 @@ namespace VectoidOdyssey
 
         private Renderer.Sprite myRenderer;
         private Vector2 myVicinityOrigin;
+        private PlayerInteraction myInteraction;
         private bool myLocked, myOpen, myBlocked;
         private float myTimer;
         private int? myKey;
@@ -33,6 +34,11 @@ namespace VectoidOdyssey
             AddCollider(aTopLeft * 2, aTopLeft * 2 + new Vector2(2, 8), true);
 
             OnPlayerTouch += PlayerTouch;
+
+            if (myLocked)
+            {
+                myInteraction = new PlayerInteraction("Key needed", false, myVicinityOrigin);
+            }
         }
 
         protected override void Update(float aDeltaTime)
@@ -83,13 +89,25 @@ namespace VectoidOdyssey
             }
         }
 
+        protected override void BeforeDestroy()
+        {
+            myInteraction?.Destroy();
+            myInteraction = null;
+        }
+
         public void Trigger(Player aPlayer)
         {
             // TODO: Fix trigger
             
-            if (myLocked && !aPlayer.HasItem(ItemType.Key, myKey.Value, true))
+            if (myLocked)
             {
-                return;
+                if (!aPlayer.HasItem(ItemType.Key, myKey.Value, true))
+                {
+                    return;
+                }
+
+                myInteraction.Destroy();
+                myInteraction = null;
             }
 
             myLocked = false;

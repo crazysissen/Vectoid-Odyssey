@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     // For now, includes 1D simplex perlin noise
     [Serializable]

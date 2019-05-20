@@ -5,13 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     class PlayerInteraction
     {
+        const float MAXDISTANCE = 5.0f;
+
         public event Action<Player> OnInteract;
 
-        public bool AccessActive { get; set; }
+        public bool AccessActive { get; set; } 
         public string GetPrompt => myPrompt;
 
         private static List<PlayerInteraction> interactions;
@@ -19,7 +21,7 @@ namespace VectoidOdyssey
         private readonly string myPrompt;
         private readonly Vector2[] myOrigins;
 
-        public PlayerInteraction(string aPrompt, params Vector2[] someOrigins)
+        public PlayerInteraction(string aPrompt, bool anActiveBool, params Vector2[] someOrigins)
         {
             myPrompt = aPrompt;
             myOrigins = someOrigins;
@@ -37,6 +39,11 @@ namespace VectoidOdyssey
             OnInteract?.Invoke(aPlayer);
         }
 
+        public void Destroy()
+        {
+            interactions.Remove(this);
+        }
+
         public static PlayerInteraction Closest(Vector2 anOrigin)
         {
             if (interactions.Count == 0)
@@ -45,13 +52,18 @@ namespace VectoidOdyssey
             }
 
             PlayerInteraction tempClosest = null;
-            float tempDistance = float.MaxValue;
+            float tempDistance = MAXDISTANCE;
 
             foreach (PlayerInteraction interaction in interactions)
             {
+                if (!interaction.AccessActive)
+                {
+                    continue;
+                }
+
                 foreach (Vector2 origin in interaction.myOrigins)
                 {
-                    if ((origin - anOrigin).Length() < tempDistance)
+                    if ((origin - anOrigin).Length() < tempDistance )
                     {
                         tempClosest = interaction;
                     }

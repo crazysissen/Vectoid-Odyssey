@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     static class MusicManager
     {
+
+
         private static Dictionary<string, SoundEffect> songs;
 
         public static void Init()

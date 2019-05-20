@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     class UpdateManager
     {
-        private VectoidOdyssey myGame; // it really is!!1
+        private DCOdyssey myGame; // it really is!!1
 
+        private SplashHandler mySplashHandler;
         private InGameManager myInGameManager;
         private MenuManager myMenuManager;
 
-        public UpdateManager(VectoidOdyssey aGame)
+        public UpdateManager(DCOdyssey aGame)
         {
             myGame = aGame;
         }

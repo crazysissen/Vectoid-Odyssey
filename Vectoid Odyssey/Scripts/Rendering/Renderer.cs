@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     abstract class Renderer
     {
@@ -105,6 +105,9 @@ namespace VectoidOdyssey
             /// and what point will line up to the Vector2 position</summary>
             public virtual Vector2 AccessOrigin { get; set; }
 
+            /// <summary>What part of the sprite to render. Useful for custom animations.</summary>
+            public virtual Rectangle? AccessSourceRectangle { get; set; }
+
             /// <summary>The color multiplier of the object</summary>
             public virtual Color AccessColor { get; set; }
 
@@ -126,7 +129,53 @@ namespace VectoidOdyssey
 
             public override void Draw(SpriteBatch aSpriteBatch, Camera aCamera, float aDeltaTime)
             {
-                aSpriteBatch.Draw(AccessTexture, new Rectangle(AccessTransform.Location + AccessOffset, AccessTransform.Size), null, AccessColor, AccessRotation, AccessOrigin, AccessEffects, AccessLayer.GetDepth);
+                aSpriteBatch.Draw(AccessTexture, new Rectangle(AccessTransform.Location + AccessOffset, AccessTransform.Size), AccessSourceRectangle, AccessColor, AccessRotation, AccessOrigin, AccessEffects, AccessLayer.GetDepth);
+            }
+        }
+
+        public class SpriteScreenFloating : RendererIGUI
+        {
+            /// <summary>The texture of the object</summary>
+            public virtual Texture2D AccessTexture { get; set; }
+
+            /// <summary>The x & y coordinates of the object in world space</summary>
+            public virtual Vector2 AccessPosition { get; set; }
+
+            /// <summary>The width/height of the object</summary>
+            public virtual Vector2 AccessSize { get; set; }
+
+            /// <summary>The rotation angle of the object measured in degrees (0-360)</summary>
+            public virtual float AccessRotation { get; set; }
+
+            /// <summary>A vector between (0,0) and (1,1) to represent the pivot around which the sprite is rotated
+            /// and what point will line up to the Vector2 position</summary>
+            public virtual Vector2 AccessOrigin { get; set; }
+
+            /// <summary>What part of the sprite to render. Useful for custom animations.</summary>
+            public virtual Rectangle? AccessSourceRectangle { get; set; }
+
+            /// <summary>The color multiplier of the object</summary>
+            public virtual Color AccessColor { get; set; }
+
+            /// <summary>Wether or not the sprite is flipped somehow, stack using binary OR operator (|)</summary>
+            public virtual SpriteEffects AccessEffects { get; set; }
+
+            public SpriteScreenFloating(Layer aLayer, Texture2D aTexture, Vector2 aPosition, Vector2 aSize, Color aColor, float aRotation, Vector2 anOrigin, SpriteEffects someEffects)
+            {
+                AccessLayer = aLayer;
+                AccessTexture = aTexture;
+                AccessPosition = aPosition;
+                AccessSize = aSize;
+                AccessRotation = aRotation;
+                AccessOrigin = anOrigin;
+                AccessColor = aColor;
+                AccessEffects = someEffects;
+            }
+
+            public override void Draw(SpriteBatch aSpriteBatch, Camera aCamera, float aDeltaTime)
+            {
+                Vector2 tempPosition = AccessPosition;
+                aSpriteBatch.Draw(AccessTexture, tempPosition + AccessOffset.ToVector2(), AccessSourceRectangle, AccessColor, AccessRotation, AccessOrigin, AccessSize, AccessEffects, AccessLayer.GetDepth);
             }
         }
 

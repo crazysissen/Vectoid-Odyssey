@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     static class FileManager
     {
@@ -24,18 +24,21 @@ namespace VectoidOdyssey
 
         public static UserPreferences LoadPreferences()
         {
-            try
+            if (File.Exists(PreferencesPath))
             {
-                byte[] tempLoadedBytes = File.ReadAllBytes(PreferencesPath);
-                return ToSaveType<UserPreferences>(tempLoadedBytes);
+                try
+                {
+                    byte[] tempLoadedBytes = File.ReadAllBytes(PreferencesPath);
+                    return ToSaveType<UserPreferences>(tempLoadedBytes);
+                }
+                catch { }
             }
-            catch { }
 
             Console.WriteLine("Preferences file unreadable or nonexistent, creating new.");
             return new UserPreferences();
         }
 
-        /// <summary>Converts in order object -> dictionary -> bytes. Cannot contain reference types.</summary>
+        /// <summary>Converts in order object -> dictionary -> bytes. Cannot contain reference types. This is done to safeguard future save file versions, if a new value is added or if one is removed, the byte converter will not fail and the value will be defaulted.</summary>
         public static byte[] ToSaveFile(object aSaveStruct)
         {
             Dictionary<string, object> tempDictionary = new Dictionary<string, object>();
@@ -54,6 +57,7 @@ namespace VectoidOdyssey
             return tempDictionary.ToBytes();
         }
 
+        /// <summary>Converts in order bytes -> dictionary -> bytes. Cannot contain reference types, and all values of the save type should and must be set in the respective constructor (this provides a default value if the save file doesn't contain the value)</summary>
         public static T ToSaveType<T>(byte[] aSaveFile) where T : class, new()
         {
             T tempType = new T();

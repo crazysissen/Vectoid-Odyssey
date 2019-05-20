@@ -7,10 +7,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Audio;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     static class Sound
     {
+        public const float
+            MUSICMODIFIER = 0.0f,
+            SFXMODIFIER = 1.0f;
+
         public static float SFXVolume { get; private set; } = 1; // TODO: Fix audio volume
         public static float MusicVolume { get; private set; } = 1;
 
@@ -61,7 +65,7 @@ namespace VectoidOdyssey
 
             SoundEffectInstance tempInstance = effects[aName].CreateInstance();
             tempInstance.Play();
-            tempInstance.Volume = SFXVolume;
+            tempInstance.Volume = SFXVolume * SFXMODIFIER;
             
             playingEffects.Add(tempInstance);
         }
@@ -75,7 +79,7 @@ namespace VectoidOdyssey
 
             foreach (SoundEffectInstance effect in playingEffects)
             {
-                effect.Volume = volume;
+                effect.Volume = volume * SFXMODIFIER;
             }
         }
 
@@ -83,7 +87,7 @@ namespace VectoidOdyssey
         {
             MusicVolume = volume;
 
-            playingSong.Volume = volume;
+            playingSong.Volume = volume * MUSICMODIFIER;
         }
 
         public static void PlaySong(SoundEffect effect)
@@ -91,6 +95,7 @@ namespace VectoidOdyssey
             StopSong();
 
             playingSong = effect.CreateInstance();
+            playingSong.Volume = MusicVolume * MUSICMODIFIER;
             playingSong.IsLooped = true;
             playingSong.Play();
         }

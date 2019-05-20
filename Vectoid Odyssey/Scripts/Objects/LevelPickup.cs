@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     abstract class LevelPickup : WorldObject
     {

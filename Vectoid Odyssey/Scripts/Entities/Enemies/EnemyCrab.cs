@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     // Bigger heavier variant on the Sock-type enemy, that bounces the player away as opposed to the enemy itself
     class EnemyCrab : Enemy

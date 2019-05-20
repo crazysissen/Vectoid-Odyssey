@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
 #if WINDOWS || LINUX
     /// <summary>
@@ -14,7 +14,7 @@ namespace VectoidOdyssey
         [STAThread]
         static void Main()
         {
-            using (var game = new VectoidOdyssey())
+            using (var game = new DCOdyssey())
                 game.Run();
         }
     }

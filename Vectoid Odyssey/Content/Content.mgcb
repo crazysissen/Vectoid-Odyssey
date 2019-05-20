@@ -69,12 +69,6 @@
 /processorParam:Quality=Best
 /build:Sound/Music/Bosses/SongArkan.mp3
 
-#begin Sound/Music/Levels/Sludge.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sound/Music/Levels/Sludge.mp3
-
 #begin Sound/SFX/Bosses/Arkan/ArkanAngry.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -116,102 +110,6 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sound/SFX/Bosses/Arkan/ArkanShoot.mp3
-
-#begin Sound/SFX/Generic/Explosion1.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Low
-/build:Sound/SFX/Generic/Explosion1.wav
-
-#begin Sound/SFX/Generic/Explosion2.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Low
-/build:Sound/SFX/Generic/Explosion2.wav
-
-#begin Sound/SFX/Generic/Explosion3.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Low
-/build:Sound/SFX/Generic/Explosion3.wav
-
-#begin Sound/SFX/Generic/Explosion4.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Low
-/build:Sound/SFX/Generic/Explosion4.wav
-
-#begin Sound/SFX/Generic/Explosion5.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Low
-/build:Sound/SFX/Generic/Explosion5.wav
-
-#begin Sound/SFX/Generic/Flamethrower.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Low
-/build:Sound/SFX/Generic/Flamethrower.wav
-
-#begin Sound/SFX/Generic/HitHeavy.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Low
-/build:Sound/SFX/Generic/HitHeavy.wav
-
-#begin Sound/SFX/Generic/HitLight.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Low
-/build:Sound/SFX/Generic/HitLight.wav
-
-#begin Sound/SFX/Generic/HitMedium.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Low
-/build:Sound/SFX/Generic/HitMedium.wav
-
-#begin Sound/SFX/Generic/LowSweep.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Low
-/build:Sound/SFX/Generic/LowSweep.wav
-
-#begin Sound/SFX/Generic/Pickup1.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Low
-/build:Sound/SFX/Generic/Pickup1.wav
-
-#begin Sound/SFX/Generic/Pickup2.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Low
-/build:Sound/SFX/Generic/Pickup2.wav
-
-#begin Sound/SFX/Generic/Shoot1.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Low
-/build:Sound/SFX/Generic/Shoot1.wav
-
-#begin Sound/SFX/Generic/Shoot2.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Low
-/build:Sound/SFX/Generic/Shoot2.wav
-
-#begin Sound/SFX/Generic/Shoot4.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sound/SFX/Generic/Shoot4.wav
-
-#begin Sound/SFX/Generic/Whap.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Low
-/build:Sound/SFX/Generic/Whap.wav
 
 #begin Visuals/Bosses/Arkan/ArkanBody.png
 /importer:TextureImporter
@@ -777,6 +675,48 @@
 /processorParam:TextureFormat=Color
 /build:Visuals/GUI/InGameMenuSmall.png
 
+#begin Visuals/LevelObjects/Portal.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Visuals/LevelObjects/Portal.png
+
+#begin Visuals/Tiles/Sewer/Exit1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Visuals/Tiles/Sewer/Exit1.png
+
+#begin Visuals/Misc/LogoAnimation.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Visuals/Misc/LogoAnimation.png
+
+#begin Sound/SFX/Generic/Blink.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Blink.wav
+
 #begin Sound/SFX/Generic/Click1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -813,6 +753,78 @@
 /processorParam:Quality=Best
 /build:Sound/SFX/Generic/DyingBreath.wav
 
+#begin Sound/SFX/Generic/Explosion1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Explosion1.wav
+
+#begin Sound/SFX/Generic/Explosion2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Explosion2.wav
+
+#begin Sound/SFX/Generic/Explosion3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Explosion3.wav
+
+#begin Sound/SFX/Generic/Explosion4.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Explosion4.wav
+
+#begin Sound/SFX/Generic/Explosion5.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Explosion5.wav
+
+#begin Sound/SFX/Generic/Flamethrower.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Flamethrower.wav
+
+#begin Sound/SFX/Generic/HitHeavy.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/HitHeavy.wav
+
+#begin Sound/SFX/Generic/HitLight.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/HitLight.wav
+
+#begin Sound/SFX/Generic/HitMedium.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/HitMedium.wav
+
+#begin Sound/SFX/Generic/LowSweep.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/LowSweep.wav
+
+#begin Sound/SFX/Generic/Pickup1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Pickup1.wav
+
+#begin Sound/SFX/Generic/Pickup2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Pickup2.wav
+
 #begin Sound/SFX/Generic/Powerup2.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -831,11 +843,29 @@
 /processorParam:Quality=Best
 /build:Sound/SFX/Generic/SharpSwoosh.wav
 
+#begin Sound/SFX/Generic/Shoot1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Shoot1.wav
+
+#begin Sound/SFX/Generic/Shoot2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Shoot2.wav
+
 #begin Sound/SFX/Generic/Shoot3.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sound/SFX/Generic/Shoot3.wav
+
+#begin Sound/SFX/Generic/Shoot4.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Shoot4.wav
 
 #begin Sound/SFX/Generic/SweepShort.wav
 /importer:WavImporter
@@ -843,19 +873,13 @@
 /processorParam:Quality=Best
 /build:Sound/SFX/Generic/SweepShort.wav
 
-#begin Visuals/LevelObjects/Portal.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Visuals/LevelObjects/Portal.png
+#begin Sound/SFX/Generic/Whap.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/SFX/Generic/Whap.wav
 
-#begin Visuals/Tiles/Sewer/Exit1.png
+#begin Visuals/Player/PlayerCrouch.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -865,5 +889,23 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Visuals/Tiles/Sewer/Exit1.png
+/build:Visuals/Player/PlayerCrouch.png
+
+#begin Sound/Music/Levels/SongSludge.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/Music/Levels/SongSludge.mp3
+
+#begin Visuals/Misc/Logo.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Visuals/Misc/Logo.png
 

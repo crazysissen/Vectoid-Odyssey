@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     // TEMPORARY SOLUTION
     class MenuManager
@@ -23,8 +23,12 @@ namespace VectoidOdyssey
         #endregion
 
         //In Game
-        public GUI.Collection /*myPauseMenu,*/ myHUD/*, myUpgradeMenu*/;
+        public GUI.Collection myHUD, myHUDExpanded/*, myUpgradeMenu*/;
         #region Elements
+        Renderer.SpriteScreen sHudBig, sHudSmall;
+        Renderer.SpriteScreenFloating[] sWeapons, sItems;
+        GUI.Button bResume, bHudOptions, bExit;
+        GUI.Button[] bWeapons;
         #endregion
 
         public MenuManager(UpdateManager anUpdateManager)
@@ -37,7 +41,7 @@ namespace VectoidOdyssey
 
         public void CreateMainMenu()
         {
-            Point tempRes = VectoidOdyssey.AccessResolution, tempGameRes = VectoidOdyssey.GetGameResolution;
+            Point tempRes = DCOdyssey.AccessResolution, tempGameRes = DCOdyssey.GetGameResolution;
 
             myMainMenu = new GUI.Collection(false);
             myMainMenu.AccessOrigin = new Point(80, 40);
@@ -92,9 +96,29 @@ namespace VectoidOdyssey
 
         private void MainMenuQuit()
         {
-            VectoidOdyssey.Quit();
+            DCOdyssey.Quit();
         }
 
         #endregion
+
+        #region HUD
+
+        public void CreateHUD()
+        {
+            myHUD = new GUI.Collection(false);
+            myHUDExpanded = new GUI.Collection(false);
+            myMainCollection.Add(myHUD, myHUDExpanded);
+
+            sHudBig = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 10), Load.Get<Texture2D>("InGameMenu"), ScreenRectangle(100, 0, 280, 60), Color.White);
+            sHudSmall = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), Load.Get<Texture2D>("InGameMenu"), ScreenRectangle(100, 0, 280, 60), Color.White);
+
+            myHUD.Add(sHudBig, sHudSmall);
+        }
+
+        #endregion
+
+        public static Point ScreenPoint(Point aGamePoint) => (aGamePoint.ToVector2() * DCOdyssey.GetScreenPoint).RoundToPoint();
+        public static Point ScreenPoint(int x, int y) => ScreenPoint(new Point(x, y));
+        public static Rectangle ScreenRectangle(int x, int y, int aWidth, int aHeight) => new Rectangle(ScreenPoint(x, y), ScreenPoint(aWidth, aHeight));
     }
 }

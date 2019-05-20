@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     class Player : Entity
     {
@@ -22,13 +22,14 @@ namespace VectoidOdyssey
         private PlayerWeapon GetActiveWeapon => myWeapons[myActiveWeapon];
 
         private MenuManager myMenuManager;
-        private HitDetector myHitDetector;
+        private HitDetector myHitDetector, myTopDetector;
+        //private Texture2D myTexture, myCrouchTexture;
         private Renderer.Sprite myBodyRenderer;
         private PlayerWeapon[] myWeapons;
         private List<Item> myItems;
         private float myMaxSpeed, myAcceleration, myBrakeAcceleration, myAnimationFrame = ANIMATIONSPEED * 0.5f, myMaxJumpTime, myStartJumpSpeed, myEndJumpSpeed, myCurrentJumpTime, myJumpBlockTimer, myJumpBlockTime, myNonLinear;
         private int myActiveWeapon, myScore;
-        private bool myOnGround, myJumping, myGoingToJump;
+        private bool myOnGround, myJumping, myGoingToJump/*, myCrouching*/;
 
         private Renderer.Text myGUIHealth, myGUIScore;
 
@@ -56,6 +57,8 @@ namespace VectoidOdyssey
             myItems = new List<Item>();
             myActiveWeapon = 1;
 
+            //myTexture = aSetup.sheet;
+            //myCrouchTexture = aSetup.crouchSheet;
             myWeapons = aSetup.weapons;
             myMaxSpeed = aSetup.maxSpeed;
             myAcceleration = aSetup.acceleration;
@@ -190,9 +193,16 @@ namespace VectoidOdyssey
 
             if (myOnGround)
             {
-                //AccessVelocity = new Vector2(AccessVelocity.X, 0);
+                //if (Input.Down(Keys.Down))
+                //{
+                //    Crouch(true);
+                //}
+                //else if (myCrouching)
+                //{
+                //    Crouch(false);
+                //}
 
-                if (myGoingToJump || Input.Down(Control.Action2))
+                if (/*!myCrouching &&*/ (myGoingToJump || Input.Down(Control.Action2)))
                 {
                     Jump();
                 }
@@ -201,6 +211,11 @@ namespace VectoidOdyssey
             }
             else
             {
+                //if (myCrouching)
+                //{
+                //    Crouch(false);
+                //}
+
                 if (!myJumping && Input.Down(Control.Action2))
                 {
                     myGoingToJump = true;
@@ -211,7 +226,6 @@ namespace VectoidOdyssey
                     myGoingToJump = false;
                 }
             }
-                //AccessPosition = new Vector2(AccessPosition.X, AccessPosition.Y.Max(-2));
 
             if (!tempClamped)
             {
@@ -226,6 +240,17 @@ namespace VectoidOdyssey
 
             myOnGround = false;
         }
+
+        //private void TryCrouch()
+        //{
+
+        //}
+        
+        //private void Crouch(bool anActiveBool)
+        //{
+        //    myBodyRenderer.AccessTexture = anActiveBool ? myCrouchTexture : myTexture;
+        //    myCrouching = true;
+        //}
 
         private void Jump()
         {
@@ -308,6 +333,18 @@ namespace VectoidOdyssey
             }
 
             return foundItem != null;
+        }
+
+        private void Interaction()
+        {
+            PlayerInteraction tempInteraction = PlayerInteraction.Closest(AccessPosition);
+
+            if (tempInteraction == null)
+            {
+                return;
+            }
+
+
         }
     }
 }

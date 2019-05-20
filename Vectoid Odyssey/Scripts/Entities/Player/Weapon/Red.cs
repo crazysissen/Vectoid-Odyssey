@@ -1,12 +1,7 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     abstract partial class PlayerWeapon
     {
@@ -15,7 +10,7 @@ namespace VectoidOdyssey
             const float
                 DISTANCE = 2.5f,
                 ANIMATIONTIME = 0.05f;
-                
+
             private Player myPlayer;
             private float myCurrentCooldown;
 

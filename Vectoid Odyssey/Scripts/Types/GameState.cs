@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     public enum GameState
     {

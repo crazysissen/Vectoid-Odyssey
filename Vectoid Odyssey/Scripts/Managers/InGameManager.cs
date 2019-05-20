@@ -7,12 +7,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     sealed class InGameManager
     {
         const float
-            MOUSELERP = 0.15f;
+            MOUSELERP = 0.10f;
 
         static public InGameManager AccessMain { get; private set; }
 
@@ -47,9 +47,11 @@ namespace VectoidOdyssey
             PlayerSetup tempSetup = new PlayerSetup()
             {
                 sheet = Load.Get<Texture2D>("Player"),
+                crouchSheet = Load.Get<Texture2D>("PlayerCrouch"),
                 maxSpeed = 2.0f,
                 acceleration = 1.3f,
                 brakeAcceleration = 2.0f,
+                crouchSpeedModifier = 0.4f,
                 maxJumpTime = 0.35f,
                 jumpStartAcceleration = 4.2f,
                 jumpEndAcceleration = 3.3f,
@@ -61,7 +63,7 @@ namespace VectoidOdyssey
                 }
             };
 
-            MusicManager.Play("Sludge");
+            MusicManager.Play("SongSludge");
 
             myMap = aMap;
             myMap.ActivateEnemies();
@@ -182,7 +184,14 @@ namespace VectoidOdyssey
         {
             if (myCameraMovement)
             {
-                RendererController.AccessCamera.AccessPosition = new Vector2(myPlayer.AccessPosition.PixelPosition().X, myPlayer.AccessPosition.PixelPosition().Y).Lerp(RendererController.AccessCamera.ScreenToWorldPosition(Input.GetMousePosition.ToVector2()), MOUSELERP);
+                Vector2 tempMousePosition = Input.GetMousePosition.ToVector2();
+                Vector2 tempNewPosition = new Vector2(myPlayer.AccessPosition.PixelPosition().X, myPlayer.AccessPosition.PixelPosition().Y).
+                    Lerp(RendererController.AccessCamera.
+                    ScreenToWorldPosition(new Vector2(
+                        tempMousePosition.X.Clamp(0, DCOdyssey.AccessResolution.X),
+                        tempMousePosition.Y.Clamp(0, DCOdyssey.AccessResolution.Y))), MOUSELERP);
+
+                RendererController.AccessCamera.AccessPosition = tempNewPosition.PixelPosition();
             }
         }
     }

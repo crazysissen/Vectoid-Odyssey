@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VectoidOdyssey
+namespace DCOdyssey
 {
     class TimerTable
     {
@@ -24,9 +24,9 @@ namespace VectoidOdyssey
             SetTimes(someTimes);
         }
 
-        public int Update(float deltaTime)
+        public int Update(float aDeltaTime)
         {
-            AccessCurrent += deltaTime;
+            AccessCurrent += aDeltaTime;
 
             float tempAccumulative = 0.0f;
 
@@ -45,10 +45,10 @@ namespace VectoidOdyssey
             return AccessTimes.Length - 1;
         }
 
-        public void SetTimes(float[] times)
+        public void SetTimes(float[] someTimes)
         {
-            AccessTimes = times;
-            AccessMaxTime = times.Sum();
+            AccessTimes = someTimes;
+            AccessMaxTime = someTimes.Sum();
         }
     }
 }
