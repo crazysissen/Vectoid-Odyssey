@@ -19,6 +19,8 @@ namespace DCOdyssey
         private List<Renderer> myRenderers = new List<Renderer>();
         private Color myBackgroundColor;
 
+        private static List<(GUIContainerMasked, Point)> myMasks = new List<(GUIContainerMasked, Point)>();
+
         /// <param name="aCameraScale">At 1.0f zoom the screen resolution is 20x12 pixels</param>
         public void Init(GraphicsDeviceManager aGraphicsDeviceManager, Vector2 aCameraPosition, float aCameraScale, Color aBackgroundColor)
         {
@@ -77,15 +79,76 @@ namespace DCOdyssey
 
             aSpriteBatch.End();
 
-            var tempMatrix = Matrix.CreateOrthographicOffCenter(0,
+            #region Mask Rendering
+
+            // Creating a matrix, alpha effect is necessary for the mask system to work
+
+            Matrix tempMatrix = Matrix.CreateOrthographicOffCenter(0,
                 aGraphicsDeviceManager.GraphicsDevice.PresentationParameters.BackBufferWidth,
                 aGraphicsDeviceManager.GraphicsDevice.PresentationParameters.BackBufferHeight,
                 0, 0, 1);
 
-            var a = new AlphaTestEffect(aGraphicsDeviceManager.GraphicsDevice)
+            AlphaTestEffect testAlpha = new AlphaTestEffect(aGraphicsDeviceManager.GraphicsDevice)
             {
                 Projection = tempMatrix
             };
+
+            MouseState tempMState = Input.GetMouseState;
+            KeyboardState tempKState = Input.GetKeyboardState;
+
+            int tempIterations = 1; // Why is this not a for-loop? Your guess is as good as mine.
+            foreach ((GUIContainerMasked mask, Point position) in myMasks)
+            {
+                DepthStencilState
+                    tempStencilA = new DepthStencilState
+                    {
+                        StencilEnable = true,
+                        StencilFunction = CompareFunction.Always,
+                        StencilPass = StencilOperation.Replace,
+                        ReferenceStencil = tempIterations,
+                        DepthBufferEnable = false,
+                    },
+
+                    tempStencilB = new DepthStencilState
+                    {
+                        StencilEnable = true,
+                        StencilFunction = CompareFunction.LessEqual,
+                        StencilPass = StencilOperation.Keep,
+                        ReferenceStencil = tempIterations,
+                        DepthBufferEnable = true,
+                    };
+
+                Texture2D transparent = new Texture2D(aGraphicsDeviceManager.GraphicsDevice, 1, 1);
+                transparent.SetData(new Color[] { Color.Transparent });
+
+                // First render a 0-opaque back buffer and the according render mask
+
+                aSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, tempStencilA, null, a);
+
+                aSpriteBatch.Draw(transparent, new Rectangle(0, 0, aGraphicsDeviceManager.PreferredBackBufferWidth, aGraphicsDeviceManager.PreferredBackBufferHeight), Color.Black);
+                aSpriteBatch.Draw(mask.Mask.AccessTexture, new Rectangle(mask.Mask.AccessRectangle.Location + mask.AccessOrigin, mask.Mask.AccessRectangle.Size), Color.Transparent);
+
+                aSpriteBatch.End();
+
+                // Render every consequential member in order of layer within the mask
+
+                aSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, tempStencilB, null, null);
+
+                IGUIMember[] maskGuiMembers = GUI.GetMembers(mask, tempMState, tempKState, aDeltaTime, mask.AccessOrigin).OrderBy(o => o.AccessLayer.GetDepth).ToArray();
+
+                foreach (IGUIMember guiMember in maskGuiMembers)
+                {
+                    guiMember.Draw(aSpriteBatch, tempMState, tempKState, aDeltaTime);
+                }
+
+                aSpriteBatch.End();
+
+                // Iterating the layer number so that multiple simultanious masks are possible
+
+                ++tempIterations;
+            }
+
+            #endregion
         }
 
         public static void AddRenderer(Renderer renderer)

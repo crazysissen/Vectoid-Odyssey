@@ -32,6 +32,26 @@ namespace DCOdyssey
             }
         }
 
+        public class MaskedCollection : GUIContainerMasked, IGUIMember
+        {
+            Layer IGUIMember.AccessLayer => Layer.Default;
+
+            Point IGUIMember.AccessOrigin { get; set; }
+
+            public MaskedCollection(bool anAddToRootBool = false)
+            {
+                if (anAddToRootBool)
+                {
+                    RendererController.AccessGUI.Add(this);
+                }
+            }
+
+            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
+            {
+
+            }
+        }
+
         public class Panel : GUIContainer, IGUIMember
         {
             Layer IGUIMember.AccessLayer => Layer.Default;

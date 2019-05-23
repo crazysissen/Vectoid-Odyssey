@@ -118,6 +118,30 @@ namespace DCOdyssey
         }
     }
 
+    public abstract class GUIContainerMasked : GUIContainer
+    {
+        public Mask Mask { get; set; }
+    }
+
+    public struct Mask
+    {
+        public Texture2D AccessTexture { get; set; }
+        public Color AccessColor { get; set; }
+        public Rectangle AccessRectangle { get; set; }
+        public bool AccessIfInvert { get; set; }
+
+        public Mask(Texture2D aMask, Rectangle aRectangle, Color aColor, bool aRenderOutside)
+        {
+            AccessTexture = aMask;
+            AccessRectangle = aRectangle;
+            AccessIfInvert = aRenderOutside;
+            AccessColor = aColor;
+        }
+
+        public static implicit operator Mask((Texture2D aTexture, Rectangle aRectangle, bool renderOutside) aTuple)
+            => new Mask(aTuple.aTexture, aTuple.aRectangle, Color.White, aTuple.renderOutside);
+    }
+
     public interface IGUIMember
     {
         Layer AccessLayer { get; }
