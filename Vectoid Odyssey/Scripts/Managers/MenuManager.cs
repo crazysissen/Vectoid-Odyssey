@@ -114,11 +114,11 @@ namespace DCOdyssey
             sHudSmall = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), Load.Get<Texture2D>("InGameMenuSmall"), ScreenRectangle(100, 0, 280, 60), Color.White);
             sHudStats = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), Load.Get<Texture2D>("InGameHUD"), ScreenRectangle(0, 203, 66, 67), Color.White);
 
-            myHPBar = new GUI.MaskedCollection() { a}
+            //myHPBar = new GUI.MaskedCollection() { Mask = new Mask( }
             myAmmoBar = new GUI.MaskedCollection();
 
             myHUD.Add(sHudSmall, sHudStats);
-            myHUDExpanded.Add(sHudBig, );
+            //myHUDExpanded.Add(sHudBig, );
         }
 
         #endregion

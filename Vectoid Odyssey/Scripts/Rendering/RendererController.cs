@@ -123,7 +123,7 @@ namespace DCOdyssey
 
                 // First render a 0-opaque back buffer and the according render mask
 
-                aSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, tempStencilA, null, a);
+                aSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, tempStencilA, null, testAlpha);
 
                 aSpriteBatch.Draw(transparent, new Rectangle(0, 0, aGraphicsDeviceManager.PreferredBackBufferWidth, aGraphicsDeviceManager.PreferredBackBufferHeight), Color.Black);
                 aSpriteBatch.Draw(mask.Mask.AccessTexture, new Rectangle(mask.Mask.AccessRectangle.Location + mask.AccessOrigin, mask.Mask.AccessRectangle.Size), Color.Transparent);
