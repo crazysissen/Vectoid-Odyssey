@@ -909,3 +909,15 @@
 /processorParam:TextureFormat=Color
 /build:Visuals/Misc/Logo.png
 
+#begin Sound/Music/Other/SongMainMenu.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sound/Music/Other/SongMainMenu.mp3
+
+#begin Sound/Music/Bosses/SongGlitch.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sound/Music/Bosses/SongGlitch.mp3
+

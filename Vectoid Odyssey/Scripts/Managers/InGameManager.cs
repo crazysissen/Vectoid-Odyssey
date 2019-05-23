@@ -63,7 +63,7 @@ namespace DCOdyssey
                 }
             };
 
-            MusicManager.Play("SongSludge");
+            Music.Play("SongSludge");
 
             myMap = aMap;
             myMap.ActivateEnemies();

@@ -1,4 +1,6 @@
 ﻿using System;
+//using System.Windows.Forms;
+//using System.Drawing;
 
 namespace DCOdyssey
 {
@@ -15,7 +17,17 @@ namespace DCOdyssey
         static void Main()
         {
             using (var game = new DCOdyssey())
+            {
+                //try
+                //{
+                    
+                //    Form tempForm = Form.
+                //    tempForm.Icon = new Icon("Icon.ico");
+                //}
+                //catch { }
+
                 game.Run();
+            }
         }
     }
 #endif

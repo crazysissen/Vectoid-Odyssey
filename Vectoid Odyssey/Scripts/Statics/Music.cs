@@ -8,10 +8,8 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace DCOdyssey
 {
-    static class MusicManager
+    static class Music
     {
-
-
         private static Dictionary<string, SoundEffect> songs;
 
         public static void Init()

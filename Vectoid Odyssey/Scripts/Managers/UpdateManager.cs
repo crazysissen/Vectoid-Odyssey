@@ -21,7 +21,7 @@ namespace DCOdyssey
 
         public void Init()
         {
-            MusicManager.Init();
+            Music.Init();
 
             myMenuManager = new MenuManager(this);
 
