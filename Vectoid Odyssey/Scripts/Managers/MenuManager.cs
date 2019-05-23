@@ -24,8 +24,9 @@ namespace DCOdyssey
 
         //In Game
         public GUI.Collection myHUD, myHUDExpanded/*, myUpgradeMenu*/;
+        GUI.MaskedCollection myHPBar, myAmmoBar;
         #region Elements
-        Renderer.SpriteScreen sHudBig, sHudSmall;
+        Renderer.SpriteScreen sHudBig, sHudSmall, sHudStats;
         Renderer.SpriteScreenFloating[] sWeapons, sItems;
         GUI.Button bResume, bHudOptions, bExit;
         GUI.Button[] bWeapons;
@@ -110,9 +111,14 @@ namespace DCOdyssey
             myMainCollection.Add(myHUD, myHUDExpanded);
 
             sHudBig = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 10), Load.Get<Texture2D>("InGameMenu"), ScreenRectangle(100, 0, 280, 60), Color.White);
-            sHudSmall = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), Load.Get<Texture2D>("InGameMenu"), ScreenRectangle(100, 0, 280, 60), Color.White);
+            sHudSmall = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), Load.Get<Texture2D>("InGameMenuSmall"), ScreenRectangle(100, 0, 280, 60), Color.White);
+            sHudStats = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), Load.Get<Texture2D>("InGameHUD"), ScreenRectangle(0, 203, 66, 67), Color.White);
 
-            myHUD.Add(sHudBig, sHudSmall);
+            myHPBar = new GUI.MaskedCollection() { a}
+            myAmmoBar = new GUI.MaskedCollection();
+
+            myHUD.Add(sHudSmall, sHudStats);
+            myHUDExpanded.Add(sHudBig, );
         }
 
         #endregion
