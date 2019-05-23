@@ -44,8 +44,8 @@ namespace DCOdyssey
 
             myGraphics = new GraphicsDeviceManager(this)
             {
-                PreferredBackBufferWidth = tempRes.X * 5,
-                PreferredBackBufferHeight = tempRes.Y * 5,
+                PreferredBackBufferWidth = tempRes.X * 3,
+                PreferredBackBufferHeight = tempRes.Y * 3,
                 IsFullScreen = false
             };
 
