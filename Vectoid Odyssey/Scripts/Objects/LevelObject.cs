@@ -18,14 +18,14 @@ namespace DCOdyssey
 
         public void AddCollider(Vector2 aTopLeft, Vector2 aBottomRight, bool aWorldCollider)
         {
-            AccessBoundingBox = new HitDetector(aTopLeft, aBottomRight);
-            AccessBoundingBox.AccessOwner = this;
-            AccessBoundingBox.OnEnter += Collide;
+            AccessHitDetector = new HitDetector(aTopLeft, aBottomRight);
+            AccessHitDetector.AccessOwner = this;
+            AccessHitDetector.OnEnter += Collide;
 
             if (aWorldCollider)
             {
-                AccessBoundingBox.AccessTags.Add("World");
-                AccessBoundingBox.AccessTags.Add("BulletTarget");
+                AccessHitDetector.AccessTags.Add("World");
+                AccessHitDetector.AccessTags.Add("BulletTarget");
             }
         }
 

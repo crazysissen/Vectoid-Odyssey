@@ -12,7 +12,7 @@ namespace DCOdyssey
     static class Sound
     {
         public const float
-            MUSICMODIFIER = 0.0f,
+            MUSICMODIFIER = 0.85f,
             SFXMODIFIER = 1.0f;
 
         public static float SFXVolume { get; private set; } = 1; // TODO: Fix audio volume
@@ -56,6 +56,9 @@ namespace DCOdyssey
         }
 
         public static void PlayEffect(string aName)
+            => PlayEffect(aName, 1.0f);
+
+        public static void PlayEffect(string aName, float aVolumeMultiplier)
         {
             if (!effects.ContainsKey(aName))
             {
@@ -65,7 +68,7 @@ namespace DCOdyssey
 
             SoundEffectInstance tempInstance = effects[aName].CreateInstance();
             tempInstance.Play();
-            tempInstance.Volume = SFXVolume * SFXMODIFIER;
+            tempInstance.Volume = SFXVolume * SFXMODIFIER * aVolumeMultiplier;
             
             playingEffects.Add(tempInstance);
         }

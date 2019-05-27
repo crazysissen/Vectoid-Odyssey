@@ -15,10 +15,10 @@ namespace DCOdyssey
         
         const float
             NULLTIME = 0.2f,
-            BLINKDELAY = 0.9f,
-            ANIMTIME = 1.5f,
-            WAITTIME = 0.8f,
-            FADETIME = 0.5f,
+            BLINKDELAY = 0.88f,
+            ANIMTIME = 1.2f,
+            WAITTIME = 0.5f,
+            FADETIME = 0.4f,
             ENDTIME = 0.4f;
 
         private Renderer.SpriteScreenFloating myRenderer;

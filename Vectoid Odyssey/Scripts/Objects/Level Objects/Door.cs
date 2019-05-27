@@ -27,7 +27,15 @@ namespace DCOdyssey
             myKey = aKey;
             myLocked = aKey != null;
             myVicinityOrigin = aTopLeft * 2 + new Vector2(1, 5);
-            myRenderer = new Renderer.Sprite(Layer.Default, Load.Get<Texture2D>(myLocked ? "LockedDoor" : "UnlockedDoor"), aTopLeft * 2, Vector2.One, Color.White, 0, Vector2.Zero);
+
+            Texture2D tempTexture = Load.Get<Texture2D>(myLocked ? "LockedDoor" : "UnlockedDoor");
+
+            if (myLocked)
+            {
+                tempTexture = ImageProcessing.NewWithReplacedColors(tempTexture, (new Color(255, 162, 0), KeyColor(myKey.Value)));
+            }
+
+            myRenderer = new Renderer.Sprite(Layer.Default, tempTexture, aTopLeft * 2, Vector2.One, Color.White, 0, Vector2.Zero);
 
             SetFrame(0);
 
@@ -37,7 +45,7 @@ namespace DCOdyssey
 
             if (myLocked)
             {
-                myInteraction = new PlayerInteraction("Key needed", false, myVicinityOrigin);
+                myInteraction = new PlayerInteraction("Key needed", true, myVicinityOrigin);
             }
         }
 
@@ -68,6 +76,7 @@ namespace DCOdyssey
                         {
                             myKey = null;
                             myRenderer.AccessTexture = Load.Get<Texture2D>("UnlockedDoor");
+                            myInteraction?.Destroy();
                         }
                     }
                     else
@@ -117,7 +126,7 @@ namespace DCOdyssey
         public void Open()
         {
             myOpen = true;
-            AccessBoundingBox.AccessActive = false;
+            AccessHitDetector.AccessActive = false;
 
             if (myTimer > 0)
             {
@@ -132,7 +141,7 @@ namespace DCOdyssey
         public void Close()
         {
             myOpen = false;
-            AccessBoundingBox.AccessActive = true;
+            AccessHitDetector.AccessActive = true;
 
             if (myTimer > 0)
             {
@@ -166,5 +175,27 @@ namespace DCOdyssey
 
         private void SetFrame(int aFrame) 
             => myRenderer.AccessSourceRectangle = new Rectangle(16 * aFrame, 0, 16, 64);
+
+        public static Color KeyColor(int aKeyIndex)
+        {
+            Color[] tempColors =
+            {
+                new Color(255, 162, 0),
+                new Color(255, 100, 255),
+                new Color(100, 160, 255),
+                new Color(170, 255, 0),
+                new Color(140, 70, 90),
+                new Color(255, 80, 100),
+                new Color(70, 180, 20),
+                Color.White
+            };
+
+            if (aKeyIndex >= tempColors.Length)
+            {
+                return Color.White;
+            }
+
+            return tempColors[aKeyIndex];
+        }
     }
 }

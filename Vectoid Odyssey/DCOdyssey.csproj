@@ -7,10 +7,10 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{39F70FF3-911A-4606-B55A-FDAFA1E6C973}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DCOdyssey</RootNamespace>
-    <AssemblyName>DCOdyssey</AssemblyName>
+    <AssemblyName>DCO</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -91,7 +91,7 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <PropertyGroup>
-    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -107,13 +107,18 @@
     <Compile Include="Scripts\Entities\Player\Player.cs" />
     <Compile Include="Scripts\Entities\Player\PlayerInteraction.cs" />
     <Compile Include="Scripts\Entities\Player\PlayerSetup.cs" />
-    <Compile Include="Scripts\Entities\Player\Weapon\Bullet.cs" />
+    <Compile Include="Scripts\Entities\Player\Weapon\Bullets\Bullet.cs" />
     <Compile Include="Scripts\Entities\Player\Weapon\PlayerWeapon.cs" />
+    <Compile Include="Scripts\Entities\Player\Weapon\Green.cs" />
+    <Compile Include="Scripts\Entities\Player\Weapon\LightBlue.cs" />
+    <Compile Include="Scripts\Entities\Player\Weapon\Orange.cs" />
+    <Compile Include="Scripts\Entities\Player\Weapon\Pink.cs" />
     <Compile Include="Scripts\Entities\Player\Weapon\Red.cs" />
     <Compile Include="Scripts\Entities\Player\Weapon\WeaponStats.cs" />
     <Compile Include="Scripts\Entities\Player\Weapon\Teal.cs" />
     <Compile Include="Scripts\Managers\InGameManager.cs" />
     <Compile Include="Scripts\Managers\MenuManager.cs" />
+    <Compile Include="Scripts\Objects\Level Objects\Pipe.cs" />
     <Compile Include="Scripts\Statics\Music.cs" />
     <Compile Include="Scripts\Managers\PauseManager.cs" />
     <Compile Include="Scripts\Map\CompleteMap.cs" />

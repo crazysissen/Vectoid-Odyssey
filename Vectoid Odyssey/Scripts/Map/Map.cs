@@ -27,6 +27,9 @@ namespace DCOdyssey
 
         }
 
+        public bool HasBounds()
+            => myBounds != null && myBounds.Count > 0;
+
         public virtual RoomBounds GetRoom(Vector2 aPosition)
         {
             if (myBounds.Count == 0)

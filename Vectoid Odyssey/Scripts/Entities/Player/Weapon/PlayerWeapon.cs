@@ -78,16 +78,16 @@ namespace DCOdyssey
             switch (aType)
             {
                 case PlayerWeaponType.Green:
-                    break;
+                    return new Green();
 
                 case PlayerWeaponType.LightBlue:
-                    break;
+                    return new LightBlue();
 
                 case PlayerWeaponType.Orange:
-                    break;
+                    return new Orange();
 
                 case PlayerWeaponType.Pink:
-                    break;
+                    return new Pink();
 
                 case PlayerWeaponType.Red:
                     return new Red();
@@ -95,8 +95,6 @@ namespace DCOdyssey
                 default:
                     return new Teal();
             }
-
-            return new Teal();
         }
 
     }

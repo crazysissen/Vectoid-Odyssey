@@ -23,7 +23,11 @@ namespace DCOdyssey
             myTexture = aTexture;
             mySpawnPosition = aSpawnPosition;
             myWorldObjects = someObjects;
-            myBounds.AddRange(someRoomBounds);
+
+            if (someRoomBounds != null)
+            {
+                myBounds.AddRange(someRoomBounds);
+            }
 
             HitDetector[] tempDetectors = new HitDetector[someColliders.Length];
             for (int i = 0; i < tempDetectors.Length; i++)

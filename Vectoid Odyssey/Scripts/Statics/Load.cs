@@ -19,6 +19,7 @@ namespace DCOdyssey
     {
         static Dictionary<string, object> myContentDictionary;
         static Dictionary<string, object> myContentCollections;
+        static Dictionary<string, Dictionary<string, MapObject[]>> myMaps;
 
         static string[] ignoredExtensions = { ".ttf", ".ogg" };
 
@@ -26,6 +27,7 @@ namespace DCOdyssey
         {
             myContentDictionary = new Dictionary<string, object>();
             myContentCollections = new Dictionary<string, object>();
+            myMaps = new Dictionary<string, Dictionary<string, MapObject[]>>();
         }
 
         public static void ImportAll(ContentManager aContent)
@@ -65,7 +67,23 @@ namespace DCOdyssey
             {
                 string tempCurrentName = Path.GetFileNameWithoutExtension(file.FullName);
 
-                if (!ignoredExtensions.Contains(file.Extension))
+                if (file.Extension == ".dcomap")
+                {
+                    Dictionary<string, (float w, float h, float x, float y, string c)[]> tempMapImport;
+
+                    try
+                    {
+                        tempMapImport = File.ReadAllBytes(file.FullName).ToObject<Dictionary<string, (float w, float h, float x, float y, string c)[]>>();
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Unreadable map file skipped");
+                        continue;
+                    }
+
+                    myMaps.Add(file.Name.Split('.')[0], ImportMap(tempMapImport));
+                }
+                else if (!ignoredExtensions.Contains(file.Extension))
                 {
                     tempAllFiles.Add(new ImportObject(tempCurrentName, anAppendableAdditionalPath + tempCurrentName));
                 }
@@ -150,9 +168,51 @@ namespace DCOdyssey
             return null;
         }
 
+        public static Dictionary<string, MapObject[]> GetMap(string aTag)
+        {
+            if (myMaps.ContainsKey(aTag))
+            {
+                return myMaps[aTag];
+            }
+
+            Console.WriteLine("ERROR: Tried to get nonexistent map file.");
+            return null;
+        }
+
         public static bool Exists(string aTag) => myContentDictionary.ContainsKey(aTag);
 
         public static void Add(string aTag, object anObj) => myContentDictionary.Add(aTag, anObj);
+
+        private static Dictionary<string, MapObject[]> ImportMap(Dictionary<string, (float w, float h, float x, float y, string c)[]> aDictionary)
+        {
+            string[] tempDesiredTags = { "Collision", "Pipes", "Objects", "Entities" };
+
+            Dictionary<string, MapObject[]> tempMap = new Dictionary<string, MapObject[]>();
+
+            foreach (string tag in tempDesiredTags)
+            {
+                if (aDictionary.ContainsKey(tag))
+                {
+                    int tempLength = aDictionary[tag].Length;
+                    MapObject[] tempObjects = new MapObject[tempLength];
+
+                    for (int i = 0; i < tempLength; ++i)
+                    {
+                        (float w, float h, float x, float y, string c) tempObject = aDictionary[tag][i];
+
+                        tempObjects[i] = new MapObject(tempObject.x, tempObject.y, tempObject.w, tempObject.h, tempObject.c);
+                    }
+
+                    tempMap.Add(tag, tempObjects);
+                }
+                else
+                {
+                    tempMap.Add(tag, new MapObject[0]);
+                }
+            }
+
+            return tempMap;
+        }
 
         // Merely data storage. As is stated elsewhere in this solution, application of code standard is unnecessary and redundant.
 
@@ -189,6 +249,21 @@ namespace DCOdyssey
             {
                 this.names = names;
                 this.collectionName = collectionName;
+            }
+        }
+
+        public struct MapObject
+        {
+            public float x, y, width, height;
+            public String content;
+
+            public MapObject(float x, float y, float width, float height, string content)
+            {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.content = content;
             }
         }
     }

@@ -34,6 +34,13 @@ namespace DCOdyssey
                         continue;
                     }
 
+                    if (member is GUIContainerMasked)
+                    {
+                        RendererController.TemporaryAddMask(member as GUIContainerMasked, anAdditiveOrigin);
+
+                        continue;
+                    }
+
                     myNewMembers.AddRange(GetMembers((member as GUIContainer), aMouseState, aKeyboardState, aDeltaTime, anAdditiveOrigin + (member as GUIContainer).AccessOrigin));
                 }
 

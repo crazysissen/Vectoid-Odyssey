@@ -25,7 +25,7 @@ namespace DCOdyssey
 
             myMenuManager = new MenuManager(this);
 
-            myMenuManager.CreateMainMenu();
+            myMenuManager.CreateMainMenu(); 
         }
 
         public void Update(float aDeltaTime)

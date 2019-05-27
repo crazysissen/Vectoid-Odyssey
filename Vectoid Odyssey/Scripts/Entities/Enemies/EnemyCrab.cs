@@ -44,7 +44,6 @@ namespace DCOdyssey
         {
             AccessHealth = HEALTH;
             AccessDynamic = true;
-            AccessKeepInBounds = true;
             AccessWorldCollide = true;
             AccessGravity = true;
             AccessPosition = aPosition;
@@ -56,9 +55,9 @@ namespace DCOdyssey
 
             myRenderer = new Renderer.Animator(Layer.Default, myIdleTexture, new Point(16, 16), AccessPosition, Vector2.One, new Vector2(8, 8), 0, Color.White, 0.6f, 0, true, SpriteEffects.None);
 
-            AccessBoundingBox = new HitDetector(aPosition - Vector2.One, aPosition + Vector2.One, "BulletTarget", "Enemy");
-            AccessBoundingBox.AccessOwner = this;
-            AccessBoundingBox.OnEnter += Collide;
+            AccessHitDetector = new HitDetector(aPosition - Vector2.One, aPosition + Vector2.One, "BulletTarget", "Enemy");
+            AccessHitDetector.AccessOwner = this;
+            AccessHitDetector.OnEnter += Collide;
             OnBoundCorrection += Correction;
 
             myState = State.Idle;
@@ -164,7 +163,7 @@ namespace DCOdyssey
 
         public override void UpdateHitDetector()
         {
-            AccessBoundingBox.Set(AccessPosition - Vector2.One, AccessPosition + Vector2.One);
+            AccessHitDetector.Set(AccessPosition - Vector2.One, AccessPosition + Vector2.One);
         }
 
         protected override void Death()
@@ -172,7 +171,7 @@ namespace DCOdyssey
             Player.AccessMainPlayer.AddScore(SCORE);
 
             myRenderer.Destroy();
-            AccessBoundingBox.Destroy();
+            AccessHitDetector.Destroy();
 
             Destroy();
         }
@@ -189,7 +188,7 @@ namespace DCOdyssey
                 {
                     tempPlayer.ChangeHP(-DAMAGE);
                     tempPlayer.AccessVelocity = (-tempNVector * BOUNCEFORCE + new Vector2(tempNVector.X < 0 ? 1 : -1, -0.5f));
-                    tempPlayer.BlockControls(BLOCKTIME);
+                    tempPlayer.BlockJump(BLOCKTIME);
                 }
 
                 myState = State.Jump;

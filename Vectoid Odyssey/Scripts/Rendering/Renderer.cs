@@ -211,6 +211,7 @@ namespace DCOdyssey
             public int AccessCurrentFrame => (int)(AccessTime / AccessTimeInterval);
             public int AccessFrameCount { get; private set; }
             public bool AccesComplete { get; private set; }
+            public bool AccessStopAtCompletion { get; set; } = true;
 
             public Animator(Layer aLayer, Texture2D aSheet, Point someFrameDimensions, Vector2 aPosition, Vector2 aSize, Vector2 anOrigin, float aRotation, Color aColor, float anInterval, float aStartTime, bool aRepeat, SpriteEffects someSpriteEffects)
             {
@@ -249,18 +250,27 @@ namespace DCOdyssey
                     else
                     {
                         AccesComplete = true;
-                        return;
+
+                        if (AccessStopAtCompletion)
+                        {
+                            return;
+                        }
                     }
                 }
 
                 int tempCurrentFrame = AccessCurrentFrame;
-                Rectangle tempDestinationRectangle = new Rectangle()
+                Rectangle? tempDestinationRectangle = new Rectangle()
                 {
                     X = AccessFrameDimensions.X * (tempCurrentFrame % AccessCountDimensions.X),
                     Y = AccessFrameDimensions.Y * (int)((float)tempCurrentFrame / AccessCountDimensions.X),
                     Width = AccessFrameDimensions.X,
                     Height = AccessFrameDimensions.Y
                 };
+
+                if (AccessFrameDimensions.X == AccessTexture.Width)
+                {
+                    tempDestinationRectangle = null;
+                }
 
                 aSpriteBatch.Draw(AccessTexture, aCamera.WorldToScreenPosition(AccessPosition), tempDestinationRectangle, AccessColor, AccessRotation, AccessOrigin, aCamera.WorldToScreenSize(AccessSize), AccessEffects, AccessLayer.GetDepth);
             }

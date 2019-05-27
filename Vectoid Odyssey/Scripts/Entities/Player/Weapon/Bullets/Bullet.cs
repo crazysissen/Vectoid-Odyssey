@@ -10,6 +10,8 @@ namespace DCOdyssey
 {
     class Bullet : WorldObject
     {
+        const float MAXDISTANCE = 38.0f;
+
         public enum TargetType
         {
             Player, Enemy
@@ -21,28 +23,42 @@ namespace DCOdyssey
         public int AccessDamage { get; set; }
         public bool AccessPiercing { get; set; }
 
-        private Renderer.Sprite myRenderer;
+        private bool myFlameCollider;
+        private Vector2 myWorldSize;
+        private List<Entity> myHitEntities;
+        private float myLifetime, myMaxLifetime;
+        private Renderer.Animator myRenderer;
         private HitDetector myHitDetector;
 
-        public Bullet(Vector2 aPosition, Vector2 aVelocity, Vector2 aSize, TargetType aTargetType, Color aColor, int aDamage, bool aPiercingBool, Texture2D aTexture = null, bool aRotateAlongPathBool = false)
+        public Bullet(Vector2 aPosition, Vector2 aVelocity, Vector2 aSize, TargetType aTargetType, Color aColor, int aDamage, float aLifetime, bool aPiercingBool, bool aGravityBool = false, Texture2D aTexture = null, float anAngle = 0, Point? aFrameSize = null, float aFrameDelay = 0.1f, bool aRepeat = false, bool aRandomizeEffects = false, bool aFlameCollider = false)
         {
             AccessTargetType = aTargetType;
             AccessPosition = aPosition;
             AccessVelocity = aVelocity;
             AccessDamage = aDamage;
             AccessPiercing = aPiercingBool;
+            AccessGravity = aGravityBool;
+            AccessGravityModifier = 0.7f;
             AccessDynamic = true;
-            AccessKeepInBounds = true;
+            AccessWorldCollide = true;
+
+            myLifetime = aLifetime;
+            myMaxLifetime = aLifetime;
+            myHitEntities = new List<Entity>();
+            myFlameCollider = aFlameCollider;
 
             Texture2D tempTexture = aTexture ?? Load.Get<Texture2D>("Square");
 
-            myRenderer = new Renderer.Sprite(new Layer(MainLayer.Main, -1), tempTexture, aPosition, aSize, aColor, 0, new Vector2(tempTexture.Bounds.X, tempTexture.Bounds.Y) * 0.5f);
+            myWorldSize = aFrameSize != null ? aSize * aFrameSize.Value.ToVector2() / Camera.WORLDUNITPIXELS : aSize * new Vector2(tempTexture.Width, tempTexture.Height) / Camera.WORLDUNITPIXELS;
+
+            myRenderer = new Renderer.Animator(new Layer(MainLayer.Main, -1), tempTexture, aFrameSize ?? new Point(tempTexture.Width, tempTexture.Height), aPosition, aSize, aFrameSize == null ? new Vector2(tempTexture.Bounds.X, tempTexture.Bounds.Y) * 0.5f : aFrameSize.Value.ToVector2() * 0.5f, anAngle, aColor, aFrameDelay, 0, aRepeat, aRandomizeEffects ? (SpriteEffects)new Random().Next(4) : SpriteEffects.None);
+            myRenderer.AccessStopAtCompletion = false;
 
             myHitDetector = new HitDetector(aPosition - aSize * 0.5f, aPosition + aSize * 0.5f, "Bullet", "Bullet" + AccessTargetType.ToString());
             myHitDetector.OnEnter += Hit;
             myHitDetector.AccessOwner = this;
 
-            AccessBoundingBox = myHitDetector;
+            AccessHitDetector = myHitDetector;
             OnBoundCorrection += Correction;
 
             allBullets.Add(this);
@@ -50,20 +66,29 @@ namespace DCOdyssey
 
         protected override void Update(float aDeltaTime)
         {
+            myLifetime -= aDeltaTime;
             myRenderer.AccessPosition = AccessPosition.PixelPosition();
+
+            if (myLifetime <= 0 || (Player.AccessMainPlayer.AccessPosition - AccessPosition).Length() >= MAXDISTANCE)
+            {
+                Destroy();
+            }
         }
 
         protected override void BeforeDestroy()
         {
             myHitDetector.Destroy();
             myRenderer.Destroy();
+            myHitEntities?.Clear();
+            myHitEntities = null;
 
             allBullets.Remove(this);
         }
 
         public override void UpdateHitDetector()
         {
-            Vector2 tempCornerOffset = myRenderer.AccessSize * myRenderer.AccessTexture.Bounds.Size.ToVector2() / Camera.WORLDUNITPIXELS;
+            float tempFraction = (myLifetime / myMaxLifetime);
+            Vector2 tempCornerOffset = myFlameCollider ? Vector2.Zero.Lerp(myWorldSize * 0.5f, 1 - tempFraction * tempFraction) : myWorldSize * 0.5f;
             myHitDetector.Set(AccessPosition - tempCornerOffset, AccessPosition + tempCornerOffset);
         }
 
@@ -89,7 +114,7 @@ namespace DCOdyssey
             {
                 Entity tempEntity = (Entity)aHitDetector.AccessOwner;
 
-                if (!tempEntity.AccessInvincible)
+                if (!tempEntity.AccessInvincible && !myHitEntities.Contains(tempEntity))
                 {
                     tempEntity.ChangeHP(-AccessDamage);
                 }
@@ -97,6 +122,10 @@ namespace DCOdyssey
                 if (!AccessPiercing)
                 {
                     Destroy();
+                }
+                else
+                {
+                    myHitEntities.Add(tempEntity);
                 }
             }
         }

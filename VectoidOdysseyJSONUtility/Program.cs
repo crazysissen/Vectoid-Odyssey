@@ -12,13 +12,16 @@ namespace VectoidOdysseyJSONUtility
 {
     class Program
     {
-        static void Main(string[] args)
+        const int
+            TILESIZE = 16;
+
+        private static void Main(string[] args)
         {
             Program main = new Program();
             main.Init(args);
         }
 
-        void Init(string[] args)
+        private void Init(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.White;
 
@@ -49,10 +52,12 @@ namespace VectoidOdysseyJSONUtility
             Console.WriteLine(tempPath);
             //Console.ReadKey(true);
 
-            try
+            //try
             {
                 string tempJSON = File.ReadAllText(tempPath);
                 Dictionary<string, object> tempRawData = JsonConvert.DeserializeObject<Dictionary<string, object>>(tempJSON);
+
+                Dictionary<string, (float w, float h, float x, float y, string c)[]> tempExtractedContent = new Dictionary<string, (float w, float h, float x, float y, string c)[]>();
 
                 List<object> tempLayers = ((IEnumerable<object>)tempRawData["layers"]).ToList();
 
@@ -60,13 +65,16 @@ namespace VectoidOdysseyJSONUtility
                 {
                     IEnumerable<object> tempCurrentLayer = (IEnumerable<object>)layer;
 
-                    if (((JProperty)tempCurrentLayer.First()).Name != "draworder")
+                    string tempName = ((JProperty)tempCurrentLayer.First()).Name;
+
+                    if (tempName != "draworder" && tempName != "color")
                     {
                         WriteLine(ConsoleColor.DarkGray, "Irrelevant layer found.");
                         continue;
                     }
 
                     string layerName = "";
+                    TiledObject[] tempObjects = new TiledObject[0];
 
                     foreach (JProperty topMember in tempCurrentLayer)
                     {
@@ -74,29 +82,80 @@ namespace VectoidOdysseyJSONUtility
                         {
                             case "name":
                                 layerName = (string)topMember.Value;
-                                WriteLine(ConsoleColor.Gray, "Layer: {0}", layerName);
+                                WriteLine(ConsoleColor.White, "Object Layer: \"{0}\"", layerName);
                                 break;
 
+                            case "objects":
+                                JEnumerable<JToken> tempMembers = topMember.First.Children();
+                                tempObjects = GetObjects(tempMembers);
 
+                                WriteLine(ConsoleColor.Gray, "\t{0} Objects extracted...", tempObjects.Length);
+                                break;
+                        }
+                    }
+
+                    if (tempObjects != null && tempObjects.Length > 0)
+                    {
+                        List<(float w, float h, float x, float y, string c)> tempCurrentContent = new List<(float w, float h, float x, float y, string c)>();
+
+                        foreach (TiledObject current in tempObjects)
+                        {
+                            tempCurrentContent.Add((current.width, current.height, current.x, current.y, current.content));
                         }
 
+                        tempExtractedContent.Add(layerName, tempCurrentContent.ToArray());
                     }
                 }
+
+                File.WriteAllBytes(tempPath.Split('.')[0] + ".dcomap", tempExtractedContent.ToBytes());
 
                 Console.WriteLine("\nComplete!");
                 Console.ReadKey(true);
                 return;
             }
+            //catch
+            //{
+            //    Write(ConsoleColor.Red, "Error: ");
+            //    Console.Write("Could not read file.");
+            //    Console.ReadKey(true);
+            //    return;
+            //}
+
+            Console.ReadKey(true);
+        }
+
+        private TiledObject[] GetObjects(JEnumerable<JToken> someTokens)
+        {
+            try
+            {
+                List<TiledObject> tempObjectList = new List<TiledObject>();
+
+                foreach (JToken token in someTokens)
+                {
+                    if (!token.Value<bool>("visible"))
+                    {
+                        continue;
+                    }
+
+                    tempObjectList.Add(new TiledObject()
+                    {
+                        height = token.Value<int>("height") / TILESIZE,
+                        width = token.Value<int>("width") / TILESIZE,
+                        x = token.Value<int>("x") / TILESIZE,
+                        y = token.Value<int>("y") / TILESIZE,
+                        content = token.Value<string>("name"),
+                    });
+                }
+
+                return tempObjectList.ToArray();
+            }
             catch
             {
-                Write(ConsoleColor.Red, "Error: ");
-                Console.Write("Could not read file.");
-                Console.ReadKey(true);
-                return;
+                return null;
             }
         }
 
-        void Write(ConsoleColor aColor, string aFormat, params object[] arg)
+        private void Write(ConsoleColor aColor, string aFormat, params object[] arg)
         {
             ConsoleColor tempColor = Console.ForegroundColor;
 
@@ -104,7 +163,8 @@ namespace VectoidOdysseyJSONUtility
             Console.Write(aFormat, arg);
             Console.ForegroundColor = tempColor;
         }
-        void WriteLine(ConsoleColor aColor, string aFormat, params object[] arg)
+
+        private void WriteLine(ConsoleColor aColor, string aFormat, params object[] arg)
         {
             ConsoleColor tempColor = Console.ForegroundColor;
 
@@ -113,9 +173,10 @@ namespace VectoidOdysseyJSONUtility
             Console.ForegroundColor = tempColor;
         }
 
+        [Serializable]
         struct TiledObject
         {
-            public string type, name;
+            public string content;
             public float x, y, width, height;
         }
     }

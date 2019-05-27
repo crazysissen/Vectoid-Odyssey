@@ -23,6 +23,8 @@ namespace DCOdyssey
 
         public PlayerInteraction(string aPrompt, bool anActiveBool, params Vector2[] someOrigins)
         {
+            AccessActive = anActiveBool;
+
             myPrompt = aPrompt;
             myOrigins = someOrigins;
 

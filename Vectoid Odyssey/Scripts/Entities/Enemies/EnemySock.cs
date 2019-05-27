@@ -40,16 +40,15 @@ namespace DCOdyssey
         {
             AccessHealth = HEALTH;
             AccessDynamic = true;
-            AccessKeepInBounds = true;
             AccessWorldCollide = true;
             AccessGravity = true;
             AccessPosition = aPosition;
 
             myRenderer = new Renderer.Animator(Layer.Default, Load.Get<Texture2D>("Enemy1"), new Point(8, 8), AccessPosition, Vector2.One, new Vector2(4, 4), 0, Color.White, 0.2f, 0, true, SpriteEffects.None);
 
-            AccessBoundingBox = new HitDetector(aPosition - Vector2.One * 0.5f, aPosition + Vector2.One * 0.5f, "BulletTarget", "Enemy");
-            AccessBoundingBox.AccessOwner = this;
-            AccessBoundingBox.OnEnter += Collide;
+            AccessHitDetector = new HitDetector(aPosition - Vector2.One * 0.5f, aPosition + Vector2.One * 0.5f, "BulletTarget", "Enemy");
+            AccessHitDetector.AccessOwner = this;
+            AccessHitDetector.OnEnter += Collide;
             OnBoundCorrection += Correction;
 
             myState = State.Idle;
@@ -138,7 +137,7 @@ namespace DCOdyssey
 
         public override void UpdateHitDetector()
         {
-            AccessBoundingBox.Set(AccessPosition - Vector2.One * 0.5f, AccessPosition + Vector2.One * 0.5f);
+            AccessHitDetector.Set(AccessPosition - Vector2.One * 0.5f, AccessPosition + Vector2.One * 0.5f);
         }
 
         protected override void Death()
@@ -146,7 +145,7 @@ namespace DCOdyssey
             Player.AccessMainPlayer.AddScore(SCORE);
 
             myRenderer.Destroy();
-            AccessBoundingBox.Destroy();
+            AccessHitDetector.Destroy();
 
             Destroy();
         }

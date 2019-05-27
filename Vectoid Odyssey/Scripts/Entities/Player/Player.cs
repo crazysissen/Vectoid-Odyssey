@@ -28,10 +28,9 @@ namespace DCOdyssey
         private PlayerWeapon[] myWeapons;
         private List<Item> myItems;
         private float myMaxSpeed, myAcceleration, myBrakeAcceleration, myAnimationFrame = ANIMATIONSPEED * 0.5f, myMaxJumpTime, myStartJumpSpeed, myEndJumpSpeed, myCurrentJumpTime, myJumpBlockTimer, myJumpBlockTime, myNonLinear;
-        private int myActiveWeapon, myScore;
-        private bool myOnGround, myJumping, myGoingToJump/*, myCrouching*/;
-
-        private Renderer.Text myGUIHealth, myGUIScore;
+        private int[] myAmmo;
+        private int myActiveWeapon, myScore, myMaxHP, myShield, myMaxShield;
+        private bool myOnGround, myJumping, myGoingToJump, myBlockedControls, myPaused/*, myCrouching*/;
 
         public Player(Vector2 aPosition, MenuManager aMenuManager, PlayerSetup aSetup)
         {
@@ -42,15 +41,16 @@ namespace DCOdyssey
             AccessGravityModifier = 2.3f;
             AccessDynamic = true;
             AccessPosition = aPosition;
-            AccessKeepInBounds = true;
             AccessWorldCollide = true;
+
+            myAmmo = new int[6];
 
             myBodyRenderer = new Renderer.Sprite(Layer.Default, aSetup.sheet, aPosition, Vector2.One, Color.White, 0, new Vector2(16, 16));
 
-            myHitDetector = new HitDetector(AccessPosition - new Vector2(2, 1.5f), AccessPosition + new Vector2(2, 2), "Player", "BulletTarget");
+            myHitDetector = new HitDetector(AccessPosition - new Vector2(1.875f, 1.5f), AccessPosition + new Vector2(1.875f, 2), "Player", "BulletTarget");
             myHitDetector.AccessOwner = this;
 
-            AccessBoundingBox = myHitDetector;
+            AccessHitDetector = myHitDetector;
             OnBoundCorrection += UpdateCorrection;
 
             myMenuManager = aMenuManager;
@@ -59,6 +59,7 @@ namespace DCOdyssey
 
             //myTexture = aSetup.sheet;
             //myCrouchTexture = aSetup.crouchSheet;
+            myMaxHP = aSetup.health;
             myWeapons = aSetup.weapons;
             myMaxSpeed = aSetup.maxSpeed;
             myAcceleration = aSetup.acceleration;
@@ -68,14 +69,21 @@ namespace DCOdyssey
             myMaxJumpTime = aSetup.maxJumpTime;
             myNonLinear = aSetup.nonLinear;
 
-            CreateHUD();
-
             UpdateRenderer();
         }
 
         protected override void Update(float aDeltaTime)
         {
+            if (Input.Down(Control.Menu1))
+            {
+                TogglePause();
+            }
+
+            myMenuManager.UpdateItems(myItems.ToArray(), GetActiveWeapon.AccessRenderer.AccessTexture);
+
             Move(aDeltaTime);
+
+            Interaction();
 
             if (GetActiveWeapon != null)
             {
@@ -87,18 +95,28 @@ namespace DCOdyssey
 
         public override void UpdateHitDetector()
         {
-            myHitDetector.Set(AccessPosition - new Vector2(2, 1.5f), AccessPosition + new Vector2(2, 2));
+            myHitDetector.Set(AccessPosition - new Vector2(1.875f, 1.5f), AccessPosition + new Vector2(1.875f, 2));
         }
 
         protected override void Death()
         {
             AccessVelocity = new Vector2(0, AccessVelocity.Y);
 
-            myGUIHealth.AccessString = new StringBuilder("DEAD");
-            myGUIHealth.AccessFont = Font.Bold;
+            myMenuManager.SetStats(0, myMaxHP, 20);
+        }
 
-            myGUIScore.AccessString = new StringBuilder("FINAL SCORE: " + myScore);
-            myGUIScore.AccessFont = Font.Bold;
+        public void TogglePause()
+        {
+            if (myPaused)
+            {
+                myMenuManager.ClosePauseMenu();
+                myPaused = false;
+            }
+            else
+            {
+                myMenuManager.OpenPauseMenu();
+                myPaused = true;
+            }
         }
 
         public void AddScore(int aScore)
@@ -157,6 +175,11 @@ namespace DCOdyssey
             else
             {
                 tempTargetXVelocity = myMaxSpeed * ((Input.Pressed(Control.Right) ? 1 : 0) + (Input.Pressed(Control.Left) ? -1 : 0));
+            }
+
+            if (myBlockedControls)
+            {
+                return;
             }
 
             bool tempBrake = (AccessVelocity.X < 0 && AccessVelocity.X < tempTargetXVelocity) || (AccessVelocity.X > 0 && AccessVelocity.X > tempTargetXVelocity);
@@ -270,8 +293,7 @@ namespace DCOdyssey
             {
                 Animate();
 
-                myGUIScore.AccessString = new StringBuilder("SC: " + myScore);
-                myGUIHealth.AccessString = new StringBuilder("HP: " + AccessHealth);
+                myMenuManager.SetStats(AccessHealth, myMaxHP, 20);
             }
         }
 
@@ -296,24 +318,47 @@ namespace DCOdyssey
             ChangeHP(-AccessHealth);
         }
 
-        private void CreateHUD()
-        {
-            myGUIHealth = new Renderer.Text(Layer.GUI, Font.Default, "HP: ", 4, 0, new Vector2(10, 10), Vector2.Zero, Color.White);
-            myGUIScore = new Renderer.Text(Layer.GUI, Font.Default, "SC: ", 4, 0, new Vector2(10, 50), Vector2.Zero, Color.White);
-
-            myMenuManager.myHUD = new GUI.Collection(true);
-            myMenuManager.myHUD.Add(myGUIHealth, myGUIScore);
-        }
-
-        public void BlockControls(float aTime)
+        public void BlockJump(float aTime)
         {
             myJumpBlockTimer = aTime;
             myJumpBlockTime = aTime;
         }
 
+        public void BlockMovement(bool aBlockControls, bool aBlockGravity)
+        {
+            myBlockedControls = aBlockControls;
+            AccessGravity = !aBlockGravity;
+        }
+
         public void PickupItem(Item anItem)
         {
             myItems.Add(anItem);
+        }
+
+        public void PipeViable(Pipe aPipe, Vector2 pipeDirection)
+        {
+            Console.WriteLine("Pipe viable: " + pipeDirection);
+
+            if (pipeDirection.X == 1 && Input.Pressed(Control.Right) ||
+                pipeDirection.X == -1 && Input.Pressed(Control.Left) ||
+                pipeDirection.Y == 1 && Input.Pressed(Control.Down) ||
+                pipeDirection.Y == -1 && Input.Pressed(Control.Up))
+
+            {
+                ActivatePipe(aPipe, pipeDirection);
+                return;
+            }
+        }
+
+        private void ActivatePipe(Pipe aPipe, Vector2 aDirection)
+        {
+            aPipe.StartTransfer(this, aDirection);
+            BlockMovement(true, true);
+        }
+
+        public void DeactivatePipe()
+        {
+            BlockMovement(false, false);
         }
 
         public bool HasItem(ItemType aType, int anIndex, bool aRemoveBool = false)
@@ -338,6 +383,8 @@ namespace DCOdyssey
         private void Interaction()
         {
             PlayerInteraction tempInteraction = PlayerInteraction.Closest(AccessPosition);
+
+            myMenuManager.SetPopup(tempInteraction?.GetPrompt ?? "");
 
             if (tempInteraction == null)
             {

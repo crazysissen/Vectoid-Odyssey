@@ -15,6 +15,29 @@ namespace DCOdyssey
         public static void Init(GraphicsDeviceManager aGraphics)
             => graphics = aGraphics;
 
+        public static Texture2D NewWithReplacedColors(Texture2D aTexture, params (Color oldColor, Color newColor)[] someColorPairs)
+        {
+            Texture2D tempNewTexture = new Texture2D(aTexture.GraphicsDevice, aTexture.Width, aTexture.Height);
+
+            Color[] tempColors = new Color[aTexture.Width * aTexture.Height];
+            aTexture.GetData(tempColors);
+
+            foreach ((Color oldColor, Color newColor) in someColorPairs)
+            {
+                for (int i = 0; i < tempColors.Length; ++i)
+                {
+                    if (tempColors[i] == oldColor)
+                    {
+                        tempColors[i] = newColor;
+                    }
+                }
+            }
+
+            tempNewTexture.SetData(tempColors);
+
+            return tempNewTexture;
+        }
+
         public class TextureAssembly
         {
             private int myHeight, myWidth;

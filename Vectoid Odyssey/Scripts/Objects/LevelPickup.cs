@@ -28,13 +28,13 @@ namespace DCOdyssey
         protected bool myUseBounce;
         protected float myBounceMultiplier;
         protected PickupAnimation myAnimation;
+        protected Renderer.Animator myRenderer;
+        protected HitDetector myHitDetector;
 
         private float myTimer, myRotation, myAngularVelocity;
         private bool myAnimating;
         private string myEffect;
         private Vector2 myCurrentVelocity, myHalfWSize, myFloatOffset;
-        private Renderer.Animator myRenderer;
-        private HitDetector myHitDetector;
         private Player myPlayer;
 
         ///// <summary>
@@ -66,9 +66,7 @@ namespace DCOdyssey
             myHitDetector = new HitDetector(aFullCoordinate * 2 - myHalfWSize, aFullCoordinate * 2 + myHalfWSize, "Pickup");
             myHitDetector.AccessOwner = this;
             myHitDetector.OnEnter += Collide;
-            AccessBoundingBox = myHitDetector;
-
-            AccessKeepInBounds = false;
+            AccessHitDetector = myHitDetector;
         }
 
         protected abstract void Touch(Player aPlayer);
@@ -174,7 +172,7 @@ namespace DCOdyssey
             myAnimating = true;
             myTimer = 0;
 
-            myCurrentVelocity = (AccessPosition - aPlayer.AccessPosition + new Vector2(0, -0.2f - (float)myR.NextDouble() * 0.8f)).Normalized() * BOUNCEFORCE * (0.85f + 0.3f * (float)myR.NextDouble());
+            myCurrentVelocity = (AccessPosition - aPlayer.AccessPosition + new Vector2(0, -0.4f - (float)myR.NextDouble() * 0.8f)).Normalized() * BOUNCEFORCE * (0.85f + 0.3f * (float)myR.NextDouble());
 
             myAngularVelocity = (ROTATIONFORCE - (float)myR.NextDouble() * ROTATIONFORCE * 0.4f) * (myR.Next(2) == 1 ? 1 : -1);
         }

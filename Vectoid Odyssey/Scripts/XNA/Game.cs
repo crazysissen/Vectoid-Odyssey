@@ -9,6 +9,7 @@ namespace DCOdyssey
     /// </summary>
     public class DCOdyssey : Game
     {
+        static public float GetFontScale { get; private set; }
         static public Vector2 GetScreenPoint { get; private set; }
         static public Point GetGameResolution => new Point(480, 270);
         static public Point AccessResolution
@@ -40,14 +41,17 @@ namespace DCOdyssey
         {
             mainGame = this;
 
-            Point tempRes = GetGameResolution;
+            Point tempRes = GetGameResolution; 
 
             myGraphics = new GraphicsDeviceManager(this)
             {
-                PreferredBackBufferWidth = tempRes.X * 3,
-                PreferredBackBufferHeight = tempRes.Y * 3,
-                IsFullScreen = false
+                PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8,
+                PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width,
+                PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height,
+                IsFullScreen = true
             };
+
+            GetFontScale = (float)GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / (GetGameResolution.X * 3);
 
             GetScreenPoint = AccessResolution.ToVector2() / GetGameResolution.ToVector2();
 

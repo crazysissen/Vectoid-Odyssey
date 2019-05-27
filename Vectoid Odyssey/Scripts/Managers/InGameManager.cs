@@ -37,6 +37,8 @@ namespace DCOdyssey
             myUpdateManager = anUpdateManager;
             myMenuManager = aMenuManager;
 
+            myMenuManager.CreateHUD();
+
             myObjects = new List<WorldObject>();
             myRemoveQueue = new List<WorldObject>();
             myAddQueue = new List<WorldObject>();
@@ -55,11 +57,11 @@ namespace DCOdyssey
                 maxJumpTime = 0.35f,
                 jumpStartAcceleration = 4.2f,
                 jumpEndAcceleration = 3.3f,
-                health = 100,
+                health = 40,
                 nonLinear = 8.5f,
                 weapons = new PlayerWeapon[]
                 {
-                    new PlayerWeapon.Teal(), new PlayerWeapon.Red()
+                    new PlayerWeapon.Teal(), new PlayerWeapon.Red(), new PlayerWeapon.Green(), new PlayerWeapon.Pink(), new PlayerWeapon.LightBlue(), new PlayerWeapon.Orange()
                 }
             };
 
@@ -155,17 +157,23 @@ namespace DCOdyssey
 
         private void UpdateCollision(float aDeltaTime)
         {
-            foreach (WorldObject current in myObjects)
+            if (myMap.HasBounds())
             {
-                current.SimpleCollision(aDeltaTime, true);
-                current.UpdateHitDetector();
+                foreach (WorldObject current in myObjects)
+                {
+                    current.SimpleCollision(aDeltaTime, true);
+                    current.UpdateHitDetector();
+                }
             }
 
             HitDetector.UpdateAll();
 
-            foreach (WorldObject current in myObjects)
+            if (myMap.HasBounds())
             {
-                current.SimpleCollision(aDeltaTime, false);
+                foreach (WorldObject current in myObjects)
+                {
+                    current.SimpleCollision(aDeltaTime, false);
+                }
             }
         }
 

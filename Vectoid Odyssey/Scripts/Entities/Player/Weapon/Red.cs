@@ -11,7 +11,6 @@ namespace DCOdyssey
                 DISTANCE = 2.5f,
                 ANIMATIONTIME = 0.05f;
 
-            private Player myPlayer;
             private float myCurrentCooldown;
 
             private int myDamage;
@@ -39,7 +38,6 @@ namespace DCOdyssey
 
             public override void Init(Player aPlayer)
             {
-                myPlayer = aPlayer;
             }
 
             public override void Update(float aDeltaTime)
@@ -60,7 +58,7 @@ namespace DCOdyssey
 
                     Vector2 tempRotatedVector = new Vector2(1, 0).Rotate(myRotation);
 
-                    Bullet tempNewBullet = new Bullet(AccessRenderer.AccessPosition + tempRotatedVector * DISTANCE, tempRotatedVector * myBulletVelocity, Vector2.One * 2, Bullet.TargetType.Enemy, new Color(255, 243, 146), myDamage, false);
+                    Bullet tempNewBullet = new Bullet(AccessRenderer.AccessPosition + tempRotatedVector * DISTANCE, tempRotatedVector * myBulletVelocity, Vector2.One * 2, Bullet.TargetType.Enemy, new Color(255, 243, 146), myDamage, 0.6f, false);
 
                     myCurrentCooldown = myFireDelay;
 

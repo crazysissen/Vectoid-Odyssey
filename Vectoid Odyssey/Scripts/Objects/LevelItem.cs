@@ -12,11 +12,18 @@ namespace DCOdyssey
     {
         public Item AccessItem { get; set; }
 
-        public LevelItem(Item anItem, Vector2 aPosition, Texture2D aSpriteSheet, float anInterval = 0, Point? aFrameSize = null, Color? aColor = null) : base(aPosition, aSpriteSheet, anInterval, aFrameSize, aColor)
+        public LevelItem(Item anItem, Vector2 aPosition, float anInterval = 0, Point? aFrameSize = null) : base(aPosition, anItem.GetTexture, anInterval, aFrameSize, anItem.AccessColor)
         {
             myUseBounce = true;
             myAnimation = PickupAnimation.Bounce;
             AccessItem = anItem;
+
+            if (anItem.GetItemType == ItemType.Key)
+            {
+                Color tempColor = Door.KeyColor(anItem.GetIndex);
+                myRenderer.AccessColor = tempColor;
+                anItem.AccessColor = tempColor;
+            }
         }
 
         protected override void Touch(Player aPlayer)

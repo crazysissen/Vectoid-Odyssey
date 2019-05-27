@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DCOdyssey", "Vectoid Odyssey\DCOdyssey.csproj", "{39F70FF3-911A-4606-B55A-FDAFA1E6C973}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectoid Odyssey JSON Utility", "VectoidOdysseyJSONUtility\Vectoid Odyssey JSON Utility.csproj", "{66B9E613-A517-4567-A947-FE104832C378}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DCOdyssey JSON Utility", "VectoidOdysseyJSONUtility\DCOdyssey JSON Utility.csproj", "{66B9E613-A517-4567-A947-FE104832C378}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -44,16 +44,15 @@ namespace DCOdyssey
         {
             AccessHealth = HEALTH;
             AccessDynamic = true;
-            AccessKeepInBounds = true;
             AccessWorldCollide = true;
             AccessPosition = aPosition;
 
             myRenderer = new Renderer.Sprite(Layer.Default, Load.Get<Texture2D>("Enemy2"), AccessPosition, Vector2.One, Color.White, 0, new Vector2(4, 4));
             myRenderer.AccessSourceRectangle = new Rectangle(0, 0, 8, 8);
 
-            AccessBoundingBox = new HitDetector(aPosition - Vector2.One * 0.5f, aPosition + Vector2.One * 0.5f, "BulletTarget", "Enemy");
-            AccessBoundingBox.AccessOwner = this;
-            AccessBoundingBox.OnEnter += Collide;
+            AccessHitDetector = new HitDetector(aPosition - Vector2.One * 0.5f, aPosition + Vector2.One * 0.5f, "BulletTarget", "Enemy");
+            AccessHitDetector.AccessOwner = this;
+            AccessHitDetector.OnEnter += Collide;
 
             myState = State.Idle;
         }
@@ -131,7 +130,7 @@ namespace DCOdyssey
 
         public override void UpdateHitDetector()
         {
-            AccessBoundingBox.Set(AccessPosition - Vector2.One * 0.5f, AccessPosition + Vector2.One * 0.5f);
+            AccessHitDetector.Set(AccessPosition - Vector2.One * 0.5f, AccessPosition + Vector2.One * 0.5f);
         }
 
         protected override void Death()
@@ -139,7 +138,7 @@ namespace DCOdyssey
             Player.AccessMainPlayer.AddScore(SCORE);
 
             myRenderer.Destroy();
-            AccessBoundingBox.Destroy();
+            AccessHitDetector.Destroy();
 
             Destroy();
         }
@@ -163,7 +162,7 @@ namespace DCOdyssey
         {
             Vector2 tempDirection = (Player.AccessMainPlayer.AccessPosition - AccessPosition).Normalized();
 
-            Bullet tempNewBullet = new Bullet(AccessPosition + tempDirection * 0.6f, tempDirection * BULLETSPEED, new Vector2(2, 2), Bullet.TargetType.Player, new Color(255, 121, 48), DAMAGE, false);
+            Bullet tempNewBullet = new Bullet(AccessPosition + tempDirection * 0.6f, tempDirection * BULLETSPEED, new Vector2(2, 2), Bullet.TargetType.Player, new Color(255, 121, 48), DAMAGE, 5, false);
             myBullets.Add(tempNewBullet);
         }
     }

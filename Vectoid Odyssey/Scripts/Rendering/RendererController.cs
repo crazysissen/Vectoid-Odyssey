@@ -45,6 +45,8 @@ namespace DCOdyssey
             MouseState tempMouseState = Input.GetMouseState;
             KeyboardState tempKeyboardState = Input.GetKeyboardState;
 
+            myMasks.Clear();
+
             aSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp);
 
             // Gather all drawables, aka all renderers and GUI elements
@@ -118,14 +120,14 @@ namespace DCOdyssey
                         DepthBufferEnable = true,
                     };
 
-                Texture2D transparent = new Texture2D(aGraphicsDeviceManager.GraphicsDevice, 1, 1);
-                transparent.SetData(new Color[] { Color.Transparent });
+                Texture2D tempTransparent = new Texture2D(aGraphicsDeviceManager.GraphicsDevice, 1, 1);
+                tempTransparent.SetData(new Color[] { Color.Transparent });
 
                 // First render a 0-opaque back buffer and the according render mask
 
                 aSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, tempStencilA, null, testAlpha);
 
-                aSpriteBatch.Draw(transparent, new Rectangle(0, 0, aGraphicsDeviceManager.PreferredBackBufferWidth, aGraphicsDeviceManager.PreferredBackBufferHeight), Color.Black);
+                aSpriteBatch.Draw(tempTransparent, new Rectangle(0, 0, aGraphicsDeviceManager.PreferredBackBufferWidth, aGraphicsDeviceManager.PreferredBackBufferHeight), Color.Black);
                 aSpriteBatch.Draw(mask.Mask.AccessTexture, new Rectangle(mask.Mask.AccessRectangle.Location + mask.AccessOrigin, mask.Mask.AccessRectangle.Size), Color.Transparent);
 
                 aSpriteBatch.End();
@@ -134,9 +136,9 @@ namespace DCOdyssey
 
                 aSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, tempStencilB, null, null);
 
-                IGUIMember[] maskGuiMembers = GUI.GetMembers(mask, tempMState, tempKState, aDeltaTime, mask.AccessOrigin).OrderBy(o => o.AccessLayer.GetDepth).ToArray();
+                IGUIMember[] tempMaskGuiMembers = GUI.GetMembers(mask, tempMState, tempKState, aDeltaTime, mask.AccessOrigin).OrderBy(o => o.AccessLayer.GetDepth).ToArray();
 
-                foreach (IGUIMember guiMember in maskGuiMembers)
+                foreach (IGUIMember guiMember in tempMaskGuiMembers)
                 {
                     guiMember.Draw(aSpriteBatch, tempMState, tempKState, aDeltaTime);
                 }
@@ -156,5 +158,8 @@ namespace DCOdyssey
 
         public static void RemoveRenderer(Renderer renderer)
             => mainController.myRenderers.Remove(renderer);
+
+        public static void TemporaryAddMask(GUIContainerMasked aMask, Point anOrigin)
+            => myMasks.Add((aMask, anOrigin));
     }
 }

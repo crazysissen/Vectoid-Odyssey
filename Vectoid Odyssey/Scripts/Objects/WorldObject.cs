@@ -30,9 +30,8 @@ namespace DCOdyssey
         public Vector2 AccessPosition { get; set; } = Vector2.Zero;
         public Vector2 AccessVelocity { get; set; } = Vector2.Zero;
 
-        public bool AccessKeepInBounds { get; protected set; }
         public bool AccessWorldCollide { get; protected set; }
-        public HitDetector AccessBoundingBox { get; protected set; }
+        public HitDetector AccessHitDetector { get; protected set; }
 
         protected bool GetOnGround { get; private set; }
 
@@ -61,9 +60,9 @@ namespace DCOdyssey
 
         public void SimpleCollision(float aDeltaTime, bool anUpwardsBool)
         {
-            if (AccessKeepInBounds && AccessBoundingBox != null)
+            if (AccessWorldCollide && AccessHitDetector != null)
             {
-                Vector2 tempCorrection = AccessManager.GetCurrentBounds(AccessPosition, index).Correction(AccessBoundingBox.AccessTopLeft, AccessBoundingBox.AccessBottomRight, anUpwardsBool);
+                Vector2 tempCorrection = AccessManager.GetCurrentBounds(AccessPosition, index).Correction(AccessHitDetector.AccessTopLeft, AccessHitDetector.AccessBottomRight, anUpwardsBool);
 
                 if (tempCorrection != Vector2.Zero)
                 {
