@@ -61,7 +61,12 @@ namespace DCOdyssey
                 nonLinear = 8.5f,
                 weapons = new PlayerWeapon[]
                 {
-                    new PlayerWeapon.Teal(), new PlayerWeapon.Red(), new PlayerWeapon.Green(), new PlayerWeapon.Pink(), new PlayerWeapon.LightBlue(), new PlayerWeapon.Orange()
+                    new PlayerWeapon.Teal() { AccessAmmo = -1 },
+                    new PlayerWeapon.Red() { AccessAmmo = 80 },
+                    new PlayerWeapon.Green() { AccessAmmo = 0 },
+                    new PlayerWeapon.Pink() { AccessAmmo = 10 },
+                    new PlayerWeapon.LightBlue() { AccessAmmo = 10 },
+                    new PlayerWeapon.Orange() { AccessAmmo = 0 }
                 }
             };
 

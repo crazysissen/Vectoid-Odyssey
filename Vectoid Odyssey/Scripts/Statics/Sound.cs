@@ -60,17 +60,24 @@ namespace DCOdyssey
 
         public static void PlayEffect(string aName, float aVolumeMultiplier)
         {
-            if (!effects.ContainsKey(aName))
+            try
             {
-                Console.WriteLine("Tried to play nonexistent sound effect file.");
-                return;
-            }
+                if (aName != null && !effects.ContainsKey(aName))
+                {
+                    Console.WriteLine("Tried to play nonexistent sound effect file.");
+                    return;
+                }
 
-            SoundEffectInstance tempInstance = effects[aName].CreateInstance();
-            tempInstance.Play();
-            tempInstance.Volume = SFXVolume * SFXMODIFIER * aVolumeMultiplier;
-            
-            playingEffects.Add(tempInstance);
+                SoundEffectInstance tempInstance = effects[aName].CreateInstance();
+                tempInstance.Play();
+                tempInstance.Volume = SFXVolume * SFXMODIFIER * aVolumeMultiplier;
+
+                playingEffects.Add(tempInstance);
+            }
+            catch
+            {
+
+            }
         }
 
         public static SoundEffect Effect(string aName)

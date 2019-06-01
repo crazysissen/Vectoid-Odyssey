@@ -119,6 +119,7 @@
     <Compile Include="Scripts\Managers\InGameManager.cs" />
     <Compile Include="Scripts\Managers\MenuManager.cs" />
     <Compile Include="Scripts\Objects\Level Objects\Pipe.cs" />
+    <Compile Include="Scripts\Objects\LevelAmmo.cs" />
     <Compile Include="Scripts\Statics\Music.cs" />
     <Compile Include="Scripts\Managers\PauseManager.cs" />
     <Compile Include="Scripts\Map\CompleteMap.cs" />

@@ -179,7 +179,10 @@ namespace DCOdyssey
         {
             Dictionary<string, Load.MapObject[]> tempMapObjects = Load.GetMap("Sewer2");
 
-            return new CompleteMap(Load.Get<Texture2D>("Sewer2"), null, GetColliders(tempMapObjects["Collision"]), GetObjects(tempMapObjects["Objects"]).Concat(GetPipes(tempMapObjects["Pipes"])).Concat(GetEntities(tempMapObjects["Entities"])).ToArray(), new Vector2(462, 407));
+            WorldObject[] tempObjects = GetObjects(tempMapObjects["Objects"]).Concat(GetPipes(tempMapObjects["Pipes"])).Concat(GetEntities(tempMapObjects["Entities"])).ToArray();
+            tempObjects = tempObjects.Concat(new Portal[] { new Portal(new Vector2(638, 50)) } ).ToArray();
+
+            return new CompleteMap(Load.Get<Texture2D>("Sewer2"), null, GetColliders(tempMapObjects["Collision"]), tempObjects, new Vector2(462, 407));
         }
 
         public WorldObject[] GetObjects(Load.MapObject[] someMapObjects)
@@ -282,12 +285,15 @@ namespace DCOdyssey
             return tempSquares;
         }
 
-        private LevelItem GetItem(string[] someContent, Vector2 aPosition)
+        private LevelPickup GetItem(string[] someContent, Vector2 aPosition)
         {
             switch (someContent[1])
             {
                 case "Key":
                     return new LevelItem(new Item("Key " + someContent[2], int.Parse(someContent[2]), ItemType.Key, Load.Get<Texture2D>("Key")), aPosition, 0.1f, new Point(8, 8));
+
+                case "Weapon":
+                    return new LevelAmmo(aPosition, int.Parse(someContent[2]), int.Parse(someContent[3]));
 
                 default:
                     return new LevelItem(new Item("FAILED", 0, ItemType.Other, Load.Get<Texture2D>("Square"), Color.Red), aPosition);

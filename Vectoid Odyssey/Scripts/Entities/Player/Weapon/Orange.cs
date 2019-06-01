@@ -60,7 +60,7 @@ namespace DCOdyssey
 
             public override void Fire()
             {
-                if (myCurrentCooldown <= 0)
+                if (myCurrentCooldown <= 0 && FireAmmo())
                 {
                     Sound.PlayEffect("Flamethrower", 0.6f);
 
@@ -80,9 +80,9 @@ namespace DCOdyssey
 
             protected override void SetStats(int aLevel)
             {
-                myDamage = (int)myWeaponStats["Damage: hp", WeaponLevel];
-                myBulletVelocity = (float)myWeaponStats["Velocity:", WeaponLevel];
-                myFireDelay = (float)myWeaponStats["Delay: s", WeaponLevel];
+                myDamage = (int)myWeaponStats["Damage: hp", GetWeaponLevel];
+                myBulletVelocity = (float)myWeaponStats["Velocity:", GetWeaponLevel];
+                myFireDelay = (float)myWeaponStats["Delay: s", GetWeaponLevel];
             }
         }
     }
