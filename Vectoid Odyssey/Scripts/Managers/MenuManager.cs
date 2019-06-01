@@ -205,13 +205,13 @@ namespace DCOdyssey
             DCOdyssey.Quit();
         }
 
-        public void SetStats(int hp, int maxHp, int ammo)
+        public void SetStats(int hp, int maxHp, string ammo)
         {
             StringBuilder tempStringBuilder = new StringBuilder(hp + "/" + maxHp);
             tHP.AccessString = tempStringBuilder;
             tHP2.AccessString = tempStringBuilder;
 
-            tempStringBuilder = new StringBuilder(ammo.ToString());
+            tempStringBuilder = new StringBuilder(ammo);
             tAmmo.AccessString = tempStringBuilder;
             tAmmo2.AccessString = tempStringBuilder;
 

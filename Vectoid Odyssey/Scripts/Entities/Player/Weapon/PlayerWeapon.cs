@@ -24,13 +24,16 @@ namespace DCOdyssey
 
         public Renderer.Sprite AccessRenderer { get; protected set; }
 
-        public int WeaponLevel { get; protected set; }
+        public int GetWeaponLevel { get; protected set; }
+        public int AccessAmmo { get; set; }
 
         protected WeaponStats myWeaponStats;
         protected float myRotation, myCurrentAnimTime;
 
-        public PlayerWeapon()
+        public PlayerWeapon(int someAmmo = 0)
         {
+            AccessAmmo = someAmmo;
+
             AccessRenderer = new Renderer.Sprite(new Layer(MainLayer.Main, 1), Load.Get<Texture2D>(GetWeaponType.ToString()), Vector2.Zero, Vector2.One, Color.White, 0, new Vector2(16, 16));
             AccessRenderer.AccessSourceRectangle = new Rectangle(0, 0, 32, 32);
             AccessRenderer.AccessActive = false;
@@ -71,6 +74,27 @@ namespace DCOdyssey
         public void SetLevel(int aLevel)
         {
 
+        }
+
+        public void AddAmmo(int someAmmo)
+        {
+            AccessAmmo += someAmmo;
+        }
+
+        public bool FireAmmo()
+        {
+            if (AccessAmmo > 0)
+            {
+                --AccessAmmo;
+                return true;
+            }
+
+            if (AccessAmmo == -1)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public static PlayerWeapon GetNew(PlayerWeaponType aType)

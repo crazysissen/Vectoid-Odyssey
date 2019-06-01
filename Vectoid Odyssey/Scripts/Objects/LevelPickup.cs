@@ -147,6 +147,10 @@ namespace DCOdyssey
                     case PickupAnimation.Instant:
                         Activate(tempPlayer);
                         Remove();
+                        if (myEffect != "")
+                        {
+                            Sound.PlayEffect(myEffect);
+                        }
                         break;
 
                     case PickupAnimation.Bounce:

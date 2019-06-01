@@ -19,7 +19,7 @@ namespace DCOdyssey
         public Vector2 GetWeaponOrigin => AccessPosition + new Vector2(0.0625f, -0.5625f) * 2;
         public bool GetDead => AccessHealth <= 0;
 
-        private PlayerWeapon GetActiveWeapon => myWeapons[myActiveWeapon];
+        public PlayerWeapon GetActiveWeapon => myWeapons[myActiveWeapon];
 
         private MenuManager myMenuManager;
         private HitDetector myHitDetector, myTopDetector;
@@ -102,7 +102,12 @@ namespace DCOdyssey
         {
             AccessVelocity = new Vector2(0, AccessVelocity.Y);
 
-            myMenuManager.SetStats(0, myMaxHP, 20);
+            myMenuManager.SetStats(0, myMaxHP, GetActiveWeapon.AccessAmmo == -1 ? "-" : GetActiveWeapon.AccessAmmo.ToString());
+        }
+
+        public void AddAmmo(int aWeapon, int anAmmount)
+        {
+            myWeapons[aWeapon].AddAmmo(anAmmount);
         }
 
         public void TogglePause()
@@ -293,7 +298,7 @@ namespace DCOdyssey
             {
                 Animate();
 
-                myMenuManager.SetStats(AccessHealth, myMaxHP, 20);
+                myMenuManager.SetStats(AccessHealth, myMaxHP, GetActiveWeapon.AccessAmmo == -1 ? "-" : GetActiveWeapon.AccessAmmo.ToString());
             }
         }
 
