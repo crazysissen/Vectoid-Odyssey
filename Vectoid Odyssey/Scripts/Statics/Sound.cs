@@ -12,7 +12,7 @@ namespace DCOdyssey
     static class Sound
     {
         public const float
-            MUSICMODIFIER = 0.85f,
+            MUSICMODIFIER = /*0.85f*/ 0,
             SFXMODIFIER = 1.0f;
 
         public static float SFXVolume { get; private set; } = 1; // TODO: Fix audio volume

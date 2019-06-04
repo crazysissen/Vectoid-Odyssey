@@ -99,6 +99,16 @@ namespace DCOdyssey
         //    }
         //}
 
+        public class Slider : IGUIMember
+        {
+            Point IGUIMember.AccessOrigin { get => _origin; set => _origin = value; }
+            Point _origin = new Point();
+
+            Layer IGUIMember.AccessLayer => AccessLayer;
+
+            public Layer AccessLayer { get; set; }
+        }
+
         public class Button : IGUIMember
         {
             Point IGUIMember.AccessOrigin { get => _origin; set => _origin = value; }

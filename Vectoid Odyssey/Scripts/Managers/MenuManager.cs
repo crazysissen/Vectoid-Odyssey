@@ -35,6 +35,18 @@ namespace DCOdyssey
         GUI.Button[] bWeapons;
         #endregion
 
+        //Options
+        public GUI.Collection myOptions;
+        #region Elements
+        RendererFocus rfOptions;
+        Renderer.SpriteScreen sOptionsWindow;
+        Renderer.Text tOptionsTitle;
+        Renderer.Text[] tOptions;
+        GUI.Slider[] tOptionsSliders;
+        GUI.Button tOptionsBack;
+
+        #endregion
+
         public MenuManager(UpdateManager anUpdateManager)
         {
             myUpdateManager = anUpdateManager;
@@ -263,8 +275,7 @@ namespace DCOdyssey
 
         #endregion
 
-        public static Point ScreenPoint(Point aGamePoint) => (aGamePoint.ToVector2() * DCOdyssey.GetScreenPoint).RoundToPoint();
-        public static Point ScreenPoint(int x, int y) => ScreenPoint(new Point(x, y));
+        public static Point ScreenPoint(int x, int y) => (new Vector2(x, y) * DCOdyssey.GetScreenPoint).RoundToPoint();
         public static Rectangle ScreenRectangle(int x, int y, int aWidth, int aHeight) => new Rectangle(ScreenPoint(x, y), ScreenPoint(aWidth, aHeight));
     }
 }
